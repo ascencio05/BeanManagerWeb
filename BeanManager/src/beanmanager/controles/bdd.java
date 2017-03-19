@@ -11,8 +11,8 @@ import java.sql.DriverManager;
  * @author ascencio
  */
 public class bdd {
-     Connection con;
-    public Connection bdd()
+    public Connection con;
+    public bdd()
     {
        
         try
@@ -24,7 +24,7 @@ public class bdd {
         {
             System.out.println("ERROR_ "+e);     
         }
-        return con;
+
     }
     public void close()
     {
