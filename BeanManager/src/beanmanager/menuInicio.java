@@ -9,6 +9,7 @@ import beanmanager.proyectos.*;
 import beanmanager.controles.*;
 import beanmanager.ajustes.*;
 import beanmanager.solicitudes.*;
+import beanmanager.usuarios.MenuUsuarios;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -161,7 +162,13 @@ public class menuInicio  extends javax.swing.JFrame{
                 texto.setText("Usuarios");
             }
             @Override
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+                 MenuUsuarios menuUsr = new MenuUsuarios();
+                menuUsr.setVisible(true);
+                cerrar();
+                
+            
+            }
 
             @Override
             public void mousePressed(MouseEvent e) {}

@@ -10,15 +10,15 @@ package beanmanager.solicitudes;
  * @author Rodrigo
  */
 public class IndexSolicitud extends javax.swing.JFrame {
-    public VerSolicitudes ver;
-    public Detalles detalles;
+    //public VerSolicitudes ver;
+    //public Detalles detalles;
     /**
      * Creates new form IndexSolicitud
      */
     public IndexSolicitud() {
         initComponents();
-        ver = new VerSolicitudes(this);
-        detalles = new Detalles(this);
+       // ver = new VerSolicitudes(this);
+        //detalles = new Detalles(this);
         setSize(500, 500);
     }
 
@@ -60,8 +60,8 @@ public class IndexSolicitud extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ver.setVisible(true);
-        this.add(ver);
+      //  ver.setVisible(true);
+       // this.add(ver);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
