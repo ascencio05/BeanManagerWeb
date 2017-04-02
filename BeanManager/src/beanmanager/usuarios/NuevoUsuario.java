@@ -5,6 +5,8 @@
  */
 package beanmanager.usuarios;
 
+import java.awt.Color;
+
 /**
  *
  * @author Monica Escrich
@@ -16,10 +18,10 @@ public class NuevoUsuario extends javax.swing.JFrame {
      */
     public NuevoUsuario() {
         
+        initComponents();
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
-        
-        initComponents();
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
     }
 
     /**
@@ -49,8 +51,10 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jComboBoxRol = new javax.swing.JComboBox<>();
         jCheckBox1 = new javax.swing.JCheckBox();
         jButtonGuardar = new javax.swing.JButton();
+        jButtonBackMenuUsr = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel1.setText("Datos Usuario");
@@ -90,8 +94,13 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
         jLabel8.setText("Contraseña: ");
 
+        jButtonColorGUI.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonColorGUI.setForeground(new java.awt.Color(255, 255, 255));
         jButtonColorGUI.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/colorGUI.png"))); // NOI18N
         jButtonColorGUI.setToolTipText("Color Interfaz de Usuario");
+        jButtonColorGUI.setBorder(null);
+        jButtonColorGUI.setBorderPainted(false);
+        jButtonColorGUI.setFocusable(false);
 
         jLabel9.setText("Rol:");
 
@@ -101,7 +110,20 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
         jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/guardar.png"))); // NOI18N
         jButtonGuardar.setText("Guardar");
+        jButtonGuardar.setToolTipText("Guardar");
         jButtonGuardar.setBorderPainted(false);
+
+        jButtonBackMenuUsr.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonBackMenuUsr.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonBackMenuUsr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/backtousers.png"))); // NOI18N
+        jButtonBackMenuUsr.setToolTipText("Menu Usuarios");
+        jButtonBackMenuUsr.setBorder(null);
+        jButtonBackMenuUsr.setFocusable(false);
+        jButtonBackMenuUsr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBackMenuUsrActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,8 +154,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
                                 .addGap(222, 222, 222))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonBackMenuUsr))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel2)
@@ -160,12 +185,17 @@ public class NuevoUsuario extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonBackMenuUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 33, Short.MAX_VALUE)
+                        .addGap(0, 29, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(58, 58, 58))
                     .addGroup(layout.createSequentialGroup()
@@ -191,7 +221,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(jButtonColorGUI))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -222,6 +252,13 @@ public class NuevoUsuario extends javax.swing.JFrame {
     private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
+
+    private void jButtonBackMenuUsrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackMenuUsrActionPerformed
+        // TODO add your handling code here:
+        MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
+        frmMenuUsr.setVisible(true); 
+        this.setVisible(false); 
+    }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,6 +296,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonBackMenuUsr;
     private javax.swing.JButton jButtonColorGUI;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JCheckBox jCheckBox1;

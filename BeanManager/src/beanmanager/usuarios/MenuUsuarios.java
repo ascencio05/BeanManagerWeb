@@ -5,6 +5,8 @@
  */
 package beanmanager.usuarios;
 
+import java.awt.Color;
+
 /**
  *
  * @author Monica Escrich
@@ -16,9 +18,10 @@ public class MenuUsuarios extends javax.swing.JFrame {
      */
     public MenuUsuarios() {
         
+        initComponents();
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
-        initComponents();
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
     }
 
     /**
@@ -39,6 +42,11 @@ public class MenuUsuarios extends javax.swing.JFrame {
 
         jbtnNuevoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/newuser.png"))); // NOI18N
         jbtnNuevoUsuario.setToolTipText("Agregar Nuevo Usuario");
+        jbtnNuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnNuevoUsuarioActionPerformed(evt);
+            }
+        });
 
         jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,6 +92,13 @@ public class MenuUsuarios extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbtnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoUsuarioActionPerformed
+        // TODO add your handling code here:
+        NuevoUsuario frmnew_usr = new NuevoUsuario(); 
+        frmnew_usr.setVisible(true);
+        this.setVisible(false); 
+    }//GEN-LAST:event_jbtnNuevoUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
