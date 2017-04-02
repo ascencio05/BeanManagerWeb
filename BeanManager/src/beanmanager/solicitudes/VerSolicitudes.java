@@ -18,6 +18,7 @@ import beanmanager.clases.Proyecto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -54,6 +55,9 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         
         JTable table = new JTable();
         table.setModel(model);
+        
+        TableColumn id = table.getColumnModel().getColumn(3);
+        table.removeColumn(id);
         return table;
     }
     
@@ -76,10 +80,12 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
                 String fechaF = rs.getString("fechaFinal");
                 String fechaC = rs.getString("fechaCreacion");
                 
+                Proyecto aux = new Proyecto(idProyecto, usuario, titulo, descripcion, fechaI, fechaF, fechaC, "0", "0");
+                
                 proyectos.add(new Proyecto(idProyecto, usuario, titulo, descripcion, fechaI, fechaF, fechaC, "0", "0"));
                 
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.addRow(new String[] {idProyecto,titulo,fechaC,"prueba"});
+                model.addRow(new Object[] {idProyecto,titulo,fechaC,aux});
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error loadSol()");
@@ -128,6 +134,12 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
 
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        Proyecto aux = (Proyecto) model.getValueAt(table.getSelectedRow(), 3);
+        JOptionPane.showMessageDialog(null, aux.titulo);
+        
+        detalle.actual = aux;
+        detalle.setActual();
         this.hide();
         padre.detalles = detalle;
         padre.add(detalle);
