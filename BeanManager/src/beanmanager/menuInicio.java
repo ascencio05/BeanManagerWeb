@@ -9,6 +9,7 @@ import beanmanager.proyectos.*;
 import beanmanager.controles.*;
 import beanmanager.ajustes.*;
 import beanmanager.solicitudes.*;
+import beanmanager.usuarios.MenuUsuarios;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -49,7 +50,7 @@ public class menuInicio  extends javax.swing.JFrame{
     private void initComponents()
     {
         //Solicitudes
-        //imgSolicitudes = new ImageIcon(getClass().getResource(imgPath+"solicitudes.png")); 
+        imgSolicitudes = new ImageIcon(getClass().getResource(imgPath+"solicitudes.png")); 
         etiquetaSolicitudes = new JLabel(imgSolicitudes);
         etiquetaSolicitudes.setOpaque(true);
         etiquetaSolicitudes.setBackground(Color.decode("#FFFFFF"));
@@ -58,7 +59,7 @@ public class menuInicio  extends javax.swing.JFrame{
         etiquetaSolicitudes.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         //Proyectos
-        //imgProyectos = new ImageIcon(getClass().getResource(imgPath+"proyectos.png")); 
+        imgProyectos = new ImageIcon(getClass().getResource(imgPath+"proyectos.png")); 
         etiquetaProyectos = new JLabel(imgProyectos);
         etiquetaProyectos.setOpaque(true);
         etiquetaProyectos.setBackground(Color.decode("#FFFFFF"));
@@ -66,7 +67,7 @@ public class menuInicio  extends javax.swing.JFrame{
         etiquetaProyectos.setLocation(25, 250);
         etiquetaProyectos.setCursor(new Cursor(Cursor.HAND_CURSOR));
         //Usuarios       
-        //imgUsuarios = new ImageIcon(getClass().getResource(imgPath+"usuarios.png")); 
+        imgUsuarios = new ImageIcon(getClass().getResource(imgPath+"usuarios.png")); 
         etiquetaUsuarios = new JLabel(imgUsuarios);
         etiquetaUsuarios.setOpaque(true);
         etiquetaUsuarios.setBackground(Color.decode("#FFFFFF"));
@@ -74,7 +75,7 @@ public class menuInicio  extends javax.swing.JFrame{
         etiquetaUsuarios.setLocation(250, 25);
         etiquetaUsuarios.setCursor(new Cursor(Cursor.HAND_CURSOR));
         //Ajustes
-        //imgAjustes = new ImageIcon(getClass().getResource(imgPath+"ajustes.png")); 
+        imgAjustes = new ImageIcon(getClass().getResource(imgPath+"ajustes.png")); 
         etiquetaAjustes = new JLabel(imgAjustes);
         etiquetaAjustes.setOpaque(true);
         etiquetaAjustes.setBackground(Color.decode("#FFFFFF"));
@@ -161,7 +162,13 @@ public class menuInicio  extends javax.swing.JFrame{
                 texto.setText("Usuarios");
             }
             @Override
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+                 MenuUsuarios menuUsr = new MenuUsuarios();
+                menuUsr.setVisible(true);
+                cerrar();
+                
+            
+            }
 
             @Override
             public void mousePressed(MouseEvent e) {}
