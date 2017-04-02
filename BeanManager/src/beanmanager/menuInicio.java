@@ -182,9 +182,10 @@ public class menuInicio  extends javax.swing.JFrame{
                 texto.setText("Proyectos");
             }
             @Override
-            public void mouseClicked(MouseEvent e) {       
+            public void mouseClicked(MouseEvent e) {  
+               IndexProyecto frmProyecto = new IndexProyecto();
+               frmProyecto.setVisible(true);
                cerrar();
-               
             }
 
             @Override
