@@ -109,6 +109,11 @@ public class MenuUsuarios extends javax.swing.JFrame {
 
         jbtnModificarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/modifyuser.png"))); // NOI18N
         jbtnModificarUsuario.setToolTipText("Modificar Usuario");
+        jbtnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnModificarUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,6 +150,16 @@ public class MenuUsuarios extends javax.swing.JFrame {
         frmnew_usr.setVisible(true);
         this.setVisible(false); 
     }//GEN-LAST:event_jbtnNuevoUsuarioActionPerformed
+
+    private void jbtnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarUsuarioActionPerformed
+        // TODO add your handling code here:
+        int column=0; 
+        int row= jTableUsuarios.getSelectedRow(); 
+        int idUsr= Integer.valueOf(jTableUsuarios.getModel().getValueAt(row, column).toString());
+        NuevoUsuario newusr = new NuevoUsuario(idUsr); 
+        newusr.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbtnModificarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
