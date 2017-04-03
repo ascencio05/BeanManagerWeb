@@ -7,6 +7,7 @@ package beanmanager.usuarios;
 
 import beanmanager.controles.Bdd;
 import java.awt.Color;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -15,6 +16,11 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author Monica Escrich
@@ -22,7 +28,9 @@ import javax.swing.table.TableRowSorter;
 public class MenuUsuarios extends javax.swing.JFrame {
 
     Bdd db = new Bdd("unconnected");
+
     private TableRowSorter trsFiltro;
+
     /**
      * Creates new form MenuUsuarios
      */
@@ -73,6 +81,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error loadSol()");
         }
         
+
     }
     
     public void filtro() {
@@ -88,6 +97,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
             columnaABuscar = 3;
         }
         trsFiltro.setRowFilter(RowFilter.regexFilter(jTextFieldBuscar.getText(), columnaABuscar));
+
     }
 
     /**
@@ -130,12 +140,17 @@ public class MenuUsuarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableUsuarios);
 
         jbtnModificarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/modifyuser.png"))); // NOI18N
+
         jbtnModificarUsuario.setToolTipText("Modificar/Ver Usuario");
+
+        jbtnModificarUsuario.setToolTipText("Modificar Usuario");
+
         jbtnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnModificarUsuarioActionPerformed(evt);
             }
         });
+
 
         jComboBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Usuario", "Apellidos", "Correo Electronico"}));
 
@@ -145,6 +160,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
                 jTextFieldBuscarKeyTyped(evt);
             }
         });
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,6 +218,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jbtnModificarUsuarioActionPerformed
 
+
     private void jTextFieldBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyTyped
         // TODO add your handling code here:
         jTextFieldBuscar.addKeyListener(new KeyAdapter() {
@@ -216,6 +233,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
         jTableUsuarios.setRowSorter(trsFiltro);
 
     }//GEN-LAST:event_jTextFieldBuscarKeyTyped
+
 
     /**
      * @param args the command line arguments
