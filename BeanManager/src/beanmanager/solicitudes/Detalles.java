@@ -6,7 +6,9 @@
 package beanmanager.solicitudes;
 
 import beanmanager.clases.Proyecto;
+import beanmanager.controles.Bdd;
 import beanmanager.proyectos.IndexProyecto;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,6 +18,7 @@ public class Detalles extends javax.swing.JInternalFrame {
      VerRequerimientos req;
      public IndexSolicitud padre;
      public Proyecto actual;
+     Bdd db;
     /**
      * Creates new form Detalles
      */
@@ -28,6 +31,7 @@ public class Detalles extends javax.swing.JInternalFrame {
         initComponents();
         req= new VerRequerimientos(p);
         padre = p;
+        db = padre.db;
     }
 
     public void setActual()
@@ -164,8 +168,19 @@ public class Detalles extends javax.swing.JInternalFrame {
     private void btnReqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReqActionPerformed
         // TODO add your handling code here:
         padre.add(req);
-        req.setVisible(true);
-        this.hide();
+        req.actual = this.actual;
+        try {
+            req.actual.getRequerimientos(this.db);
+            if(req.actual.requerimientos.size()> 0)
+            {
+                req.actReq = req.actual.requerimientos.get(0);
+            }
+            req.printActual();
+            req.setVisible(true);
+            this.hide();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error requerimientos");
+        }
     }//GEN-LAST:event_btnReqActionPerformed
 
 
