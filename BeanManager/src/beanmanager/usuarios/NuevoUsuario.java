@@ -13,14 +13,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
-
-import java.util.List;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,15 +27,10 @@ import javax.swing.table.DefaultTableModel;
 public class NuevoUsuario extends javax.swing.JFrame {
 
     Bdd bdd = new Bdd(); 
-
     boolean flagModificar=false, flagColorModificado=false;
     int id_Usr;
     String colorHexa; 
     
-
-    boolean flagModificar=false;
-    int id_Usr;
-
     /**
      * Creates new form NuevoUsuario
      */
@@ -50,18 +41,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
         setResizable(false); //Quitar Resize
         getContentPane().setBackground(Color.decode("#FFFFFF"));
         llenarComboBox(); 
-    }
-    
-    public NuevoUsuario(int idUsuario) {
-        
-        initComponents();
-        setLocationRelativeTo(null);//Centra pantalla
-        setResizable(false); //Quitar Resize
-        getContentPane().setBackground(Color.decode("#FFFFFF"));
-        flagModificar=true; 
-        id_Usr=idUsuario; 
-        modificaUsuario(idUsuario); 
-        
     }
     
     public NuevoUsuario(int idUsuario) {
@@ -353,7 +332,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
             }
              
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error loadSol()");
+            JOptionPane.showMessageDialog(null, "Error CargarRoles()");
         }
         
          return descripcionRoles;
@@ -363,20 +342,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
         MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
         frmMenuUsr.setVisible(true); 
         this.setVisible(false); 
-
     }
-
-    }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
-
-    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-        // TODO add your handling code here:
-       if( InsertUsers()){
-            JOptionPane.showMessageDialog(null, "Usuario registrado con Exito!");
-            limpiar(); 
-       } 
-        
-    }//GEN-LAST:event_jButtonGuardarActionPerformed
-
     
     public void modificaUsuario(int idUser)
     {
@@ -390,11 +356,8 @@ public class NuevoUsuario extends javax.swing.JFrame {
             ResultSet rs = bdd.executeReader(null);
             while(rs.next())
             {
-
                 CargarRoles.id =rs.getInt("idTipo");
                 jComboBoxRol.setSelectedIndex(CargarRoles.id-1);
-
-
                 jTextFieldNombres.setText(rs.getString("nombre")); 
                 jTextFieldApellidos.setText(rs.getString("apellido")); 
                 jTextFieldCorreo.setText(rs.getString("fechaNacimiento")); 
@@ -413,11 +376,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
         }
     
     }
-
-    public void loadRoles(){
-    
-    }
-
     
     public void limpiar(){
         jTextFieldNombres.setText(""); 
@@ -432,10 +390,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
         
         String cmd;
         SimpleDateFormat sdf;
-
         
-=======
-
         if(!flagModificar){
              cmd="INSERT INTO `Usuarios`( `idTipo`, `nombre`, `apellido`, `correo`, `contrasena`,"
                  +"`fechaNacimiento`, `colorGUI`, `eliminado`) VALUES (?,?,?,?,?,?,?,?)";
@@ -443,17 +398,12 @@ public class NuevoUsuario extends javax.swing.JFrame {
              sdf = new SimpleDateFormat("dd/MM/yyyy");
         }
         else {
-
             if (flagColorModificado)
                 cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
                     +"`fechaNacimiento`=?,`colorGUI`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
             else
                 cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
                     +"`fechaNacimiento`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
-
-            cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
-                    +"`fechaNacimiento`=?,`colorGUI`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
-
             sdf = new SimpleDateFormat("yyyy-MM-dd");
         }
             
@@ -465,7 +415,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
          try{
              // Convertir java.Date to SQL.Date
                 
-
             Date parsed = null;
             parsed = sdf.parse(jFormattedTextField1.getText());
             java.sql.Date data = new java.sql.Date(parsed.getTime());
@@ -474,24 +423,13 @@ public class NuevoUsuario extends javax.swing.JFrame {
                 
              //Parametros enviados a la consulta
              parametros.add(rol.getId());
-
-                Date parsed = null;
-                parsed = sdf.parse(jFormattedTextField1.getText());
-                java.sql.Date data = new java.sql.Date(parsed.getTime());
-             //Parametros enviados a la consulta
-             parametros.add(1);
-
              parametros.add(jTextFieldNombres.getText());
              parametros.add(jTextFieldApellidos.getText());
              parametros.add(jTextFieldCorreo.getText());
              parametros.add(String.valueOf(jPasswordFieldContra.getPassword()));
              parametros.add(data);
-
              if(flagColorModificado)
                 parametros.add(colorHexa);
-
-             parametros.add("ffffff");
-
              if(jCheckBox1.isSelected())
                 parametros.add(1);
              else
