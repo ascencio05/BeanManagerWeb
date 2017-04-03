@@ -13,7 +13,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import java.util.HashMap;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JColorChooser;
+
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +31,15 @@ import javax.swing.table.DefaultTableModel;
 public class NuevoUsuario extends javax.swing.JFrame {
 
     Bdd bdd = new Bdd(); 
+
+    boolean flagModificar=false, flagColorModificado=false;
+    int id_Usr;
+    String colorHexa; 
+    
+
     boolean flagModificar=false;
     int id_Usr;
+
     /**
      * Creates new form NuevoUsuario
      */
@@ -35,6 +49,19 @@ public class NuevoUsuario extends javax.swing.JFrame {
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
         getContentPane().setBackground(Color.decode("#FFFFFF"));
+        llenarComboBox(); 
+    }
+    
+    public NuevoUsuario(int idUsuario) {
+        
+        initComponents();
+        setLocationRelativeTo(null);//Centra pantalla
+        setResizable(false); //Quitar Resize
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
+        flagModificar=true; 
+        id_Usr=idUsuario; 
+        modificaUsuario(idUsuario); 
+        
     }
     
     public NuevoUsuario(int idUsuario) {
@@ -126,10 +153,15 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jButtonColorGUI.setBorder(null);
         jButtonColorGUI.setBorderPainted(false);
         jButtonColorGUI.setFocusable(false);
+        jButtonColorGUI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonColorGUIActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Rol:");
 
-        jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxRol.setModel(llenarComboBox());
 
         jCheckBox1.setText("Usuario Activo");
 
@@ -285,9 +317,55 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
     private void jButtonBackMenuUsrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackMenuUsrActionPerformed
         // TODO add your handling code here:
+        menuUsuario(); 
+    }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // TODO add your handling code here:
+       if( InsertUsers()){
+            JOptionPane.showMessageDialog(null, "Usuario registrado con Exito!");
+            limpiar(); 
+            menuUsuario(); 
+            
+       } 
+        
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonColorGUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorGUIActionPerformed
+        // TODO add your handling code here:
+        flagColorModificado=true;
+        JColorChooser ventanaDeColores=new JColorChooser();
+        Color color=ventanaDeColores.showDialog(null, "Seleccione un Color", Color.gray);
+        color.getRGB(); 
+        colorHexa= String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());  
+    }//GEN-LAST:event_jButtonColorGUIActionPerformed
+    
+    public DefaultComboBoxModel llenarComboBox(){
+        String cmd="SELECT `idRol`,`rol` FROM `rolesProyecto` where eliminado=0";
+       DefaultComboBoxModel descripcionRoles = new DefaultComboBoxModel();
+         try {
+            CargarRoles rol=null;
+            bdd.setPreparedQuery(cmd);
+            ResultSet rs = bdd.executeReader(null);
+            while(rs.next())
+            {
+                descripcionRoles.addElement(new CargarRoles(rs.getInt("idRol"),rs.getString("rol")));
+            }
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error loadSol()");
+        }
+        
+         return descripcionRoles;
+    }
+    
+    public void menuUsuario(){
         MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
         frmMenuUsr.setVisible(true); 
         this.setVisible(false); 
+
+    }
+
     }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
@@ -298,6 +376,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
        } 
         
     }//GEN-LAST:event_jButtonGuardarActionPerformed
+
     
     public void modificaUsuario(int idUser)
     {
@@ -311,6 +390,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
             ResultSet rs = bdd.executeReader(null);
             while(rs.next())
             {
+
+                CargarRoles.id =rs.getInt("idTipo");
+                jComboBoxRol.setSelectedIndex(CargarRoles.id-1);
+
+
                 jTextFieldNombres.setText(rs.getString("nombre")); 
                 jTextFieldApellidos.setText(rs.getString("apellido")); 
                 jTextFieldCorreo.setText(rs.getString("fechaNacimiento")); 
@@ -329,9 +413,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
         }
     
     }
+
     public void loadRoles(){
     
     }
+
     
     public void limpiar(){
         jTextFieldNombres.setText(""); 
@@ -346,6 +432,10 @@ public class NuevoUsuario extends javax.swing.JFrame {
         
         String cmd;
         SimpleDateFormat sdf;
+
+        
+=======
+
         if(!flagModificar){
              cmd="INSERT INTO `Usuarios`( `idTipo`, `nombre`, `apellido`, `correo`, `contrasena`,"
                  +"`fechaNacimiento`, `colorGUI`, `eliminado`) VALUES (?,?,?,?,?,?,?,?)";
@@ -353,8 +443,17 @@ public class NuevoUsuario extends javax.swing.JFrame {
              sdf = new SimpleDateFormat("dd/MM/yyyy");
         }
         else {
+
+            if (flagColorModificado)
+                cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
+                    +"`fechaNacimiento`=?,`colorGUI`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+            else
+                cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
+                    +"`fechaNacimiento`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+
             cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
                     +"`fechaNacimiento`=?,`colorGUI`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+
             sdf = new SimpleDateFormat("yyyy-MM-dd");
         }
             
@@ -366,17 +465,33 @@ public class NuevoUsuario extends javax.swing.JFrame {
          try{
              // Convertir java.Date to SQL.Date
                 
+
+            Date parsed = null;
+            parsed = sdf.parse(jFormattedTextField1.getText());
+            java.sql.Date data = new java.sql.Date(parsed.getTime());
+                
+            CargarRoles rol= (CargarRoles) jComboBoxRol.getSelectedItem();
+                
+             //Parametros enviados a la consulta
+             parametros.add(rol.getId());
+
                 Date parsed = null;
                 parsed = sdf.parse(jFormattedTextField1.getText());
                 java.sql.Date data = new java.sql.Date(parsed.getTime());
              //Parametros enviados a la consulta
              parametros.add(1);
+
              parametros.add(jTextFieldNombres.getText());
              parametros.add(jTextFieldApellidos.getText());
              parametros.add(jTextFieldCorreo.getText());
              parametros.add(String.valueOf(jPasswordFieldContra.getPassword()));
              parametros.add(data);
+
+             if(flagColorModificado)
+                parametros.add(colorHexa);
+
              parametros.add("ffffff");
+
              if(jCheckBox1.isSelected())
                 parametros.add(1);
              else
