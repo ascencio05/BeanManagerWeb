@@ -5,6 +5,8 @@
  */
 package beanmanager.solicitudes;
 
+import beanmanager.clases.Proyecto;
+import beanmanager.clases.Requerimiento;
 import beanmanager.proyectos.IndexProyecto;
 
 /**
@@ -13,6 +15,9 @@ import beanmanager.proyectos.IndexProyecto;
  */
 public class VerRequerimientos extends javax.swing.JInternalFrame {
     IndexSolicitud padres;
+    int page;
+    Requerimiento actReq;
+    public Proyecto actual;
     /**
      * Creates new form VerRequerimientos
      */
@@ -23,6 +28,7 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
     public VerRequerimientos(IndexSolicitud p) {
         initComponents();
         padres = p;
+        page = 0;
     }
 
     /**
@@ -47,9 +53,9 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         tfProyecto = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
@@ -118,8 +124,13 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
         jPanel6.setBorder(null);
         jPanel6.setLayout(new java.awt.GridLayout(1, 3));
 
-        jButton1.setText("Anterior");
-        jPanel6.add(jButton1);
+        btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnAnterior);
 
         jButton2.setText("Regresar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -129,13 +140,13 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
         });
         jPanel6.add(jButton2);
 
-        jButton3.setText("Siguiente");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnSiguienteActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton3);
+        jPanel6.add(btnSiguiente);
 
         getContentPane().add(jPanel6);
 
@@ -148,15 +159,75 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
         this.hide();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        next();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        anterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
+    public void next()
+    {
+        if((actual.requerimientos.size() - 1) > page)
+        {
+            page++;
+            Requerimiento aux = actual.requerimientos.get(page);
+            actReq = aux;
+            printActual();
+        }
+    }
+    
+    public void anterior()
+    {
+        if(page > 0)
+        {
+            page--;
+            Requerimiento aux = actual.requerimientos.get(page);
+            actReq = aux;
+            printActual();
+        }
+    }
+    
+    public void printActual()
+    {
+        if(actual.requerimientos.size() > 0)
+        {
+            lblProyecto.setText(actual.titulo);
+            lblTitle.setText(actReq.titulo);
+            lblDate.setText(actReq.fecha);
+            tfProyecto.setText(actReq.descripcion);
+            if(page == 0)
+            {
+                btnAnterior.setEnabled(false);
+                btnSiguiente.setEnabled(true);
+            }
+            if(page == (actual.requerimientos.size() - 1))
+            {
+                btnSiguiente.setEnabled(false);
+                btnAnterior.setEnabled(true);
+            }
+            if((actual.requerimientos.size() - 1) == 0)
+            {
+                btnSiguiente.setEnabled(false);
+                btnAnterior.setEnabled(false);
+            }
+        }
+        else
+        {
+            lblProyecto.setText("");
+            lblTitle.setText("");
+            lblDate.setText("");
+            tfProyecto.setText("NO SE ENCONTRARON REQUERIMIENTOS");
+            btnSiguiente.setEnabled(false);
+            btnAnterior.setEnabled(false);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAnterior;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
