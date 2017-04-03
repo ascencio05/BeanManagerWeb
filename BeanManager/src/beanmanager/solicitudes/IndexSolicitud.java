@@ -5,6 +5,8 @@
  */
 package beanmanager.solicitudes;
 
+import beanmanager.controles.Bdd;
+
 /**
  *
  * @author Rodrigo
@@ -12,11 +14,13 @@ package beanmanager.solicitudes;
 public class IndexSolicitud extends javax.swing.JFrame {
     public VerSolicitudes ver;
     public Detalles detalles;
+    public Bdd db;
     /**
      * Creates new form IndexSolicitud
      */
     public IndexSolicitud() {
         initComponents();
+        db = new Bdd();
         ver = new VerSolicitudes(this);
         detalles = new Detalles(this);
         setSize(500, 500);
@@ -33,14 +37,11 @@ public class IndexSolicitud extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jMenu1.setText("Archivo");
-
-        jMenu2.setText("Ver");
 
         jMenuItem1.setText("Solicitudes");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -48,9 +49,7 @@ public class IndexSolicitud extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
-
-        jMenu1.add(jMenu2);
+        jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
 
@@ -101,7 +100,6 @@ public class IndexSolicitud extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
