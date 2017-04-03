@@ -143,6 +143,11 @@ public class IndexProyecto extends javax.swing.JFrame {
         });
 
         txtNumero.setText("1");
+        txtNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyPressed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel1.setText("Nombre de Proyecto:");
@@ -344,6 +349,27 @@ public class IndexProyecto extends javax.swing.JFrame {
             mostrarDatos();
         }
     }//GEN-LAST:event_btnAnteriorMouseClicked
+
+    private void txtNumeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyPressed
+
+        if(evt.getExtendedKeyCode()==10)
+            try
+            {
+                int n=Integer.parseInt(txtNumero.getText());
+                if(n>0 && n<=numeroProyectos)
+                {
+                    numeroActual =n;
+                    mostrarDatos();
+                }
+                else
+                    txtNumero.setText(Integer.toString(numeroActual));
+                
+            }
+            catch(Exception e)
+            {
+                txtNumero.setText(Integer.toString(numeroActual));
+            }
+    }//GEN-LAST:event_txtNumeroKeyPressed
 
     /**
      * @param args the command line arguments
