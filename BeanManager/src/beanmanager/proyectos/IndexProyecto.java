@@ -5,6 +5,7 @@
  */
 package beanmanager.proyectos;
 import beanmanager.controles.Bdd;
+import beanmanager.proyectos.*;
 import java.awt.Color;
 import java.sql.*;
 import javax.swing.table.*;
@@ -17,7 +18,7 @@ public class IndexProyecto extends javax.swing.JFrame {
     Statement st;
     ResultSet rs;
     int numeroProyectos,numeroActual=1;
-    int[] idProyecto,avanceProyecto;
+    int[] idProyecto,avanceProyecto,idActividad,idProgramador;
     String[] nombreProyecto,fechaCreacion,fechaInicio;
     DefaultTableModel modelTblProgramadores,modelTblActividades;
     /**
@@ -119,9 +120,7 @@ public class IndexProyecto extends javax.swing.JFrame {
         btnNuevoProgramador = new javax.swing.JButton();
         btnNuevaActividad = new javax.swing.JButton();
         btnEditarActividad = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        btnEliminarActividad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -206,21 +205,44 @@ public class IndexProyecto extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblActividades);
 
         btnEliminarProgramador.setText("Eliminar");
+        btnEliminarProgramador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarProgramadorMouseClicked(evt);
+            }
+        });
 
         btnNuevoProgramador.setText("Nuevo");
 
         btnNuevaActividad.setText("Nuevo");
-        btnNuevaActividad.setActionCommand("Nuevo");
+        btnNuevaActividad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNuevaActividadMouseClicked(evt);
+            }
+        });
 
         btnEditarActividad.setText("Editar");
+        btnEditarActividad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarActividadMouseClicked(evt);
+            }
+        });
+        btnEditarActividad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnEditarActividadKeyPressed(evt);
+            }
+        });
 
-        jMenu1.setText("Programadores");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Actividades");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
+        btnEliminarActividad.setText("Eliminar");
+        btnEliminarActividad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarActividadMouseClicked(evt);
+            }
+        });
+        btnEliminarActividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActividadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -274,6 +296,8 @@ public class IndexProyecto extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnEliminarActividad)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarActividad)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuevaActividad)))
@@ -320,7 +344,8 @@ public class IndexProyecto extends javax.swing.JFrame {
                     .addComponent(btnNuevoProgramador)
                     .addComponent(btnEliminarProgramador)
                     .addComponent(btnNuevaActividad)
-                    .addComponent(btnEditarActividad))
+                    .addComponent(btnEditarActividad)
+                    .addComponent(btnEliminarActividad))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -352,7 +377,7 @@ public class IndexProyecto extends javax.swing.JFrame {
 
     private void txtNumeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyPressed
 
-        if(evt.getExtendedKeyCode()==10)
+        if(evt.getExtendedKeyCode()==10||evt.getExtendedKeyCode()==13)
             try
             {
                 int n=Integer.parseInt(txtNumero.getText());
@@ -370,6 +395,66 @@ public class IndexProyecto extends javax.swing.JFrame {
                 txtNumero.setText(Integer.toString(numeroActual));
             }
     }//GEN-LAST:event_txtNumeroKeyPressed
+
+    private void btnEliminarActividadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarActividadMouseClicked
+        try{
+            if(tblActividades.getSelectedRow()>=0)
+            {
+                int reply = JOptionPane.showConfirmDialog(null, "¿Desea Eliminar la Actividad Seleccionada?", "Eliminar Actividad", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                  st.executeUpdate("UPDATE Actividades SET eliminado=1 WHERE idActividad="+String.valueOf(idActividad[tblActividades.getSelectedRow()]));
+                  mostrarDatos();
+                }   
+            }
+        }
+        catch(Exception e)
+        {
+             JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());
+        }
+    }//GEN-LAST:event_btnEliminarActividadMouseClicked
+
+    private void btnEliminarActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActividadActionPerformed
+        
+    }//GEN-LAST:event_btnEliminarActividadActionPerformed
+
+    private void btnEliminarProgramadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarProgramadorMouseClicked
+        try{
+            if( tblProgramadores.getSelectedRow()>=0)
+            {
+                int reply = JOptionPane.showConfirmDialog(null, "¿Desea Sacar al Programador Seleccionado?", "Sacar Programador", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                  st.executeUpdate("UPDATE Integrantes SET eliminado=1 WHERE idIntegrante="+String.valueOf(idProgramador[tblProgramadores.getSelectedRow()]));
+                  mostrarDatos();
+                }   
+            }      
+        }
+        catch(Exception e)
+        {
+             JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());
+        }
+    }//GEN-LAST:event_btnEliminarProgramadorMouseClicked
+
+    private void btnEditarActividadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEditarActividadKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActividadKeyPressed
+
+    private void btnEditarActividadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarActividadMouseClicked
+
+        if( tblActividades.getSelectedRow()>=0)
+        {
+            Actividades Act = new Actividades(idProyecto[numeroActual-1],idActividad[tblActividades.getSelectedRow()]);
+            Act.setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnEditarActividadMouseClicked
+
+    private void btnNuevaActividadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNuevaActividadMouseClicked
+
+            Actividades Act = new Actividades(idProyecto[numeroActual-1]);
+            Act.setVisible(true);
+            this.setVisible(false);
+        
+    }//GEN-LAST:event_btnNuevaActividadMouseClicked
 
     /**
      * @param args the command line arguments
@@ -418,6 +503,7 @@ public class IndexProyecto extends javax.swing.JFrame {
        
        mostrarProgramadores();
        mostrarActividades();
+       
     }
     
     private void mostrarProgramadores()
@@ -425,9 +511,19 @@ public class IndexProyecto extends javax.swing.JFrame {
         try{
             while(modelTblProgramadores.getRowCount()>0)
                 modelTblProgramadores.removeRow(modelTblProgramadores.getRowCount()-1);
-            rs=st.executeQuery("SELECT B.nombre,B.Apellido,C.rol FROM Integrantes A INNER JOIN Usuarios B on(A.idUsuario=B.idUsuario) INNER JOIN rolesProyecto C on(A.idrol=C.idrol) WHERE A.eliminado=0 AND A.idProyecto="+idProyecto[numeroActual-1]);
+            
+            rs=st.executeQuery("SELECT count(*) FROM Integrantes WHERE eliminado=0 AND idProyecto="+idProyecto[numeroActual-1]);
+            rs.next();
+            idProgramador=new int[rs.getInt("count(*)")];
+            
+            rs=st.executeQuery("SELECT A.idIntegrante,B.nombre,B.Apellido,C.rol FROM Integrantes A INNER JOIN Usuarios B on(A.idUsuario=B.idUsuario) INNER JOIN rolesProyecto C on(A.idrol=C.idrol) WHERE A.eliminado=0 AND A.idProyecto="+idProyecto[numeroActual-1]);
+            int p=0;
             while(rs.next())
+            {
                 modelTblProgramadores.insertRow(modelTblProgramadores.getRowCount(), new Object[]{rs.getString("B.nombre"),rs.getString("B.apellido"),rs.getString("C.rol")});
+                idProgramador[p]=rs.getInt("A.idIntegrante");
+                p++;
+            }
         }
         catch(Exception e)
         {
@@ -439,9 +535,19 @@ public class IndexProyecto extends javax.swing.JFrame {
         try{
             while(modelTblActividades.getRowCount()>0)
                 modelTblActividades.removeRow(modelTblActividades.getRowCount()-1);
-            rs=st.executeQuery("SELECT A.titulo,A.fechaInicio,A.fechaFinal,B.tipo FROM Actividades A INNER JOIN TiposActividad B on(A.idTipo=B.idTipo) WHERE A.eliminado=0 AND A.idProyecto="+idProyecto[numeroActual-1]);
+            
+            rs=st.executeQuery("SELECT count(*) FROM Actividades WHERE eliminado=0 AND idProyecto="+idProyecto[numeroActual-1]);
+            rs.next();
+            idActividad=new int[rs.getInt("count(*)")];
+            
+            rs=st.executeQuery("SELECT A.idActividad,A.titulo,A.fechaInicio,A.fechaFinal,B.tipo FROM Actividades A INNER JOIN TiposActividad B on(A.idTipo=B.idTipo) WHERE A.eliminado=0 AND A.idProyecto="+idProyecto[numeroActual-1]);
+            int p=0;
             while(rs.next())
+            {
                 modelTblActividades.insertRow(modelTblActividades.getRowCount(), new Object[]{rs.getString("A.titulo"),rs.getString("B.tipo"),rs.getString("A.fechaInicio"),rs.getString("A.fechaFinal")});
+                idActividad[p]=rs.getInt("A.idActividad");
+                p++;
+            }
         }
         catch(Exception e)
         {
@@ -452,6 +558,7 @@ public class IndexProyecto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnEditarActividad;
+    private javax.swing.JButton btnEliminarActividad;
     private javax.swing.JButton btnEliminarProgramador;
     private javax.swing.JButton btnNuevaActividad;
     private javax.swing.JButton btnNuevoProgramador;
@@ -462,9 +569,6 @@ public class IndexProyecto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblFechaCreacion;
