@@ -28,7 +28,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     Detalles detalle;
     IndexSolicitud padre;
     JTable table;
-    Bdd db = new Bdd("unconnected");
+    public Bdd db;
     List<Proyecto> proyectos = new ArrayList<>();
     /**
      * Creates new form VerSolicitudes
@@ -46,6 +46,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         table = initTable();
         jScrollPane1.add(table);
         jScrollPane1.setViewportView(table);
+        db = padre.db;
         loadSol();
     }
     
@@ -106,7 +107,6 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         btnDetalles = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
-        btnRechazar = new javax.swing.JButton();
 
         setClosable(true);
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -122,10 +122,12 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         jPanel1.add(btnDetalles);
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAceptar);
-
-        btnRechazar.setText("Rechazar");
-        jPanel1.add(btnRechazar);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
@@ -135,22 +137,42 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)table.getModel();
-        Proyecto aux = (Proyecto) model.getValueAt(table.getSelectedRow(), 3);
-        JOptionPane.showMessageDialog(null, aux.titulo);
-        
-        detalle.actual = aux;
-        detalle.setActual();
-        this.hide();
-        padre.detalles = detalle;
-        padre.add(detalle);
-        detalle.setVisible(true);
+        int selected = table.getSelectedRow();
+        if(selected != -1)
+        {
+            Proyecto aux = (Proyecto) model.getValueAt(selected, 3);
+
+            detalle.actual = aux;
+            detalle.setActual();
+            this.hide();
+            padre.detalles = detalle;
+            padre.add(detalle);
+            detalle.setVisible(true);
+        }
     }//GEN-LAST:event_btnDetallesActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        int selected = table.getSelectedRow();
+        if(selected != -1)
+        {
+            Proyecto aux = (Proyecto) model.getValueAt(selected, 3);
+            try {
+                aux.aceptarSolicitud(db);
+                model.setRowCount(0);
+                loadSol();
+                JOptionPane.showMessageDialog(null, "Solicitud aceptada.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al aceptar solicitud");
+            }
+            
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnDetalles;
-    private javax.swing.JButton btnRechazar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
