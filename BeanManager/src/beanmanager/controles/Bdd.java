@@ -82,10 +82,10 @@ public class Bdd {
             for (int i = 0; i < parametrosList.size(); i++) {
                 preparedStatement.setObject((i+1), parametrosList.get(i));
             }
-            preparedStatement.executeUpdate();
+            
         }
-        ResultSet rs = preparedStatement.executeQuery();
-        return rs;
+        
+        return preparedStatement.executeQuery();
     }
     
     public String executeUpdateLastId(List<Object> parametrosList) throws Exception
