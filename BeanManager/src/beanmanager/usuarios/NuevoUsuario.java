@@ -5,7 +5,20 @@
  */
 package beanmanager.usuarios;
 
+import beanmanager.controles.Bdd;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,6 +26,11 @@ import java.awt.Color;
  */
 public class NuevoUsuario extends javax.swing.JFrame {
 
+    Bdd bdd = new Bdd(); 
+    boolean flagModificar=false, flagColorModificado=false;
+    int id_Usr;
+    String colorHexa; 
+    
     /**
      * Creates new form NuevoUsuario
      */
@@ -22,6 +40,19 @@ public class NuevoUsuario extends javax.swing.JFrame {
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
         getContentPane().setBackground(Color.decode("#FFFFFF"));
+        llenarComboBox(); 
+    }
+    
+    public NuevoUsuario(int idUsuario) {
+        
+        initComponents();
+        setLocationRelativeTo(null);//Centra pantalla
+        setResizable(false); //Quitar Resize
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
+        flagModificar=true; 
+        id_Usr=idUsuario; 
+        modificaUsuario(idUsuario); 
+        
     }
 
     /**
@@ -87,7 +118,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
         jLabel6.setText("Fecha Nacimiento:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setText("Configuraciones de Usuario");
@@ -101,10 +132,15 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jButtonColorGUI.setBorder(null);
         jButtonColorGUI.setBorderPainted(false);
         jButtonColorGUI.setFocusable(false);
+        jButtonColorGUI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonColorGUIActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Rol:");
 
-        jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxRol.setModel(llenarComboBox());
 
         jCheckBox1.setText("Usuario Activo");
 
@@ -112,6 +148,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.setToolTipText("Guardar");
         jButtonGuardar.setBorderPainted(false);
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
 
         jButtonBackMenuUsr.setBackground(new java.awt.Color(255, 255, 255));
         jButtonBackMenuUsr.setForeground(new java.awt.Color(255, 255, 255));
@@ -255,11 +296,158 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
     private void jButtonBackMenuUsrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackMenuUsrActionPerformed
         // TODO add your handling code here:
+        menuUsuario(); 
+    }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // TODO add your handling code here:
+       if( InsertUsers()){
+            JOptionPane.showMessageDialog(null, "Usuario registrado con Exito!");
+            limpiar(); 
+            menuUsuario(); 
+            
+       } 
+        
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonColorGUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorGUIActionPerformed
+        // TODO add your handling code here:
+        flagColorModificado=true;
+        JColorChooser ventanaDeColores=new JColorChooser();
+        Color color=ventanaDeColores.showDialog(null, "Seleccione un Color", Color.gray);
+        color.getRGB(); 
+        colorHexa= String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());  
+    }//GEN-LAST:event_jButtonColorGUIActionPerformed
+    
+    public DefaultComboBoxModel llenarComboBox(){
+        String cmd="SELECT `idRol`,`rol` FROM `rolesProyecto` where eliminado=0";
+       DefaultComboBoxModel descripcionRoles = new DefaultComboBoxModel();
+         try {
+            CargarRoles rol=null;
+            bdd.setPreparedQuery(cmd);
+            ResultSet rs = bdd.executeReader(null);
+            while(rs.next())
+            {
+                descripcionRoles.addElement(new CargarRoles(rs.getInt("idRol"),rs.getString("rol")));
+            }
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error loadSol()");
+        }
+        
+         return descripcionRoles;
+    }
+    
+    public void menuUsuario(){
         MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
         frmMenuUsr.setVisible(true); 
         this.setVisible(false); 
-    }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
-
+    }
+    
+    public void modificaUsuario(int idUser)
+    {
+        
+        String cmd="SELECT Usuarios.idUsuario, Usuarios.nombre, Usuarios.contrasena, Usuarios.apellido, Usuarios.correo,"
+                +" Usuarios.fechaNacimiento, Usuarios.idTipo, Usuarios.eliminado " 
+                +" FROM Usuarios where Usuarios.idUsuario="+idUser;
+        
+         try {
+            bdd.setPreparedQuery(cmd);
+            ResultSet rs = bdd.executeReader(null);
+            while(rs.next())
+            {
+                CargarRoles.id =rs.getInt("idTipo");
+                jComboBoxRol.setSelectedIndex(CargarRoles.id-1);
+                jTextFieldNombres.setText(rs.getString("nombre")); 
+                jTextFieldApellidos.setText(rs.getString("apellido")); 
+                jTextFieldCorreo.setText(rs.getString("fechaNacimiento")); 
+                jPasswordFieldContra.setText(rs.getString("contrasena"));
+                jFormattedTextField1.setText(rs.getString("fechaNacimiento")); 
+                int x= rs.getInt("eliminado");
+                if (x==0)
+                    jCheckBox1.setSelected(false); 
+                else 
+                    jCheckBox1.setSelected(true); 
+                    
+               
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error modificar()");
+        }
+    
+    }
+    
+    public void limpiar(){
+        jTextFieldNombres.setText(""); 
+        jTextFieldApellidos.setText(""); 
+        jTextFieldCorreo.setText(""); 
+        jPasswordFieldContra.setText("");
+        jFormattedTextField1.setText(""); 
+        jCheckBox1.setSelected(false); 
+    }
+    
+    public boolean InsertUsers() {
+        
+        String cmd;
+        SimpleDateFormat sdf;
+        
+        if(!flagModificar){
+             cmd="INSERT INTO `Usuarios`( `idTipo`, `nombre`, `apellido`, `correo`, `contrasena`,"
+                 +"`fechaNacimiento`, `colorGUI`, `eliminado`) VALUES (?,?,?,?,?,?,?,?)";
+             
+             sdf = new SimpleDateFormat("dd/MM/yyyy");
+        }
+        else {
+            if (flagColorModificado)
+                cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
+                    +"`fechaNacimiento`=?,`colorGUI`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+            else
+                cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
+                    +"`fechaNacimiento`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+            sdf = new SimpleDateFormat("yyyy-MM-dd");
+        }
+            
+        
+         List<Object> parametros = new ArrayList<Object>();
+         
+        
+         
+         try{
+             // Convertir java.Date to SQL.Date
+                
+            Date parsed = null;
+            parsed = sdf.parse(jFormattedTextField1.getText());
+            java.sql.Date data = new java.sql.Date(parsed.getTime());
+                
+            CargarRoles rol= (CargarRoles) jComboBoxRol.getSelectedItem();
+                
+             //Parametros enviados a la consulta
+             parametros.add(rol.getId());
+             parametros.add(jTextFieldNombres.getText());
+             parametros.add(jTextFieldApellidos.getText());
+             parametros.add(jTextFieldCorreo.getText());
+             parametros.add(String.valueOf(jPasswordFieldContra.getPassword()));
+             parametros.add(data);
+             if(flagColorModificado)
+                parametros.add(colorHexa);
+             if(jCheckBox1.isSelected())
+                parametros.add(1);
+             else
+                 parametros.add(0);
+             
+             bdd.setPreparedQuery(cmd);
+           
+             bdd.executeQuery(parametros);
+             
+             return true; 
+            
+             
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error InsertUser()");
+            return false;
+        }
+    }
     /**
      * @param args the command line arguments
      */
