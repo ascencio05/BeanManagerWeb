@@ -5,7 +5,11 @@
  */
 package beanmanager.usuarios;
 
+import beanmanager.controles.Bdd;
 import java.awt.Color;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,6 +17,7 @@ import java.awt.Color;
  */
 public class MenuUsuarios extends javax.swing.JFrame {
 
+    Bdd db = new Bdd("unconnected");
     /**
      * Creates new form MenuUsuarios
      */
@@ -22,6 +27,47 @@ public class MenuUsuarios extends javax.swing.JFrame {
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
         getContentPane().setBackground(Color.decode("#FFFFFF"));
+        
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+
+            //Modificar el modelo por defecto de la tabla por un nuevo modelo previamente creado.
+           jTableUsuarios.setModel(modeloTabla);
+
+           //agrega columnas de la tabla
+           modeloTabla.setColumnIdentifiers(new Object [] {
+
+              "Id Usuario", "Nombres", "Apellidos", "Correo Electronico","Rol", "Fecha Nac"
+
+           });
+           
+           loadUsuarios(); 
+    }
+    
+    public void loadUsuarios(){
+    
+        String cmd="SELECT Usuarios.idUsuario, Usuarios.nombre, Usuarios.apellido, Usuarios.correo,"
+                +" Usuarios.fechaNacimiento, rolesProyecto.rol " 
+                +" FROM Usuarios JOIN rolesProyecto ON rolesProyecto.idRol = Usuarios.idTipo";
+        
+         try {
+            db.setPreparedQuery(cmd);
+            ResultSet rs = db.executeReader(null);
+            while(rs.next())
+            {
+                String idProyecto = rs.getString("idUsuario");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String fechaNac = rs.getString("fechaNacimiento");
+                String correo = rs.getString("correo");
+                String rol = rs.getString("rol");
+                
+                DefaultTableModel model = (DefaultTableModel) jTableUsuarios.getModel();
+                model.addRow(new String[] {idProyecto,nombre,apellido,correo,rol,fechaNac});
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error loadSol()");
+        }
+        
     }
 
     /**
