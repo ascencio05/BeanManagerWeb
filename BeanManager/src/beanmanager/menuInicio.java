@@ -113,7 +113,7 @@ public class menuInicio  extends javax.swing.JFrame{
 
             @Override
             public void mousePressed(MouseEvent e) {
-                IndexProyecto proyectos = new IndexProyecto();
+                IndexSolicitud proyectos = new IndexSolicitud();
                 proyectos.setVisible(true);
                 cerrar();
             }
