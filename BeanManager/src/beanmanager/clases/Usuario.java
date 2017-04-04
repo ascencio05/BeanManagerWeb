@@ -92,4 +92,13 @@ public class Usuario {
             permisos.add(new Permiso(idPermiso, idModulo, agregar, borrar, modificar, ingresar));
         }
     }
+    
+    public Permiso getPermiso(String idModulo)
+    {
+        for (Permiso permiso : permisos) {
+            if(permiso.idModulo.equals(idModulo))
+                return permiso;
+        }
+        return null;
+    }
 }
