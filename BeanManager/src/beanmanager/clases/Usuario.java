@@ -73,7 +73,7 @@ public class Usuario {
         return (i > 0);
     }
     
-    public void getPermisos(Bdd db) throws Exception
+    public void getListedPermisos(Bdd db) throws Exception
     {
         permisos = new ArrayList<>();
         String cmd = "select * from Permisos where idTipo = ?";

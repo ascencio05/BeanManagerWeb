@@ -192,7 +192,7 @@ public class LogIn extends javax.swing.JFrame {
             
             if(aux.authenticate(pass, db))
             {
-                aux.getPermisos(db);
+                aux.getListedPermisos(db);
                 aux.validado = true;
                 db.close();
                 return aux;
