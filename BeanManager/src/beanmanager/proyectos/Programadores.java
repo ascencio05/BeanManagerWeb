@@ -5,6 +5,7 @@
  */
 package beanmanager.proyectos;
 import beanmanager.clases.SeguridadProyectos;
+import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,14 +27,17 @@ public class Programadores extends javax.swing.JFrame {
     Statement st;
     ResultSet rs;
     DefaultTableModel modelTblDisponibles,modelTblActividad;
+    public Usuario session;
     /**
      * Creates new form Actividades
      */
-    public Programadores() {
+    public Programadores(Usuario session) {
+        this.session=session;
         initComponents();
         iniciarVentana();
     }
-    public Programadores(int idProyecto) {
+    public Programadores(Usuario session,int idProyecto) {
+        this.session=session;
         this.idProyecto=idProyecto;
         initComponents();
         iniciarVentana();
@@ -80,7 +84,7 @@ public class Programadores extends javax.swing.JFrame {
                Component[] agregar={btnAgregar};
                Component[] eliminar={btnSacar};
                Component[] modificar=null;
-               SeguridadProyectos Seg=new SeguridadProyectos(2,1,baseDatos.con,agregar,modificar,eliminar);
+               SeguridadProyectos Seg=new SeguridadProyectos(2,session,agregar,modificar,eliminar);
                // Fin PERMISOS
             mostrarProgramadores();
         }
@@ -334,7 +338,7 @@ public class Programadores extends javax.swing.JFrame {
 
     private void btnAtrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAtrasMouseClicked
   
-        IndexProyecto Index = new IndexProyecto();
+        IndexProyecto Index = new IndexProyecto(session);
         Index.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAtrasMouseClicked
@@ -362,7 +366,7 @@ public class Programadores extends javax.swing.JFrame {
                         }
                     }
                 }        
-                IndexProyecto Index = new IndexProyecto();
+                IndexProyecto Index = new IndexProyecto(session);
                 Index.setVisible(true);
                 this.setVisible(false);       
     }//GEN-LAST:event_btnGuardarMouseClicked
@@ -406,7 +410,7 @@ public class Programadores extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Programadores().setVisible(true);
+                new Programadores(null).setVisible(true);
             }
         });
     }

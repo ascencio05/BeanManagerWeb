@@ -5,9 +5,9 @@
  */
 package beanmanager.proyectos;
 import beanmanager.clases.SeguridadProyectos;
+import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import beanmanager.menuInicio;
-import beanmanager.proyectos.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.*;
@@ -24,10 +24,12 @@ public class IndexProyecto extends javax.swing.JFrame {
     int[] idProyecto,avanceProyecto,idActividad,idProgramador;
     String[] nombreProyecto,fechaCreacion,fechaInicio;
     DefaultTableModel modelTblProgramadores,modelTblActividades;
+    public Usuario session;
     /**
      * Creates new form IndexProyecto
      */
-    public IndexProyecto() {
+    public IndexProyecto(Usuario session) {
+        this.session=session;
         initComponents();
         setResizable(false); //Quitar Resize
         setLocationRelativeTo(null);//Centra pantalla
@@ -84,7 +86,7 @@ public class IndexProyecto extends javax.swing.JFrame {
                Component[] agregar={btnNuevaActividad};
                Component[] eliminar={btnEliminarActividad,btnEliminarProgramador};
                Component[] modificar={btnEditarActividad};
-               SeguridadProyectos Seg=new SeguridadProyectos(2,1,baseDatos.con,agregar,modificar,eliminar);
+               SeguridadProyectos Seg=new SeguridadProyectos(2,session,agregar,modificar,eliminar);
                // Fin PERMISOS
                mostrarDatos();
             }
@@ -335,7 +337,7 @@ public class IndexProyecto extends javax.swing.JFrame {
                         .addComponent(lblNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSiguiente)
-                        .addGap(256, 256, 256)
+                        .addGap(261, 261, 261)
                         .addComponent(jButton1)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,7 +486,7 @@ public class IndexProyecto extends javax.swing.JFrame {
 
         if( tblActividades.getSelectedRow()>=0)
         {
-            Actividades Act = new Actividades(idProyecto[numeroActual-1],idActividad[tblActividades.getSelectedRow()]);
+            Actividades Act = new Actividades(session,idProyecto[numeroActual-1],idActividad[tblActividades.getSelectedRow()]);
             Act.setVisible(true);
             this.setVisible(false);
         }
@@ -492,7 +494,7 @@ public class IndexProyecto extends javax.swing.JFrame {
 
     private void btnNuevaActividadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNuevaActividadMouseClicked
 
-            Actividades Act = new Actividades(idProyecto[numeroActual-1]);
+            Actividades Act = new Actividades(session,idProyecto[numeroActual-1]);
             Act.setVisible(true);
             this.setVisible(false);
         
@@ -500,12 +502,13 @@ public class IndexProyecto extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         menuInicio Ini = new menuInicio();
+        Ini.session=this.session;
         Ini.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void btnVerProgramadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerProgramadorMouseClicked
-        Programadores Pro=new Programadores(idProyecto[numeroActual-1]);
+        Programadores Pro=new Programadores(session,idProyecto[numeroActual-1]);
         Pro.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnVerProgramadorMouseClicked
@@ -540,7 +543,7 @@ public class IndexProyecto extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IndexProyecto().setVisible(true);
+                new IndexProyecto(null).setVisible(true);
             }
         });
     }

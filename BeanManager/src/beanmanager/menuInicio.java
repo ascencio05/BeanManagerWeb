@@ -205,6 +205,7 @@ public class menuInicio  extends javax.swing.JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {  
                Load l=new Load(4);
+               l.session = session;
                l.setVisible(true);
                cerrar();
             }

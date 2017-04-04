@@ -12,22 +12,23 @@ import javax.swing.JOptionPane;
  * @author ascencio
  */
 public class SeguridadProyectos {
-    Statement st;
-    ResultSet rs;
+   public Usuario session;
 
-    public SeguridadProyectos(int idModulo,int idUsuario,Connection con,Component[] Agregar,Component[] Modificar,Component[] Eliminar)
+    public SeguridadProyectos(int idModulo,Usuario session,Component[] Agregar,Component[] Modificar,Component[] Eliminar)
     {
         try
         {
-            st = con.createStatement();
-            rs=st.executeQuery("SELECT A.agregar,A.borrar,A.modificar FROM Permisos A INNER JOIN TiposUsuario B ON(A.idTipo=B.idTipo) INNER JOIN Usuarios C ON(B.idTipo=C.idTipo) WHERE C.idUsuario="+idUsuario+" AND A.idModulo="+idModulo+" AND A.eliminado=0 AND C.eliminado=0" );
-            rs.next();
-            if(Agregar!=null&&!rs.getBoolean("A.agregar"))
-                bloquear(Agregar);
-            if(Modificar!=null&&!rs.getBoolean("A.modificar"))
-                bloquear(Modificar);
-            if(Eliminar!=null&&!rs.getBoolean("A.borrar"))
-                bloquear(Eliminar);
+            for(int i =0;i<session.permisos.size();i++)
+              if(Integer.parseInt(session.permisos.get(i).idModulo)==idModulo)
+              {
+                   if(Agregar!=null&&!session.permisos.get(i).agregar)
+                        bloquear(Agregar);
+                   if(Modificar!=null&&!session.permisos.get(i).modificar)
+                        bloquear(Modificar);
+                   if(Eliminar!=null&&!session.permisos.get(i).borrar)
+                        bloquear(Eliminar);
+              }
+           
         }
         catch(Exception e)
          {
@@ -41,17 +42,19 @@ public class SeguridadProyectos {
          }
     }
     
-        public SeguridadProyectos(int[] idModulo,int idUsuario,Connection con,Component[] Ingresar)
+        public SeguridadProyectos(int[] idModulo,Usuario session,Component[] Ingresar)
     {
         try
         {
-            st = con.createStatement();
+            
             for(int i =0;i<idModulo.length;i++)
             {
-                rs=st.executeQuery("SELECT A.agregar,A.borrar,A.modificar FROM Permisos A INNER JOIN TiposUsuario B ON(A.idTipo=B.idTipo) INNER JOIN Usuarios C ON(B.idTipo=C.idTipo) WHERE C.idUsuario="+idUsuario+" AND A.idModulo="+idModulo[i]+" AND A.eliminado=0 AND C.eliminado=0" );
-                rs.next();
-                if(Ingresar!=null&&!rs.getBoolean("A.ingresar"))
-                    bloquear(Ingresar);
+                for(int j =0;j<session.permisos.size();j++)
+                    if(Integer.parseInt(session.permisos.get(j).idModulo)==idModulo[i])
+                    {
+                         if(Ingresar!=null&&session.permisos.get(j).ingresar)
+                              bloquear(Ingresar);
+                    }
             }
         }
         catch(Exception e)

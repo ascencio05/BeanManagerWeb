@@ -5,6 +5,7 @@
  */
 package beanmanager.proyectos;
 import beanmanager.clases.SeguridadProyectos;
+import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,6 +27,7 @@ public class Actividades extends javax.swing.JFrame {
     Statement st;
     ResultSet rs;
     DefaultTableModel modelTblDisponibles,modelTblActividad;
+     public Usuario session;
     /**
      * Creates new form Actividades
      */
@@ -33,12 +35,14 @@ public class Actividades extends javax.swing.JFrame {
         initComponents();
         iniciarVentana();
     }
-    public Actividades(int idProyecto) {
+    public Actividades(Usuario session,int idProyecto) {
+        this.session=session;
         this.idProyecto=idProyecto;
         initComponents();
         iniciarVentana();
     }
-    public Actividades(int idProyecto,int idActividad) {
+    public Actividades(Usuario session,int idProyecto,int idActividad) {
+        this.session=session;
         this.idProyecto=idProyecto;
         this.idActividad=idActividad;
         initComponents();
@@ -107,7 +111,7 @@ public class Actividades extends javax.swing.JFrame {
                Component[] eliminar={btnSacar};
                Component[] modificar=null;
                SeguridadProyectos Seg;
-               Seg=new SeguridadProyectos(2,1,baseDatos.con,agregar,modificar,eliminar);
+               Seg=new SeguridadProyectos(2,session,agregar,modificar,eliminar);
               
   
               // Fin PERMISOS
@@ -464,7 +468,8 @@ public class Actividades extends javax.swing.JFrame {
 
     private void btnAtrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAtrasMouseClicked
   
-        IndexProyecto Index = new IndexProyecto();
+        IndexProyecto Index = new IndexProyecto(session);
+        Index.session=this.session;
         Index.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAtrasMouseClicked
@@ -567,7 +572,8 @@ public class Actividades extends javax.swing.JFrame {
                         try{st.executeUpdate(query2);}catch(Exception e){ JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
                     }
                 }        
-                        IndexProyecto Index = new IndexProyecto();
+                        IndexProyecto Index = new IndexProyecto(session);
+                        Index.session=this.session;
                         Index.setVisible(true);
                         this.setVisible(false);       
         
