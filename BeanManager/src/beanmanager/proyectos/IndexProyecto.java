@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 package beanmanager.proyectos;
+import beanmanager.clases.SeguridadProyectos;
 import beanmanager.controles.Bdd;
 import beanmanager.menuInicio;
 import beanmanager.proyectos.*;
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.*;
 import javax.swing.table.*;
 import javax.swing.JOptionPane;
@@ -77,7 +79,13 @@ public class IndexProyecto extends javax.swing.JFrame {
                         avanceProyecto[i]=0;  
                 }           
                 //Fin Actividades
-                 mostrarDatos();
+                
+                //PERMISOS (SeguridadProyectos(IDMODULO,IDUSUARIO,CONNECTION,AGREGAR[],MODIFICAR[],ELIMINAR[])
+               Component[] agregar={btnNuevaActividad,btnNuevoProgramador};
+               Component[] eliminar={btnNuevoProgramador,btnEliminarActividad,btnEliminarProgramador};
+               Component[] modificar={btnEditarActividad,btnNuevoProgramador};
+               SeguridadProyectos Seg=new SeguridadProyectos(2,1,baseDatos.con,agregar,modificar,eliminar);
+               mostrarDatos();
             }
             else
              JOptionPane.showMessageDialog(null, "No hay ningun proyecto que gestionar");   
@@ -86,7 +94,7 @@ public class IndexProyecto extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());
         }
-       
+
     }
 
     /**
@@ -389,6 +397,7 @@ public class IndexProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSiguienteMouseClicked
+        
         if(numeroActual<numeroProyectos)
         {
             numeroActual++;
@@ -546,6 +555,7 @@ public class IndexProyecto extends javax.swing.JFrame {
        
        mostrarProgramadores();
        mostrarActividades();
+       
        
     }
     
