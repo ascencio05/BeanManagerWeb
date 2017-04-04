@@ -197,16 +197,16 @@ public class InicioAjustes extends javax.swing.JFrame {
 
     private void jlbTipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbTipoMouseClicked
         // TODO add your handling code here:
-//        PermisosTipo jfmTipo = new PermisosTipo();
-//        jfmTipo.setVisible(true);
-//        this.setVisible(false);
+        PermisosTipo jfmTipo = new PermisosTipo();
+        jfmTipo.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jlbTipoMouseClicked
 
     private void jlbRolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbRolMouseClicked
         // TODO add your handling code here:
-//        permisos jfmPermisos = new permisos();
-//        jfmPermisos.setVisible(true);
-//        this.setVisible(false);
+        permisos jfmPermisos = new permisos();
+        jfmPermisos.setVisible(true);
+        this.setVisible(false);
         
     }//GEN-LAST:event_jlbRolMouseClicked
 

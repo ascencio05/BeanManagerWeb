@@ -8,78 +8,67 @@ package beanmanager.ajustes;
 import beanmanager.controles.*;
 import java.awt.Color;
 import java.sql.*;
-import java.util.*;
 import javax.swing.JOptionPane;
 /**
  *
  * @author jacky
  */
-public class AgregarPermiso extends javax.swing.JFrame {
-    List<String> idRol,idModulo;
+public class ModificarPermisoTipo extends javax.swing.JFrame {
+    String idPermiso;
     /**
-     * Creates new form AgregarPermiso
+     * Creates new form ModificarPermiso
      */
-    public AgregarPermiso() {
+    public ModificarPermisoTipo(String id) {
+        idPermiso= id;
         initComponents();
-        setTitle("Bean Manager");
         setLocationRelativeTo(null);
         setLayout(null);
-        setResizable(false);
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
-        CargarRoles();
-        CargarModulos();
+        CargarDatos();
+        
     }
-     public void CargarRoles(){
+    public void CargarDatos()
+    {
         try{
+            Boolean permiso;
             Bdd conexion = new Bdd();
-            String consulta="SELECT * FROM `rolesProyecto` WHERE `eliminado`=0";
+            String consulta="SELECT `idPermiso`, `TiposUsuario`.`tipo` as 'tipo', `Modulos`.`modulo` as 'modulo', `modificar`, "
+                    + "`agregar`, `borrar`, `ingresar` FROM `Permisos` inner join `TiposUsuario` on "
+                    + "`TiposUsuario`.`idTipo`= `Permisos`.`idTipo` inner join `Modulos` on `Modulos`.`idModulo` = `Permisos`.`idModulo` "
+                    + "WHERE `idPermiso`="+idPermiso;
             Statement stmt = conexion.con.createStatement();
             ResultSet resultado = stmt.executeQuery(consulta);
-            idRol= new ArrayList<String>();
-            while(resultado.next())
+            if(resultado.next())
             {
-                idRol.add(resultado.getString("idRol"));
-                jcmbRol.addItem(resultado.getString("rol"));
-            }
+                jlbTipo.setText(resultado.getString("tipo"));
+                jlbModulo.setText("Módulo: "+resultado.getString("modulo"));
+                permiso = (resultado.getBoolean("ingresar"));
+                jcbIngresar.setSelected(permiso);
+                permiso = (resultado.getBoolean("agregar"));
+                jcbAgregar.setSelected(permiso);
+                permiso = (resultado.getBoolean("modificar"));
+                jdbModificar.setSelected(permiso);
+                permiso = (resultado.getBoolean("borrar"));
+                jcbBorrar.setSelected(permiso);
+              }
             conexion.close();
-
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Error: "+e);
         }
     }
-     public void CargarModulos(){
-        try{
-            Bdd conexion = new Bdd();
-            String consulta="SELECT * FROM `Modulos` WHERE `eliminado`=0";
-            Statement stmt = conexion.con.createStatement();
-            ResultSet resultado = stmt.executeQuery(consulta);
-            idModulo= new ArrayList<String>();
-            while(resultado.next())
-            {
-                idModulo.add(resultado.getString("idModulo"));
-                jcmbModulo.addItem(resultado.getString("modulo"));
-            }
-            conexion.close();
-
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
-     public void Agregar()
-     {
-         try
+    public void Modificar()
+    {
+        try
         {
                 Bdd conexion = new Bdd();
-                String consulta="INSERT INTO `PermisosRoles`(`idRol`, `idModulo`, `modificar`, "
-                        + "`agregar`, `borrar`, `ingresar`, `eliminado`) VALUES ("+idRol.get(jcmbRol.getSelectedIndex())+","+idModulo.get(jcmbModulo.getSelectedIndex())
-                        +","+jcbModificar.isSelected()+","+jcbAgregar.isSelected()+","+jcbBorrar.isSelected()+","+jcbIngresar.isSelected()+",0)";
+                String consulta="UPDATE `PermisosRoles` SET `modificar`="+jdbModificar.isSelected()+", `agregar`="+jcbAgregar.isSelected()+",`borrar`="+jcbBorrar.isSelected()+","
+                        + "`ingresar`="+jcbIngresar.isSelected()+" WHERE `idPermiso`="+idPermiso;
                 Statement stmt = conexion.con.createStatement();
                 int agregado = stmt.executeUpdate(consulta);
                 if(agregado>0)
                 {
-                    JOptionPane.showMessageDialog(null, "Se han agregado los permisos con éxito.");
+                    JOptionPane.showMessageDialog(null, "Se han modificado los permisos con éxito.");
                     conexion.close();
                     permisos jfmPermisos = new permisos();
                     jfmPermisos.setVisible(true);
@@ -88,14 +77,15 @@ public class AgregarPermiso extends javax.swing.JFrame {
                 else
                 {
                     conexion.close();
-                    JOptionPane.showMessageDialog(null, "No se pudo agregar los permisos.");
+                    JOptionPane.showMessageDialog(null, "No se pudo modificar los permisos.");
                 }
         }
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, "Error: "+e);
         }
-     }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,34 +96,19 @@ public class AgregarPermiso extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jbnCancelar = new javax.swing.JButton();
+        jlbTipo = new javax.swing.JLabel();
+        jlbModulo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jcmbRol = new javax.swing.JComboBox<>();
-        jcmbModulo = new javax.swing.JComboBox<>();
         jcbIngresar = new javax.swing.JCheckBox();
         jcbAgregar = new javax.swing.JCheckBox();
-        jcbModificar = new javax.swing.JCheckBox();
+        jdbModificar = new javax.swing.JCheckBox();
         jcbBorrar = new javax.swing.JCheckBox();
-        jbnCancelar = new javax.swing.JButton();
-        jbnAgregar = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jbnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Agregar permiso");
-
-        jLabel2.setText("Rol:");
-
-        jLabel3.setText("Módulo: ");
-
-        jcbIngresar.setText("Ingresar");
-
-        jcbAgregar.setText("Agregar");
-
-        jcbModificar.setText("Modificar");
-
-        jcbBorrar.setText("Borrar");
+        jLabel1.setText("Modificar Permisos");
 
         jbnCancelar.setText("Cancelar");
         jbnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,14 +117,26 @@ public class AgregarPermiso extends javax.swing.JFrame {
             }
         });
 
-        jbnAgregar.setText("Agregar");
-        jbnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        jlbTipo.setText("prueba");
+
+        jlbModulo.setText("Prueba");
+
+        jLabel2.setText("Permisos:");
+
+        jcbIngresar.setText("Ingresar");
+
+        jcbAgregar.setText("Agregar");
+
+        jdbModificar.setText("Modificar");
+
+        jcbBorrar.setText("Borrar");
+
+        jbnModificar.setText("Modificar");
+        jbnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbnAgregarActionPerformed(evt);
+                jbnModificarActionPerformed(evt);
             }
         });
-
-        jLabel4.setText("Permisos:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,75 +148,68 @@ public class AgregarPermiso extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcbIngresar)
-                            .addComponent(jcbModificar))
+                            .addComponent(jdbModificar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcbBorrar)
-                            .addComponent(jcbAgregar)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jbnAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbnCancelar))
+                            .addComponent(jcbAgregar))
+                        .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(jlbModulo)
+                            .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
+                                .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jcmbRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jcmbModulo, 0, 151, Short.MAX_VALUE)))
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jlbTipo)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 26, Short.MAX_VALUE)
+                        .addComponent(jbnModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbnCancelar)
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jcmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(jlbTipo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jcmbModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlbModulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcbIngresar)
                     .addComponent(jcbAgregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbModificar)
+                    .addComponent(jdbModificar)
                     .addComponent(jcbBorrar))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbnCancelar)
-                    .addComponent(jbnAgregar))
-                .addContainerGap())
+                    .addComponent(jbnModificar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnAgregarActionPerformed
-        // TODO add your handling code here:
-        Agregar();
-    }//GEN-LAST:event_jbnAgregarActionPerformed
-
     private void jbnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancelarActionPerformed
         // TODO add your handling code here:
-        permisos jfmPermisos = new permisos();
+        PermisosTipo jfmPermisos = new PermisosTipo();
         jfmPermisos.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnCancelarActionPerformed
+
+    private void jbnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnModificarActionPerformed
+        // TODO add your handling code here:
+         Modificar();
+    }//GEN-LAST:event_jbnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,20 +228,21 @@ public class AgregarPermiso extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarPermiso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPermisoTipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarPermiso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPermisoTipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarPermiso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPermisoTipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarPermiso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarPermisoTipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarPermiso().setVisible(true);
+                new ModificarPermisoTipo("").setVisible(true);
             }
         });
     }
@@ -269,15 +250,13 @@ public class AgregarPermiso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JButton jbnAgregar;
     private javax.swing.JButton jbnCancelar;
+    private javax.swing.JButton jbnModificar;
     private javax.swing.JCheckBox jcbAgregar;
     private javax.swing.JCheckBox jcbBorrar;
     private javax.swing.JCheckBox jcbIngresar;
-    private javax.swing.JCheckBox jcbModificar;
-    private javax.swing.JComboBox<String> jcmbModulo;
-    private javax.swing.JComboBox<String> jcmbRol;
+    private javax.swing.JCheckBox jdbModificar;
+    private javax.swing.JLabel jlbModulo;
+    private javax.swing.JLabel jlbTipo;
     // End of variables declaration//GEN-END:variables
 }
