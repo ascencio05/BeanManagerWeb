@@ -178,7 +178,9 @@ public class menuInicio  extends javax.swing.JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
               Load l=new Load(3);
-               l.setVisible(true);
+               l.session = session;
+                    l.padre = autoreference;
+                    l.setVisible(true); 
                cerrar();
             }
 
@@ -207,8 +209,9 @@ public class menuInicio  extends javax.swing.JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {  
                Load l=new Load(4);
-               l.setVisible(true);
-               cerrar();
+               l.session = session;
+                    l.padre = autoreference;
+                    l.setVisible(true); 
             }
 
             @Override

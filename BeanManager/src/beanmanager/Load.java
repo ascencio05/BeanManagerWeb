@@ -77,7 +77,7 @@ public class Load extends javax.swing.JFrame {
                 menuUsr.setVisible(true);
                 break;
             case 4:
-               IndexProyecto a=new IndexProyecto();
+               IndexProyecto a=new IndexProyecto(session);
                a.setVisible(true);
              break;
             case 5:
