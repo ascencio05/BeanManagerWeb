@@ -66,7 +66,7 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="btnEliminarProgramador" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnNuevoProgramador" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnVerProgramador" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -81,10 +81,9 @@
                               <Component id="btnNuevaActividad" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="259" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnAnterior" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="txtNumero" min="-2" pref="55" max="-2" attributes="0"/>
@@ -92,10 +91,11 @@
                       <Component id="lblNumero" min="-2" pref="51" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnSiguiente" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="256" max="-2" attributes="0"/>
                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
@@ -111,19 +111,20 @@
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblNumero" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btnAnterior" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSiguiente" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNumero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblNombreProyecto" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
@@ -152,7 +153,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnNuevoProgramador" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVerProgramador" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnEliminarProgramador" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnNuevaActividad" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnEditarActividad" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -314,13 +315,13 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEliminarProgramadorMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnNuevoProgramador">
+    <Component class="javax.swing.JButton" name="btnVerProgramador">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Editar"/>
+        <Property name="text" type="java.lang.String" value="Ver Todos"/>
         <Property name="toolTipText" type="java.lang.String" value="Nuevo Editar Programadores"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNuevoProgramadorMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVerProgramadorMouseClicked"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnNuevaActividad">

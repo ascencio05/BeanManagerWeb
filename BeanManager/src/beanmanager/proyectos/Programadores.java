@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package beanmanager.proyectos;
+import beanmanager.clases.SeguridadProyectos;
 import beanmanager.controles.Bdd;
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.*;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -74,7 +76,12 @@ public class Programadores extends javax.swing.JFrame {
                 movimiento[i]=false;
                 i++;
             } 
-            
+              //PERMISOS (SeguridadProyectos(IDMODULO,IDUSUARIO,CONNECTION,AGREGAR[],MODIFICAR[],ELIMINAR[])
+               Component[] agregar={btnAgregar};
+               Component[] eliminar={btnSacar};
+               Component[] modificar=null;
+               SeguridadProyectos Seg=new SeguridadProyectos(2,1,baseDatos.con,agregar,modificar,eliminar);
+               // Fin PERMISOS
             mostrarProgramadores();
         }
         catch(Exception e)

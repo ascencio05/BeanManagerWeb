@@ -81,10 +81,11 @@ public class IndexProyecto extends javax.swing.JFrame {
                 //Fin Actividades
                 
                 //PERMISOS (SeguridadProyectos(IDMODULO,IDUSUARIO,CONNECTION,AGREGAR[],MODIFICAR[],ELIMINAR[])
-               Component[] agregar={btnNuevaActividad,btnNuevoProgramador};
-               Component[] eliminar={btnNuevoProgramador,btnEliminarActividad,btnEliminarProgramador};
-               Component[] modificar={btnEditarActividad,btnNuevoProgramador};
+               Component[] agregar={btnNuevaActividad};
+               Component[] eliminar={btnEliminarActividad,btnEliminarProgramador};
+               Component[] modificar={btnEditarActividad};
                SeguridadProyectos Seg=new SeguridadProyectos(2,1,baseDatos.con,agregar,modificar,eliminar);
+               // Fin PERMISOS
                mostrarDatos();
             }
             else
@@ -126,7 +127,7 @@ public class IndexProyecto extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblActividades = new javax.swing.JTable();
         btnEliminarProgramador = new javax.swing.JButton();
-        btnNuevoProgramador = new javax.swing.JButton();
+        btnVerProgramador = new javax.swing.JButton();
         btnNuevaActividad = new javax.swing.JButton();
         btnEditarActividad = new javax.swing.JButton();
         btnEliminarActividad = new javax.swing.JButton();
@@ -225,11 +226,11 @@ public class IndexProyecto extends javax.swing.JFrame {
             }
         });
 
-        btnNuevoProgramador.setText("Editar");
-        btnNuevoProgramador.setToolTipText("Nuevo Editar Programadores");
-        btnNuevoProgramador.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnVerProgramador.setText("Ver Todos");
+        btnVerProgramador.setToolTipText("Nuevo Editar Programadores");
+        btnVerProgramador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnNuevoProgramadorMouseClicked(evt);
+                btnVerProgramadorMouseClicked(evt);
             }
         });
 
@@ -314,7 +315,7 @@ public class IndexProyecto extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnEliminarProgramador)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNuevoProgramador)))
+                                .addComponent(btnVerProgramador)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -324,10 +325,9 @@ public class IndexProyecto extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnEditarActividad)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNuevaActividad)))
-                        .addContainerGap())
+                                .addComponent(btnNuevaActividad))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(259, 259, 259)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAnterior)
                         .addGap(28, 28, 28)
                         .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -335,8 +335,9 @@ public class IndexProyecto extends javax.swing.JFrame {
                         .addComponent(lblNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSiguiente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))))
+                        .addGap(256, 256, 256)
+                        .addComponent(jButton1)))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(262, Short.MAX_VALUE)
@@ -348,15 +349,16 @@ public class IndexProyecto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(44, 44, 44))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAnterior)
                             .addComponent(btnSiguiente)
-                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)))
+                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -380,7 +382,7 @@ public class IndexProyecto extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevoProgramador)
+                    .addComponent(btnVerProgramador)
                     .addComponent(btnEliminarProgramador)
                     .addComponent(btnNuevaActividad)
                     .addComponent(btnEditarActividad)
@@ -502,11 +504,11 @@ public class IndexProyecto extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void btnNuevoProgramadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNuevoProgramadorMouseClicked
+    private void btnVerProgramadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerProgramadorMouseClicked
         Programadores Pro=new Programadores(idProyecto[numeroActual-1]);
         Pro.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_btnNuevoProgramadorMouseClicked
+    }//GEN-LAST:event_btnVerProgramadorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -614,8 +616,8 @@ public class IndexProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarActividad;
     private javax.swing.JButton btnEliminarProgramador;
     private javax.swing.JButton btnNuevaActividad;
-    private javax.swing.JButton btnNuevoProgramador;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnVerProgramador;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
