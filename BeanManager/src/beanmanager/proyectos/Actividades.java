@@ -97,6 +97,7 @@ public class Actividades extends javax.swing.JFrame {
                 apellidoProgramador[i]=rs.getString("A.apellido");
                 estadoProgramador[i]=false;
                 estadoProgramadorOriginal[i]=false;
+
                 i++;
             } 
             
@@ -136,9 +137,9 @@ public class Actividades extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
         btnSacar = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
-        btnAtras = new javax.swing.JButton();
         cbTipo = new javax.swing.JComboBox();
+        btnAtras = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,6 +161,7 @@ public class Actividades extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtFechaInicio.setToolTipText("(yyyy-MM-dd)");
         txtFechaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaInicioActionPerformed(evt);
@@ -171,6 +173,7 @@ public class Actividades extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtFechaFinal.setToolTipText("(yyyy-MM-dd)");
         txtFechaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaFinalActionPerformed(evt);
@@ -203,7 +206,7 @@ public class Actividades extends javax.swing.JFrame {
         jScrollPane2.setViewportView(txtDescripcion);
 
         jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel6.setText("Programadores en la Actividad:");
+        jLabel6.setText("Usuarios en la Actividad:");
 
         tblActividad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -224,10 +227,11 @@ public class Actividades extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tblActividad);
 
         jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel7.setText("Programadores Disponibles:");
+        jLabel7.setText("Usuarios Disponibles:");
+        jLabel7.setToolTipText("");
 
         btnAgregar.setText("Agregar>");
-        btnAgregar.setToolTipText("");
+        btnAgregar.setToolTipText("Agregar usuario a la actividad.");
         btnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAgregarMouseClicked(evt);
@@ -240,21 +244,27 @@ public class Actividades extends javax.swing.JFrame {
         });
 
         btnSacar.setText("<Sacar");
-        btnSacar.setToolTipText("");
+        btnSacar.setToolTipText("Sacar usuario de la Actividad.");
         btnSacar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSacarMouseClicked(evt);
             }
         });
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGuardarMouseClicked(evt);
+        cbTipo.setToolTipText("Elegir un tipo");
+        cbTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTipoItemStateChanged(evt);
             }
         });
 
-        btnAtras.setText("< Atras");
+        btnAtras.setBackground(new java.awt.Color(255, 255, 255));
+        btnAtras.setForeground(new java.awt.Color(255, 255, 255));
+        btnAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/backtousers.png"))); // NOI18N
+        btnAtras.setToolTipText("Menu Proyectos");
+        btnAtras.setBorder(null);
+        btnAtras.setBorderPainted(false);
+        btnAtras.setFocusable(false);
         btnAtras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAtrasMouseClicked(evt);
@@ -266,9 +276,18 @@ public class Actividades extends javax.swing.JFrame {
             }
         });
 
-        cbTipo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbTipoItemStateChanged(evt);
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/guardar.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.setToolTipText("Guardar");
+        btnGuardar.setBorderPainted(false);
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseClicked(evt);
+            }
+        });
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
             }
         });
 
@@ -276,36 +295,14 @@ public class Actividades extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAtras)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(jLabel7)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSacar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNombre))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnAtras))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
@@ -315,41 +312,69 @@ public class Actividades extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(20, 20, 20))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbTipo, 0, 196, Short.MAX_VALUE)))))
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addComponent(btnGuardar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSacar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(24, 24, 24)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7))
+                    .addComponent(jLabel6))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7))
-                            .addComponent(jLabel6))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(66, 66, 66)
@@ -363,16 +388,15 @@ public class Actividades extends javax.swing.JFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
-                                .addComponent(jLabel5)))
-                        .addGap(0, 8, Short.MAX_VALUE))
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)
-                        .addGap(32, 32, 32))))
+                        .addGap(277, 277, 277)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -385,16 +409,6 @@ public class Actividades extends javax.swing.JFrame {
     private void txtFechaFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaFinalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaFinalActionPerformed
-
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAtrasActionPerformed
-
-    private void btnAtrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAtrasMouseClicked
-        IndexProyecto Index = new IndexProyecto();
-        Index.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnAtrasMouseClicked
 
     private void cbTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTipoItemStateChanged
         
@@ -411,7 +425,10 @@ public class Actividades extends javax.swing.JFrame {
            if(!estadoProgramador[i])
            {
                 if(tblDisponibles.getSelectedRow()==cont)
+                {
                     estadoProgramador[i]=true;
+
+                }
                 cont++;
            }
        
@@ -431,50 +448,125 @@ public class Actividades extends javax.swing.JFrame {
        ponerProgramadores();
     }//GEN-LAST:event_btnSacarMouseClicked
 
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnAtrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAtrasMouseClicked
+  
+        IndexProyecto Index = new IndexProyecto();
+        Index.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAtrasMouseClicked
+
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+   
         String nombre,fechaInicio,fechaFinal,descripcion,query= new String(),query2= new String();
         int tipoActividad;
+        boolean pruebas=true;
         nombre=txtNombre.getText();
         fechaInicio=txtFechaInicio.getText();
         fechaFinal=txtFechaFinal.getText();
         Item pivote= (Item)cbTipo.getSelectedItem();
         tipoActividad=pivote.getId();
         descripcion=txtDescripcion.getText();
-        if(idActividad<=0)
-            query="INSERT INTO Actividades(idProyecto,idTipo,titulo,descripcion,fechaInicio,fechaFinal,estado,eliminado) VALUES("+idProyecto+","+tipoActividad+",'"+nombre+"','"+descripcion+"','"+fechaInicio+"','"+fechaFinal+"',0,0)";
-        else
-            query="UPDATE Actividades SET idTipo="+tipoActividad+", titulo='"+nombre+"',descripcion='"+descripcion+"',fechaInicio='"+fechaInicio+"',fechaFinal='"+fechaFinal+"' WHERE idActividad="+idActividad;
-        try{ st.executeUpdate(query);}catch(Exception e){ JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
         
-        if(idActividad<=0)
+        int fI=Integer.parseInt(fechaInicio.replace("-", ""));
+        int fF=Integer.parseInt(fechaFinal.replace("-", ""));
+        if(fI>fF)
         {
-            try
-            {
-                rs=st.executeQuery("SELECT MAX(idActividad) FROM Actividades");
-                rs.next();
-                idActividad=rs.getInt("MAX(idActividad)");
-            }
-            catch(Exception e)
-            { JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
+            pruebas=false;
+            JOptionPane.showMessageDialog(null, "La fecha final debe ser mayor a la fecha de incio.");
+            txtFechaInicio.setText("");
+            txtFechaFinal.setText("");
         }
         
-        for(int i = 0 ; i<idProgramador.length;i++)
+        fI=Integer.parseInt(fechaInicio.substring(5,7));
+        fF=Integer.parseInt(fechaFinal.substring(5,7));
+        
+        if((fI<1||fI>12||fF<1||fF>12)&&pruebas)
         {
-            if(estadoProgramador[i]!=estadoProgramadorOriginal[i])
+            pruebas=false;
+            JOptionPane.showMessageDialog(null, "(yy-MM-dd) Meses solo del 1 al 12");
+            txtFechaInicio.setText("");
+            txtFechaFinal.setText("");
+        }
+        
+        int fIDia=Integer.parseInt(fechaInicio.substring(8,10));
+        int fFDia=Integer.parseInt(fechaFinal.substring(8,10));
+
+            if(fI==2&&fIDia>28&&pruebas)
             {
-                if(!estadoProgramadorOriginal[i])
-                     query2="INSERT INTO ActividadesxUsuarios(idActividad,idUsuario) VALUES("+idActividad+","+idProgramador[i]+");";
-                else
-                     query2="UPDATE ActividadesxUsuarios SET eliminado=1 WHERE idUsuario="+idProgramador[i];
-                try{st.executeUpdate(query2);}catch(Exception e){ JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
+                pruebas=false;
+                JOptionPane.showMessageDialog(null, "(yy-MM-dd) Febrero solo llega  28 dias");
+                txtFechaInicio.setText("");
             }
-        }        
-                IndexProyecto Index = new IndexProyecto();
-                Index.setVisible(true);
-                this.setVisible(false);       
+            if(fF==2&&fFDia>28&&pruebas)
+            {
+                pruebas=false;
+                JOptionPane.showMessageDialog(null, "(yy-MM-dd) Febrero solo llega  28 dias");
+                txtFechaFinal.setText("");
+            }
+            if((fI==4||fI==6||fI==9||fI==11)&&fIDia>30&&pruebas)
+            {
+                pruebas=false;
+                JOptionPane.showMessageDialog(null, "(yy-MM-dd) Mes solo llega a 30 dias");
+                txtFechaInicio.setText("");
+            }
+            if((fF==4||fF==6||fF==9||fF==11)&&fFDia>30&&pruebas)
+            {
+                pruebas=false;
+                JOptionPane.showMessageDialog(null, "(yy-MM-dd) Mes solo llega a 30 dias");
+                txtFechaFinal.setText("");
+            }
+
+
+        if(nombre.isEmpty()&&pruebas)
+        {
+            JOptionPane.showMessageDialog(null, "Debe colocar un titulo a la actividad");
+                pruebas=false;
+        }
+        if(pruebas)
+        {
+                if(idActividad<=0)
+                    query="INSERT INTO Actividades(idProyecto,idTipo,titulo,descripcion,fechaInicio,fechaFinal,estado,eliminado) VALUES("+idProyecto+","+tipoActividad+",'"+nombre+"','"+descripcion+"','"+fechaInicio+"','"+fechaFinal+"',0,0)";
+                else
+                    query="UPDATE Actividades SET idTipo="+tipoActividad+", titulo='"+nombre+"',descripcion='"+descripcion+"',fechaInicio='"+fechaInicio+"',fechaFinal='"+fechaFinal+"' WHERE idActividad="+idActividad;
+                try{ st.executeUpdate(query);}catch(Exception e){ JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
+
+                if(idActividad<=0)
+                {
+                    try
+                    {
+                        rs=st.executeQuery("SELECT MAX(idActividad) FROM Actividades");
+                        rs.next();
+                        idActividad=rs.getInt("MAX(idActividad)");
+                    }
+                    catch(Exception e)
+                    { JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
+                }
+
+                for(int i = 0 ; i<idProgramador.length;i++)
+                {
+                    if(estadoProgramador[i]!=estadoProgramadorOriginal[i])
+                    {
+                        if(!estadoProgramadorOriginal[i])
+                             query2="INSERT INTO ActividadesxUsuarios(idActividad,idUsuario) VALUES("+idActividad+","+idProgramador[i]+");";
+                        else
+                             query2="UPDATE ActividadesxUsuarios SET eliminado=1 WHERE idUsuario="+idProgramador[i];
+                        try{st.executeUpdate(query2);}catch(Exception e){ JOptionPane.showMessageDialog(null, "Error en BDD: "+e.toString());}
+                    }
+                }        
+                        IndexProyecto Index = new IndexProyecto();
+                        Index.setVisible(true);
+                        this.setVisible(false);       
         
-        
+        }
     }//GEN-LAST:event_btnGuardarMouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -543,9 +635,9 @@ public class Actividades extends javax.swing.JFrame {
         
         for(int i =0;i<idProgramador.length;i++)
             if(estadoProgramador[i])
-                modelTblActividad.insertRow(modelTblActividad.getRowCount(), new Object[]{nombreProgramador[i],nombreProgramador[i]});
+                modelTblActividad.insertRow(modelTblActividad.getRowCount(), new Object[]{nombreProgramador[i],apellidoProgramador[i]});
             else
-                modelTblDisponibles.insertRow(modelTblDisponibles.getRowCount(), new Object[]{nombreProgramador[i],nombreProgramador[i]});
+                modelTblDisponibles.insertRow(modelTblDisponibles.getRowCount(), new Object[]{nombreProgramador[i],apellidoProgramador[i]});
     
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

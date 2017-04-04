@@ -194,8 +194,9 @@ public class menuInicio  extends javax.swing.JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent e) {  
-               IndexProyecto frmProyecto = new IndexProyecto();
-               frmProyecto.setVisible(true);
+                
+               Load l=new Load(4);
+               l.setVisible(true);
                cerrar();
             }
 
