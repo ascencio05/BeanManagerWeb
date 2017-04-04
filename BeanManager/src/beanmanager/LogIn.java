@@ -5,6 +5,8 @@
  */
 package beanmanager;
 
+import java.awt.Color;
+
 /**
  *
  * @author Rodrigo
@@ -16,6 +18,12 @@ public class LogIn extends javax.swing.JFrame {
      */
     public LogIn() {
         initComponents();
+        setResizable(false); //Quitar Resize
+        setLocationRelativeTo(null);//Centra pantalla
+        setSize(350,130);
+        jPanel1.setBackground(Color.white);
+        jPanel2.setBackground(Color.white);
+        jPanel3.setBackground(Color.white);
     }
 
     /**
@@ -35,11 +43,12 @@ public class LogIn extends javax.swing.JFrame {
         txtPass = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel1.setText("Usuario:");
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -48,7 +57,7 @@ public class LogIn extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1);
 
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel2.setText("Contraseña:");
         jPanel2.add(jLabel2);
@@ -56,15 +65,27 @@ public class LogIn extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2);
 
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         jButton1.setText("Entrar");
         jPanel3.add(jButton1);
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnSalir);
 
         getContentPane().add(jPanel3);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+       dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -102,6 +123,7 @@ public class LogIn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

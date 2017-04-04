@@ -15,6 +15,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import beanmanager.clases.Proyecto;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -30,6 +35,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     JTable table;
     public Bdd db;
     List<Proyecto> proyectos = new ArrayList<>();
+    boolean busqueda;
     /**
      * Creates new form VerSolicitudes
      */
@@ -47,7 +53,66 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         jScrollPane1.add(table);
         jScrollPane1.setViewportView(table);
         db = padre.db;
-        loadSol();
+        txtBusqueda.setSize(10, 28);
+        getContentPane().setBackground(Color.white);
+        jPanel1.setBackground(Color.white);
+        jPanel2.setBackground(Color.white);
+        loadSol(false,false,null);
+        eventBusqueda();
+    }
+    
+    public void eventBusqueda()
+    {
+        txtBusqueda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                busqueda  =true;
+                String opcion = cmbBusqueda.getSelectedItem().toString();
+                if(opcion.equals("Titulo"))
+                {
+                    String cmd = "select Usuarios.correo, Proyecto.idProyecto, Proyecto.titulo, "
+                                + "Proyecto.descripcion, Proyecto.fechaInicio, Proyecto.fechaFinal, "
+                                + "Proyecto.fechaCreacion from Proyecto inner join Usuarios on "
+                                + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0 "
+                            + "and Proyecto.titulo like ?";
+                    loadSol(true, true, cmd);
+                }
+                else
+                {
+                    String cmd = "select Usuarios.correo, Proyecto.idProyecto, Proyecto.titulo, "
+                                + "Proyecto.descripcion, Proyecto.fechaInicio, Proyecto.fechaFinal, "
+                                + "Proyecto.fechaCreacion from Proyecto inner join Usuarios on "
+                                + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0 "
+                            + "and Proyecto.idProyecto = ?";
+                    loadSol(true, false, cmd);
+                }
+            }
+        });
+        
+        txtBusqueda.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(busqueda)
+                {
+                    if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                    {
+                        DefaultTableModel model = (DefaultTableModel)table.getModel();
+                        model.setRowCount(0);
+                        loadSol(false,false,null);
+                    }
+                    busqueda = false;
+                    txtBusqueda.setText("");
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
     }
     
     public JTable initTable()
@@ -62,15 +127,35 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         return table;
     }
     
-    private void loadSol()
+    private void loadSol(boolean busqueda, boolean mode, String cmd)
     {
-        String cmd = "select Usuarios.correo, Proyecto.idProyecto, Proyecto.titulo, "
+        if(!busqueda)
+        {
+            cmd = "select Usuarios.correo, Proyecto.idProyecto, Proyecto.titulo, "
                 + "Proyecto.descripcion, Proyecto.fechaInicio, Proyecto.fechaFinal, "
                 + "Proyecto.fechaCreacion from Proyecto inner join Usuarios on "
                 + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0";
+        }
+        else
+        {
+            DefaultTableModel model = (DefaultTableModel)table.getModel();
+            model.setRowCount(0);
+        }
         try {
+            List<Object> parametros = new ArrayList<>();
             db.setPreparedQuery(cmd);
-            ResultSet rs = db.executeReader(null);
+            if(busqueda)
+            {
+                if(mode)
+                {
+                    parametros.add(txtBusqueda.getText() + "%");
+                }
+                else
+                {
+                    parametros.add(txtBusqueda.getText());
+                }
+            }
+            ResultSet rs = db.executeReader(parametros);
             while(rs.next())
             {
                 String usuario = rs.getString("correo");
@@ -107,6 +192,10 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         btnDetalles = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtBusqueda = new javax.swing.JTextField();
+        cmbBusqueda = new javax.swing.JComboBox<>();
 
         setClosable(true);
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -130,6 +219,18 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         jPanel1.add(btnAceptar);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+
+        jPanel2.setLayout(new java.awt.GridLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Buscar:");
+        jPanel2.add(jLabel1);
+        jPanel2.add(txtBusqueda);
+
+        cmbBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Titulo", "Id" }));
+        jPanel2.add(cmbBusqueda);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -160,7 +261,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
             try {
                 aux.aceptarSolicitud(db);
                 model.setRowCount(0);
-                loadSol();
+                loadSol(false,false,null);
                 JOptionPane.showMessageDialog(null, "Solicitud aceptada.");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al aceptar solicitud");
@@ -173,7 +274,11 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnDetalles;
+    private javax.swing.JComboBox<String> cmbBusqueda;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtBusqueda;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ package beanmanager.solicitudes;
 import beanmanager.clases.Proyecto;
 import beanmanager.controles.Bdd;
 import beanmanager.proyectos.IndexProyecto;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,6 +33,16 @@ public class Detalles extends javax.swing.JInternalFrame {
         req= new VerRequerimientos(p);
         padre = p;
         db = padre.db;
+        getContentPane().setBackground(Color.white);
+        jPanel1.setBackground(Color.white);
+        jPanel2.setBackground(Color.white);
+        jPanel3.setBackground(Color.white);
+        jPanel4.setBackground(Color.white);
+        jPanel5.setBackground(Color.white);
+        jPanel6.setBackground(Color.white);
+        jPanel7.setBackground(Color.white);
+        jPanel8.setBackground(Color.white);
+        txtDes.setEditable(false);
     }
 
     public void setActual()
@@ -132,6 +143,8 @@ public class Detalles extends javax.swing.JInternalFrame {
         jPanel7.add(jLabel13);
 
         jPanel5.add(jPanel7);
+
+        txtDes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 102)));
         jPanel5.add(txtDes);
 
         getContentPane().add(jPanel5);

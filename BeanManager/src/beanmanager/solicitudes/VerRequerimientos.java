@@ -8,6 +8,7 @@ package beanmanager.solicitudes;
 import beanmanager.clases.Proyecto;
 import beanmanager.clases.Requerimiento;
 import beanmanager.proyectos.IndexProyecto;
+import java.awt.Color;
 
 /**
  *
@@ -29,6 +30,14 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
         initComponents();
         padres = p;
         page = 0;
+        getContentPane().setBackground(Color.white);
+        
+        jPanel1.setBackground(Color.white);
+        jPanel2.setBackground(Color.white);
+        jPanel3.setBackground(Color.white);
+        jPanel5.setBackground(Color.white);
+        jPanel6.setBackground(Color.white);
+        tfProyecto.setEditable(false);
     }
 
     /**
@@ -94,7 +103,9 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
 
         jPanel5.setBorder(null);
 
-        jLabel9.setText("Proyecto:");
+        jLabel9.setText("Requerimiento");
+
+        tfProyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 102)));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -106,7 +117,7 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
                     .addComponent(tfProyecto)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(0, 388, Short.MAX_VALUE)))
+                        .addGap(0, 356, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(

@@ -6,6 +6,7 @@
 package beanmanager.solicitudes;
 
 import beanmanager.controles.Bdd;
+import java.awt.Color;
 
 /**
  *
@@ -23,7 +24,11 @@ public class IndexSolicitud extends javax.swing.JFrame {
         db = new Bdd();
         ver = new VerSolicitudes(this);
         detalles = new Detalles(this);
+        
         setSize(500, 500);
+        setLocationRelativeTo(null);//Centra pantalla
+        getContentPane().setBackground(Color.white);
+        setResizable(false);
     }
 
     /**
@@ -40,6 +45,7 @@ public class IndexSolicitud extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jMenu1.setText("Archivo");
 
