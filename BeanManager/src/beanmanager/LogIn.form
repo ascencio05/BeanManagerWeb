@@ -88,6 +88,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnAceptar">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/beanmanager/recursos/imagenes/entrar.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Entrar"/>
                   </Properties>
                   <Events>
@@ -96,6 +99,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSalir">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/beanmanager/recursos/imagenes/exit.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Salir"/>
                   </Properties>
                   <Events>

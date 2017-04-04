@@ -145,9 +145,15 @@ public class menuInicio  extends javax.swing.JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent e) { }
-
+                
             @Override
-            public void mousePressed(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {
+                Load l=new Load(2);
+               l.session = session;
+               l.padre = autoreference;
+               l.setVisible(true); 
+                cerrar();
+            }
 
             @Override
             public void mouseReleased(MouseEvent e) {}

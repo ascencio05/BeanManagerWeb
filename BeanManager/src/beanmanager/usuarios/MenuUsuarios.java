@@ -5,6 +5,7 @@
  */
 package beanmanager.usuarios;
 
+import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import beanmanager.menuInicio;
 import java.awt.Color;
@@ -29,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 public class MenuUsuarios extends javax.swing.JFrame {
 
     Bdd db = new Bdd("unconnected");
+    
 
     private TableRowSorter trsFiltro;
 
