@@ -8,6 +8,7 @@ package beanmanager;
 import beanmanager.proyectos.*;
 import beanmanager.controles.*;
 import beanmanager.ajustes.*;
+import beanmanager.clases.Permiso;
 import beanmanager.clases.Usuario;
 import beanmanager.solicitudes.*;
 import beanmanager.usuarios.MenuUsuarios;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -117,11 +119,17 @@ public class menuInicio  extends javax.swing.JFrame{
 
             @Override
             public void mousePressed(MouseEvent e) {
-               Load l=new Load(1);
-               l.session = session;
-               l.padre = autoreference;
-               l.setVisible(true); 
-                cerrar();
+                Permiso aux = session.getPermiso("3");
+                if(aux != null && aux.ingresar)
+                {
+                    Load l=new Load(1);
+                    l.session = session;
+                    l.padre = autoreference;
+                    l.setVisible(true); 
+                    cerrar();
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "No tiene permiso para ingresar aquí");
             }
 
             @Override
@@ -145,15 +153,9 @@ public class menuInicio  extends javax.swing.JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent e) { }
-                
+
             @Override
-            public void mousePressed(MouseEvent e) {
-                Load l=new Load(2);
-               l.session = session;
-               l.padre = autoreference;
-               l.setVisible(true); 
-                cerrar();
-            }
+            public void mousePressed(MouseEvent e) {}
 
             @Override
             public void mouseReleased(MouseEvent e) {}
@@ -205,7 +207,6 @@ public class menuInicio  extends javax.swing.JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {  
                Load l=new Load(4);
-               l.session = session;
                l.setVisible(true);
                cerrar();
             }
