@@ -6,6 +6,7 @@
 package beanmanager.solicitudes;
 
 import beanmanager.clases.Proyecto;
+import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import beanmanager.proyectos.IndexProyecto;
 import java.awt.Color;
@@ -20,6 +21,8 @@ public class Detalles extends javax.swing.JInternalFrame {
      public IndexSolicitud padre;
      public Proyecto actual;
      Bdd db;
+    public Usuario session;
+    
     /**
      * Creates new form Detalles
      */
@@ -182,6 +185,7 @@ public class Detalles extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         padre.add(req);
         req.actual = this.actual;
+        req.session = session;
         try {
             req.actual.getRequerimientos(this.db);
             if(req.actual.requerimientos.size()> 0)

@@ -5,6 +5,7 @@
  */
 package beanmanager;
 
+import beanmanager.clases.Usuario;
 import java.awt.Color;
 import beanmanager.proyectos.IndexProyecto;
 import beanmanager.solicitudes.IndexSolicitud;
@@ -18,6 +19,9 @@ import java.util.TimerTask;
  */
 public class Load extends javax.swing.JFrame {
     int opcion;
+    public menuInicio padre;
+    public Usuario session;
+    
     /**
      * Creates new form Load
      */
@@ -25,16 +29,15 @@ public class Load extends javax.swing.JFrame {
         initComponents();
         setResizable(false); //Quitar Resize
         setLocationRelativeTo(null);//Centra pantalla
-        setLayout(null); // Libre seleccion de tamaño
         getContentPane().setBackground(Color.decode("#FFFFFF"));//Colocamos fondo blanco
         
-        Timer timer= new Timer();
+        /*Timer timer= new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
               timerC();
             }
-          }, 1000);
+          }, 1000);*/
                 
        
        
@@ -63,6 +66,8 @@ public class Load extends javax.swing.JFrame {
         {
             case 1:
                 IndexSolicitud proyectos = new IndexSolicitud();
+                proyectos.session = session;
+                proyectos.padre = padre;
                 proyectos.setVisible(true);
                 break;
             case 2:
@@ -76,12 +81,17 @@ public class Load extends javax.swing.JFrame {
                IndexProyecto a=new IndexProyecto();
                a.setVisible(true);
              break;
+            case 5:
+               menuInicio m=new menuInicio();
+               m.setVisible(true);
+             break;
         }
         this.setVisible(false);
      
     }
 
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,8 +129,8 @@ public class Load extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 87, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 162, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)

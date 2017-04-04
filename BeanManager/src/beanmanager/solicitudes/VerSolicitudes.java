@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import beanmanager.clases.Proyecto;
+import beanmanager.clases.Usuario;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     public Bdd db;
     List<Proyecto> proyectos = new ArrayList<>();
     boolean busqueda;
+    public Usuario session;
     /**
      * Creates new form VerSolicitudes
      */
@@ -117,7 +119,13 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     
     public JTable initTable()
     {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Id","Titulo","Fecha Creación","Selección"}, 0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Id","Titulo","Fecha Creación","Selección"}, 0)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         
         JTable table = new JTable();
         table.setModel(model);
@@ -245,6 +253,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
 
             detalle.actual = aux;
             detalle.setActual();
+            detalle.session = session;
             this.hide();
             padre.detalles = detalle;
             padre.add(detalle);
@@ -259,7 +268,7 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         {
             Proyecto aux = (Proyecto) model.getValueAt(selected, 3);
             try {
-                aux.aceptarSolicitud(db);
+                aux.aceptarSolicitud(db,session);
                 model.setRowCount(0);
                 loadSol(false,false,null);
                 JOptionPane.showMessageDialog(null, "Solicitud aceptada.");

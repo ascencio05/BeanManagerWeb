@@ -7,6 +7,7 @@ package beanmanager.solicitudes;
 
 import beanmanager.clases.Proyecto;
 import beanmanager.clases.Requerimiento;
+import beanmanager.clases.Usuario;
 import beanmanager.proyectos.IndexProyecto;
 import java.awt.Color;
 
@@ -19,6 +20,7 @@ public class VerRequerimientos extends javax.swing.JInternalFrame {
     int page;
     Requerimiento actReq;
     public Proyecto actual;
+    public Usuario session;
     /**
      * Creates new form VerRequerimientos
      */

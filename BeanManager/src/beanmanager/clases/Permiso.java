@@ -11,17 +11,15 @@ package beanmanager.clases;
  */
 public class Permiso {
     String idPermiso;
-    String idTipo;
     String idModulo;
     boolean agregar;
     boolean borrar;
     boolean ingresar;
     boolean modificar;
     
-    public Permiso(String idPermiso, String idTipo, String idModulo, String agregar, String borrar, String modificar, String ingresar)
+    public Permiso(String idPermiso, String idModulo, String agregar, String borrar, String modificar, String ingresar)
     {
         this.idPermiso = idPermiso;
-        this.idTipo = idTipo;
         this.idModulo = idModulo;
         this.agregar = agregar.equals("1");
         this.borrar = borrar.equals("1");

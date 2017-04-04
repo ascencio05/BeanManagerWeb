@@ -72,7 +72,7 @@ public class Proyecto {
         }
     }
     
-    public void aceptarSolicitud(Bdd db) throws Exception
+    public void aceptarSolicitud(Bdd db, Usuario session) throws Exception
     {
         String cmd = "Update Proyecto set aceptado = 1 where idProyecto = ?";
         db.setPreparedQuery(cmd);
@@ -83,7 +83,7 @@ public class Proyecto {
         cmd = "Insert into Integrantes values(null,1,?,?,0)";
         db.setPreparedQuery(cmd);
         parametros = new ArrayList<>();
-        parametros.add("3");
+        parametros.add(session.idUsuario);
         parametros.add(this.idProyecto);
         db.executeQuery(parametros);
     }

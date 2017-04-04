@@ -8,6 +8,7 @@ package beanmanager;
 import beanmanager.proyectos.*;
 import beanmanager.controles.*;
 import beanmanager.ajustes.*;
+import beanmanager.clases.Usuario;
 import beanmanager.solicitudes.*;
 import beanmanager.usuarios.MenuUsuarios;
 import java.awt.Color;
@@ -35,6 +36,8 @@ public class menuInicio  extends javax.swing.JFrame{
     private JLabel etiquetaUsuarios ;
     private JLabel etiquetaAjustes ;
     private JLabel texto ;
+    public Usuario session;
+    private menuInicio autoreference;
     
    
     public menuInicio() {
@@ -45,6 +48,7 @@ public class menuInicio  extends javax.swing.JFrame{
         setLocationRelativeTo(null);//Centra pantalla
         setLayout(null); // Libre seleccion de tamaño
         initComponents();
+        autoreference = this;
     }
     
     private void initComponents()
@@ -114,6 +118,8 @@ public class menuInicio  extends javax.swing.JFrame{
             @Override
             public void mousePressed(MouseEvent e) {
                Load l=new Load(1);
+               l.session = session;
+               l.padre = autoreference;
                l.setVisible(true); 
                 cerrar();
             }
@@ -192,7 +198,6 @@ public class menuInicio  extends javax.swing.JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent e) {  
-                
                Load l=new Load(4);
                l.setVisible(true);
                cerrar();
