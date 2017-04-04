@@ -5,21 +5,58 @@
  */
 package beanmanager.usuarios;
 
+import beanmanager.controles.Bdd;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Monica Escrich
  */
 public class NuevoUsuario extends javax.swing.JFrame {
 
+    Bdd bdd = new Bdd(); 
+    boolean flagModificar=false, flagColorModificado=false;
+    int id_Usr;
+    String colorHexa; 
+    
     /**
      * Creates new form NuevoUsuario
      */
     public NuevoUsuario() {
         
+        initComponents();
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
+        llenarComboBox(); 
+    }
+    
+    public NuevoUsuario(int idUsuario) {
         
         initComponents();
+        setLocationRelativeTo(null);//Centra pantalla
+        setResizable(false); //Quitar Resize
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
+        flagModificar=true; 
+        id_Usr=idUsuario; 
+        modificaUsuario(idUsuario); 
+        
     }
 
     /**
@@ -49,8 +86,10 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jComboBoxRol = new javax.swing.JComboBox<>();
         jCheckBox1 = new javax.swing.JCheckBox();
         jButtonGuardar = new javax.swing.JButton();
+        jButtonBackMenuUsr = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel1.setText("Datos Usuario");
@@ -62,6 +101,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
                 jTextFieldApellidosActionPerformed(evt);
             }
         });
+        jTextFieldApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldApellidosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Nombres:");
 
@@ -70,6 +114,14 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jTextFieldNombres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombresActionPerformed(evt);
+            }
+        });
+        jTextFieldNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNombresKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldNombresKeyTyped(evt);
             }
         });
 
@@ -83,25 +135,58 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
         jLabel6.setText("Fecha Nacimiento:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFormattedTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jFormattedTextField1KeyTyped(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setText("Configuraciones de Usuario");
 
         jLabel8.setText("Contraseña: ");
 
+        jButtonColorGUI.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonColorGUI.setForeground(new java.awt.Color(255, 255, 255));
         jButtonColorGUI.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/colorGUI.png"))); // NOI18N
         jButtonColorGUI.setToolTipText("Color Interfaz de Usuario");
+        jButtonColorGUI.setBorder(null);
+        jButtonColorGUI.setBorderPainted(false);
+        jButtonColorGUI.setFocusable(false);
+        jButtonColorGUI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonColorGUIActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Rol:");
 
-        jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxRol.setModel(llenarComboBox());
 
         jCheckBox1.setText("Usuario Activo");
 
         jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/guardar.png"))); // NOI18N
         jButtonGuardar.setText("Guardar");
+        jButtonGuardar.setToolTipText("Guardar");
         jButtonGuardar.setBorderPainted(false);
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+
+        jButtonBackMenuUsr.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonBackMenuUsr.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonBackMenuUsr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/backtousers.png"))); // NOI18N
+        jButtonBackMenuUsr.setToolTipText("Menu Usuarios");
+        jButtonBackMenuUsr.setBorder(null);
+        jButtonBackMenuUsr.setFocusable(false);
+        jButtonBackMenuUsr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBackMenuUsrActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,8 +217,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
                                 .addGap(222, 222, 222))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonBackMenuUsr))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel2)
@@ -160,12 +248,17 @@ public class NuevoUsuario extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonBackMenuUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 33, Short.MAX_VALUE)
+                        .addGap(0, 29, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(58, 58, 58))
                     .addGroup(layout.createSequentialGroup()
@@ -191,7 +284,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(jButtonColorGUI))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -223,6 +316,244 @@ public class NuevoUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
+    private void jButtonBackMenuUsrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackMenuUsrActionPerformed
+        // TODO add your handling code here:
+        menuUsuario(); 
+    }//GEN-LAST:event_jButtonBackMenuUsrActionPerformed
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // TODO add your handling code here:
+       
+        if(validar())
+        {
+            if( InsertUsers()){
+            JOptionPane.showMessageDialog(null, "Usuario registrado con Exito!");
+            limpiar(); 
+            menuUsuario(); 
+            } 
+        }
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonColorGUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorGUIActionPerformed
+        // TODO add your handling code here:
+        flagColorModificado=true;
+        JColorChooser ventanaDeColores=new JColorChooser();
+        Color color=ventanaDeColores.showDialog(null, "Seleccione un Color", Color.gray);
+        color.getRGB(); 
+        colorHexa= String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());  
+    }//GEN-LAST:event_jButtonColorGUIActionPerformed
+
+    private void jTextFieldNombresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyPressed
+        // TODO add your handling code here:
+         
+              
+                
+    }//GEN-LAST:event_jTextFieldNombresKeyPressed
+
+    private void jTextFieldNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyTyped
+        // TODO add your handling code here:
+         jTextFieldNombres.addKeyListener(new KeyAdapter() {
+            public void keyTyped(final KeyEvent e) {
+                 char c = e.getKeyChar();
+                if (!((Character.isLetter(c)) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE)||(c == KeyEvent.VK_SPACE))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }});
+    }//GEN-LAST:event_jTextFieldNombresKeyTyped
+
+    private void jTextFieldApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldApellidosKeyTyped
+        // TODO add your handling code here:
+        jTextFieldApellidos.addKeyListener(new KeyAdapter() {
+            public void keyTyped(final KeyEvent e) {
+                 char c = e.getKeyChar();
+                if (!((Character.isLetter(c)) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE)||(c == KeyEvent.VK_SPACE))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }});
+    }//GEN-LAST:event_jTextFieldApellidosKeyTyped
+
+    private void jFormattedTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyTyped
+        // TODO add your handling code here:
+         jFormattedTextField1.addKeyListener(new KeyAdapter() {
+            public void keyTyped(final KeyEvent e) {
+                 char c = e.getKeyChar();
+                if (!((Character.isDigit(c)) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE)||(c == '/'))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }});
+    }//GEN-LAST:event_jFormattedTextField1KeyTyped
+    
+    
+    public boolean validar(){
+        
+        if(this.jTextFieldNombres.getText().equals("")|| this.jTextFieldApellidos.getText().equals("") 
+                || jFormattedTextField1.getText().equals("") || this.jTextFieldCorreo.getText().equals("")|| 
+                jPasswordFieldContra.getPassword().toString().equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Por favor Complete todos los campos");
+                return false; 
+            }
+        else
+            {
+                if(!verificaCorreo())
+                {
+                    JOptionPane.showMessageDialog(null, "Correo invalido, ingrese un correo valido");
+                    return false;
+                }
+                return true; 
+            }
+        
+    
+    }
+    
+    public DefaultComboBoxModel llenarComboBox(){
+        String cmd="SELECT `idRol`,`rol` FROM `rolesProyecto` where eliminado=0";
+       DefaultComboBoxModel descripcionRoles = new DefaultComboBoxModel();
+         try {
+            CargarRoles rol=null;
+            bdd.setPreparedQuery(cmd);
+            ResultSet rs = bdd.executeReader(null);
+            while(rs.next())
+            {
+                descripcionRoles.addElement(new CargarRoles(rs.getInt("idRol"),rs.getString("rol")));
+            }
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error CargarRoles()");
+        }
+        
+         return descripcionRoles;
+    }
+    
+    public void menuUsuario(){
+        MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
+        frmMenuUsr.setVisible(true); 
+        this.setVisible(false); 
+    }
+    
+    public boolean verificaCorreo()
+    {
+        Pattern pat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") ;
+         Matcher mat = pat.matcher(jTextFieldCorreo.getText());
+         if (mat.find()) {
+             return true;
+         } else {
+             return false;
+         }
+    }
+    public void modificaUsuario(int idUser)
+    {
+        
+        String cmd="SELECT Usuarios.idUsuario, Usuarios.nombre, Usuarios.contrasena, Usuarios.apellido, Usuarios.correo,"
+                +" Usuarios.fechaNacimiento, Usuarios.idTipo, Usuarios.eliminado " 
+                +" FROM Usuarios where Usuarios.idUsuario="+idUser;
+        
+         try {
+            bdd.setPreparedQuery(cmd);
+            ResultSet rs = bdd.executeReader(null);
+            while(rs.next())
+            {
+                CargarRoles.id =rs.getInt("idTipo");
+                jComboBoxRol.setSelectedIndex(CargarRoles.id-1);
+                jTextFieldNombres.setText(rs.getString("nombre")); 
+                jTextFieldApellidos.setText(rs.getString("apellido")); 
+                jTextFieldCorreo.setText(rs.getString("correo")); 
+                jPasswordFieldContra.setText(rs.getString("contrasena"));
+                jFormattedTextField1.setText(rs.getString("fechaNacimiento")); 
+                int x= rs.getInt("eliminado");
+                if (x==0)
+                    jCheckBox1.setSelected(false); 
+                else 
+                    jCheckBox1.setSelected(true); 
+                    
+               
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error modificar()");
+        }
+    
+    }
+    
+    public void limpiar(){
+        jTextFieldNombres.setText(""); 
+        jTextFieldApellidos.setText(""); 
+        jTextFieldCorreo.setText(""); 
+        jPasswordFieldContra.setText("");
+        jFormattedTextField1.setText(""); 
+        jCheckBox1.setSelected(false); 
+    }
+    
+    public boolean InsertUsers() {
+        
+        String cmd;
+        SimpleDateFormat sdf;
+        
+        if(!flagModificar){
+             cmd="INSERT INTO `Usuarios`( `idTipo`, `nombre`, `apellido`, `correo`, `contrasena`,"
+                 +"`fechaNacimiento`, `colorGUI`, `eliminado`) VALUES (?,?,?,?,?,?,?,?)";
+             
+             sdf = new SimpleDateFormat("dd/MM/yyyy");
+        }
+        else {
+            if (flagColorModificado)
+                cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
+                    +"`fechaNacimiento`=?,`colorGUI`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+            else
+                cmd="UPDATE `Usuarios` SET `idTipo`=?,`nombre`=?,`apellido`=?,`correo`=?,`contrasena`=?,"
+                    +"`fechaNacimiento`=?,`eliminado`=? WHERE idUsuario="+id_Usr;
+            sdf = new SimpleDateFormat("yyyy-MM-dd");
+        }
+            
+        
+         List<Object> parametros = new ArrayList<Object>();
+         
+        
+         
+         try{
+             // Convertir java.Date to SQL.Date
+                
+            Date parsed = null;
+            parsed = sdf.parse(jFormattedTextField1.getText());
+            java.sql.Date data = new java.sql.Date(parsed.getTime());
+                
+            CargarRoles rol= (CargarRoles) jComboBoxRol.getSelectedItem();
+                
+             //Parametros enviados a la consulta
+             parametros.add(rol.getId());
+             parametros.add(jTextFieldNombres.getText());
+             parametros.add(jTextFieldApellidos.getText());
+             parametros.add(jTextFieldCorreo.getText());
+             parametros.add(String.valueOf(jPasswordFieldContra.getPassword()));
+             parametros.add(data);
+             if(flagColorModificado)
+                parametros.add(colorHexa);
+             if(jCheckBox1.isSelected())
+                parametros.add(1);
+             else
+                 parametros.add(0);
+             
+             bdd.setPreparedQuery(cmd);
+           
+             bdd.executeQuery(parametros);
+             
+             return true; 
+            
+             
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error InsertUser()");
+            return false;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -259,6 +590,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonBackMenuUsr;
     private javax.swing.JButton jButtonColorGUI;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JCheckBox jCheckBox1;

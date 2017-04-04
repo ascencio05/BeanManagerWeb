@@ -5,20 +5,99 @@
  */
 package beanmanager.usuarios;
 
+import beanmanager.controles.Bdd;
+import java.awt.Color;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author Monica Escrich
  */
 public class MenuUsuarios extends javax.swing.JFrame {
 
+    Bdd db = new Bdd("unconnected");
+
+    private TableRowSorter trsFiltro;
+
     /**
      * Creates new form MenuUsuarios
      */
     public MenuUsuarios() {
         
+        initComponents();
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
-        initComponents();
+        getContentPane().setBackground(Color.decode("#FFFFFF"));
+        
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+
+            //Modificar el modelo por defecto de la tabla por un nuevo modelo previamente creado.
+           jTableUsuarios.setModel(modeloTabla);
+
+           //agrega columnas de la tabla
+           modeloTabla.setColumnIdentifiers(new Object [] {
+
+              "Id Usuario", "Nombres", "Apellidos", "Correo Electronico","Rol", "Fecha Nac"
+
+           });
+           
+           loadUsuarios(); 
+    }
+    
+    public void loadUsuarios(){
+    
+        String cmd="SELECT Usuarios.idUsuario, Usuarios.nombre, Usuarios.apellido, Usuarios.correo,"
+                +" Usuarios.fechaNacimiento, rolesProyecto.rol " 
+                +" FROM Usuarios JOIN rolesProyecto ON rolesProyecto.idRol = Usuarios.idTipo";
+        
+         try {
+            db.setPreparedQuery(cmd);
+            ResultSet rs = db.executeReader(null);
+            while(rs.next())
+            {
+                String idProyecto = rs.getString("idUsuario");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String fechaNac = rs.getString("fechaNacimiento");
+                String correo = rs.getString("correo");
+                String rol = rs.getString("rol");
+                
+                DefaultTableModel model = (DefaultTableModel) jTableUsuarios.getModel();
+                model.addRow(new String[] {idProyecto,nombre,apellido,correo,rol,fechaNac});
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error loadSol()");
+        }
+        
+
+    }
+    
+    public void filtro() {
+        
+        int columnaABuscar = 0;
+        if (jComboBoxFiltro.getSelectedItem() == "Id Usuario") {
+            columnaABuscar = 0;
+        }
+        if (jComboBoxFiltro.getSelectedItem().toString() == "Apellidos") {
+            columnaABuscar = 2;
+        }
+        if (jComboBoxFiltro.getSelectedItem() == "Correo Electronico") {
+            columnaABuscar = 3;
+        }
+        trsFiltro.setRowFilter(RowFilter.regexFilter(jTextFieldBuscar.getText(), columnaABuscar));
+
     }
 
     /**
@@ -34,11 +113,18 @@ public class MenuUsuarios extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
         jbtnModificarUsuario = new javax.swing.JButton();
+        jComboBoxFiltro = new javax.swing.JComboBox<>();
+        jTextFieldBuscar = new javax.swing.JTextField();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jbtnNuevoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/newuser.png"))); // NOI18N
         jbtnNuevoUsuario.setToolTipText("Agregar Nuevo Usuario");
+        jbtnNuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnNuevoUsuarioActionPerformed(evt);
+            }
+        });
 
         jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -54,7 +140,27 @@ public class MenuUsuarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableUsuarios);
 
         jbtnModificarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/modifyuser.png"))); // NOI18N
+
+        jbtnModificarUsuario.setToolTipText("Modificar/Ver Usuario");
+
         jbtnModificarUsuario.setToolTipText("Modificar Usuario");
+
+        jbtnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnModificarUsuarioActionPerformed(evt);
+            }
+        });
+
+
+        jComboBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Usuario", "Apellidos", "Correo Electronico"}));
+
+        jTextFieldBuscar.setToolTipText("Buscar Usuario");
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyTyped(evt);
+            }
+        });
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,24 +172,68 @@ public class MenuUsuarios extends javax.swing.JFrame {
                     .addComponent(jbtnNuevoUsuario)
                     .addComponent(jbtnModificarUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbtnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
-                        .addComponent(jbtnModificarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(jbtnModificarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbtnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoUsuarioActionPerformed
+        // TODO add your handling code here:
+        NuevoUsuario frmnew_usr = new NuevoUsuario(); 
+        frmnew_usr.setVisible(true);
+        this.setVisible(false); 
+    }//GEN-LAST:event_jbtnNuevoUsuarioActionPerformed
+
+    private void jbtnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarUsuarioActionPerformed
+        // TODO add your handling code here:
+        int column=0; 
+        int row= jTableUsuarios.getSelectedRow(); 
+        int idUsr= Integer.valueOf(jTableUsuarios.getModel().getValueAt(row, column).toString());
+        NuevoUsuario newusr = new NuevoUsuario(idUsr); 
+        newusr.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbtnModificarUsuarioActionPerformed
+
+
+    private void jTextFieldBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyTyped
+        // TODO add your handling code here:
+        jTextFieldBuscar.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTextFieldBuscar.getText());
+                jTextFieldBuscar.setText(cadena);
+                repaint();
+                filtro();
+            }
+        });
+        trsFiltro = new TableRowSorter(jTableUsuarios.getModel());
+        jTableUsuarios.setRowSorter(trsFiltro);
+
+    }//GEN-LAST:event_jTextFieldBuscarKeyTyped
+
 
     /**
      * @param args the command line arguments
@@ -121,8 +271,10 @@ public class MenuUsuarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBoxFiltro;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableUsuarios;
+    private javax.swing.JTextField jTextFieldBuscar;
     private javax.swing.JButton jbtnModificarUsuario;
     private javax.swing.JButton jbtnNuevoUsuario;
     // End of variables declaration//GEN-END:variables
