@@ -7,9 +7,9 @@ package beanmanager.usuarios;
 
 import beanmanager.controles.Bdd;
 import java.awt.Color;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
-
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,16 +18,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 import java.security.MessageDigest; 
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
@@ -106,6 +106,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
                 jTextFieldApellidosActionPerformed(evt);
             }
         });
+        jTextFieldApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldApellidosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Nombres:");
 
@@ -114,6 +119,14 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jTextFieldNombres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombresActionPerformed(evt);
+            }
+        });
+        jTextFieldNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNombresKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldNombresKeyTyped(evt);
             }
         });
 
@@ -128,6 +141,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jLabel6.setText("Fecha Nacimiento:");
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFormattedTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jFormattedTextField1KeyTyped(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setText("Configuraciones de Usuario");
@@ -310,13 +328,15 @@ public class NuevoUsuario extends javax.swing.JFrame {
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         // TODO add your handling code here:
-       if( InsertUsers()){
+       
+        if(validar())
+        {
+            if( InsertUsers()){
             JOptionPane.showMessageDialog(null, "Usuario registrado con Exito!");
             limpiar(); 
             menuUsuario(); 
-            
-       } 
-        
+            } 
+        }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jButtonColorGUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonColorGUIActionPerformed
@@ -327,6 +347,84 @@ public class NuevoUsuario extends javax.swing.JFrame {
         color.getRGB(); 
         colorHexa= String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());  
     }//GEN-LAST:event_jButtonColorGUIActionPerformed
+
+    private void jTextFieldNombresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyPressed
+        // TODO add your handling code here:
+         
+              
+                
+    }//GEN-LAST:event_jTextFieldNombresKeyPressed
+
+    private void jTextFieldNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombresKeyTyped
+        // TODO add your handling code here:
+         jTextFieldNombres.addKeyListener(new KeyAdapter() {
+            public void keyTyped(final KeyEvent e) {
+                 char c = e.getKeyChar();
+                if (!((Character.isLetter(c)) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE)||(c == KeyEvent.VK_SPACE))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }});
+    }//GEN-LAST:event_jTextFieldNombresKeyTyped
+
+    private void jTextFieldApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldApellidosKeyTyped
+        // TODO add your handling code here:
+        jTextFieldApellidos.addKeyListener(new KeyAdapter() {
+            public void keyTyped(final KeyEvent e) {
+                 char c = e.getKeyChar();
+                if (!((Character.isLetter(c)) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE)||(c == KeyEvent.VK_SPACE))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }});
+    }//GEN-LAST:event_jTextFieldApellidosKeyTyped
+
+    private void jFormattedTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyTyped
+        // TODO add your handling code here:
+         jFormattedTextField1.addKeyListener(new KeyAdapter() {
+            public void keyTyped(final KeyEvent e) {
+                 char c = e.getKeyChar();
+                if (!((Character.isDigit(c)) ||
+                (c == KeyEvent.VK_BACK_SPACE) ||
+                (c == KeyEvent.VK_DELETE)||(c == '/'))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }});
+    }//GEN-LAST:event_jFormattedTextField1KeyTyped
+    
+    
+    public boolean validar(){
+        
+        if(this.jTextFieldNombres.getText().equals("")|| this.jTextFieldApellidos.getText().equals("") 
+                || jFormattedTextField1.getText().equals("") || this.jTextFieldCorreo.getText().equals("")|| 
+                jPasswordFieldContra.getPassword().toString().equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Por favor Complete todos los campos");
+                return false; 
+            }
+        else
+            {
+                if(!verificaCorreo())
+                {
+                    JOptionPane.showMessageDialog(null, "Correo invalido, ingrese un correo valido");
+                    return false;
+                }
+                else if(!flagColorModificado)
+                {
+                    JOptionPane.showMessageDialog(null, "Seleccione un color para la interfaz de usuario");
+                    return false;
+                }
+                else
+                    return true; 
+            }
+        
+    
+    }
     
     public DefaultComboBoxModel llenarComboBox(){
         String cmd="SELECT `idRol`,`rol` FROM `rolesProyecto` where eliminado=0";
@@ -347,9 +445,24 @@ public class NuevoUsuario extends javax.swing.JFrame {
          return descripcionRoles;
     }
     
-
+    public void menuUsuario(){
+        MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
+        frmMenuUsr.setVisible(true); 
+        this.setVisible(false); 
+    }
     
-    public String encriptarMD5(String cadena){
+    public boolean verificaCorreo()
+    {
+        Pattern pat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") ;
+         Matcher mat = pat.matcher(jTextFieldCorreo.getText());
+         if (mat.find()) {
+             return true;
+         } else {
+             return false;
+         }
+    }
+    
+     public String encriptarMD5(String cadena){
       MessageDigest m;
       String encoded="";
         try {
@@ -362,14 +475,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
       
      return encoded ;
     }
-    
-
-    public void menuUsuario(){
-        MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
-        frmMenuUsr.setVisible(true); 
-        this.setVisible(false); 
-    }
-    
     public void modificaUsuario(int idUser)
     {
         
@@ -386,11 +491,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
                 jComboBoxRol.setSelectedIndex(CargarRoles.id-1);
                 jTextFieldNombres.setText(rs.getString("nombre")); 
                 jTextFieldApellidos.setText(rs.getString("apellido")); 
-
                 jTextFieldCorreo.setText(rs.getString("correo")); 
-
-                jTextFieldCorreo.setText(rs.getString("fechaNacimiento")); 
-
                 jPasswordFieldContra.setText(rs.getString("contrasena"));
                 jFormattedTextField1.setText(rs.getString("fechaNacimiento")); 
                 int x= rs.getInt("eliminado");
@@ -456,9 +557,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
              parametros.add(jTextFieldNombres.getText());
              parametros.add(jTextFieldApellidos.getText());
              parametros.add(jTextFieldCorreo.getText());
-
              parametros.add(encriptarMD5(String.valueOf(jPasswordFieldContra.getPassword())));
-
              parametros.add(data);
              if(flagColorModificado)
                 parametros.add(colorHexa);
