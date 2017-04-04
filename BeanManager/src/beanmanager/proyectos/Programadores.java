@@ -41,7 +41,7 @@ public class Programadores extends javax.swing.JFrame {
     {
         setResizable(false); //Quitar Resize
         setLocationRelativeTo(null);//Centra pantalla
-        setLayout(null); // Libre seleccion de tamaño
+            setLayout(null); // Libre seleccion de tamaño
         getContentPane().setBackground(Color.decode("#FFFFFF"));//Colocamos fondo blanco
         modelTblDisponibles=(DefaultTableModel)tblDisponibles.getModel();
         modelTblActividad=(DefaultTableModel)tblActividad.getModel();

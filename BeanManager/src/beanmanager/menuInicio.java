@@ -113,8 +113,8 @@ public class menuInicio  extends javax.swing.JFrame{
 
             @Override
             public void mousePressed(MouseEvent e) {
-                IndexSolicitud proyectos = new IndexSolicitud();
-                proyectos.setVisible(true);
+               Load l=new Load(1);
+               l.setVisible(true); 
                 cerrar();
             }
 
@@ -163,11 +163,9 @@ public class menuInicio  extends javax.swing.JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                 MenuUsuarios menuUsr = new MenuUsuarios();
-                menuUsr.setVisible(true);
-                cerrar();
-                
-            
+              Load l=new Load(3);
+               l.setVisible(true);
+               cerrar();
             }
 
             @Override

@@ -7,6 +7,8 @@ package beanmanager;
 
 import java.awt.Color;
 import beanmanager.proyectos.IndexProyecto;
+import beanmanager.solicitudes.IndexSolicitud;
+import beanmanager.usuarios.MenuUsuarios;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,7 +53,7 @@ public class Load extends javax.swing.JFrame {
             public void run() {
               timerC();
             }
-          },1000);
+          },100);
                 
         
     }
@@ -59,12 +61,23 @@ public class Load extends javax.swing.JFrame {
     {
         switch(opcion)
         {
+            case 1:
+                IndexSolicitud proyectos = new IndexSolicitud();
+                proyectos.setVisible(true);
+                break;
+            case 2:
+                //Inicio de Jacky
+                break;
+            case 3:
+                MenuUsuarios menuUsr = new MenuUsuarios();
+                menuUsr.setVisible(true);
+                break;
             case 4:
                IndexProyecto a=new IndexProyecto();
                a.setVisible(true);
-               this.setVisible(false);
              break;
         }
+        this.setVisible(false);
      
     }
 
