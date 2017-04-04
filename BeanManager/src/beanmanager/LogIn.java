@@ -164,7 +164,7 @@ public class LogIn extends javax.swing.JFrame {
                         load.dispose();
                         if(actual != null)
                         {
-                            JOptionPane.showMessageDialog(null,"Exito.");
+                            //JOptionPane.showMessageDialog(null,"Exito.");
                             menuInicio home = new menuInicio();
                             home.session = actual;
                             home.setVisible(true);
