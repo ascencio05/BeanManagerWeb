@@ -41,8 +41,7 @@ public class ModificarPermisos extends javax.swing.JFrame {
             if(resultado.next())
             {
                 jlbRol1.setText(resultado.getString("rol"));
-                jlbMod.setText("Módulo: "+resultado.getString("modulo"));
-                //JOptionPane.showMessageDialog(null, resultado.getString("rol")+" "+idPermiso+" "+resultado.getString("modulo"));
+                jlbMod.setText("Módulo: "+resultado.getString("modulo"));  
                 permiso = (resultado.getBoolean("ingresar"));
                 jcbIngresar.setSelected(permiso);
                 permiso = (resultado.getBoolean("agregar"));

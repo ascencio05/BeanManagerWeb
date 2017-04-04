@@ -47,7 +47,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
                 permiso = (resultado.getBoolean("agregar"));
                 jcbAgregar.setSelected(permiso);
                 permiso = (resultado.getBoolean("modificar"));
-                jdbModificar.setSelected(permiso);
+                jcbModificar.setSelected(permiso);
                 permiso = (resultado.getBoolean("borrar"));
                 jcbBorrar.setSelected(permiso);
               }
@@ -61,9 +61,15 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
     {
         try
         {
+                int modificar = (jcbModificar.isSelected())?1:0,
+                     agregar = (jcbAgregar.isSelected())?1:0, 
+                     borrar = (jcbBorrar.isSelected())?1:0,
+                     ingresar = (jcbIngresar.isSelected())?1:0;
+                String consulta="UPDATE `PermisosRoles` SET `modificar`="+modificar+","
+                        + "`agregar`="+agregar+",`borrar`="+borrar+",`ingresar`="+ingresar+" "
+                        + "WHERE `idPermiso`="+idPermiso;
+                
                 Bdd conexion = new Bdd();
-                String consulta="UPDATE `PermisosRoles` SET `modificar`="+jdbModificar.isSelected()+", `agregar`="+jcbAgregar.isSelected()+",`borrar`="+jcbBorrar.isSelected()+","
-                        + "`ingresar`="+jcbIngresar.isSelected()+" WHERE `idPermiso`="+idPermiso;
                 Statement stmt = conexion.con.createStatement();
                 int agregado = stmt.executeUpdate(consulta);
                 if(agregado>0)
@@ -102,7 +108,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jcbIngresar = new javax.swing.JCheckBox();
         jcbAgregar = new javax.swing.JCheckBox();
-        jdbModificar = new javax.swing.JCheckBox();
+        jcbModificar = new javax.swing.JCheckBox();
         jcbBorrar = new javax.swing.JCheckBox();
         jbnModificar = new javax.swing.JButton();
 
@@ -127,7 +133,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
 
         jcbAgregar.setText("Agregar");
 
-        jdbModificar.setText("Modificar");
+        jcbModificar.setText("Modificar");
 
         jcbBorrar.setText("Borrar");
 
@@ -148,7 +154,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcbIngresar)
-                            .addComponent(jdbModificar))
+                            .addComponent(jcbModificar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcbBorrar)
@@ -187,7 +193,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
                     .addComponent(jcbAgregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jdbModificar)
+                    .addComponent(jcbModificar)
                     .addComponent(jcbBorrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -255,7 +261,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
     private javax.swing.JCheckBox jcbAgregar;
     private javax.swing.JCheckBox jcbBorrar;
     private javax.swing.JCheckBox jcbIngresar;
-    private javax.swing.JCheckBox jdbModificar;
+    private javax.swing.JCheckBox jcbModificar;
     private javax.swing.JLabel jlbModulo;
     private javax.swing.JLabel jlbTipo;
     // End of variables declaration//GEN-END:variables
