@@ -48,8 +48,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
      * Creates new form NuevoUsuario
      */
     public NuevoUsuario() {
-//        if(Integer.parseInt(session.permisos.get(2).idModulo)==1)
-//              {
+        
         initComponents();
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize

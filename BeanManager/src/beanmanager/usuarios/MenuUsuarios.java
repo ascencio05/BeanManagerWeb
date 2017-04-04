@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 public class MenuUsuarios extends javax.swing.JFrame {
 
     Bdd db = new Bdd("unconnected");
-    public Usuario session; 
+     
     public menuInicio padre;
     private TableRowSorter trsFiltro;
     MenuUsuarios autoreference;
@@ -39,6 +39,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
      * Creates new form MenuUsuarios
      */
     public MenuUsuarios() {
+        
         
         initComponents();
         
@@ -62,18 +63,21 @@ public class MenuUsuarios extends javax.swing.JFrame {
            //agrega columnas de la tabla
            modeloTabla.setColumnIdentifiers(new Object [] {
 
-              "Id Usuario", "Nombres", "Apellidos", "Correo Electronico","Rol", "Fecha Nac"
+              "Id Usuario", "Nombres", "Apellidos", "Correo Electronico","Tipo", "Fecha Nac"
 
            });
            
            loadUsuarios(); 
+              
+        
+        
     }
     
     public void loadUsuarios(){
     
         String cmd="SELECT Usuarios.idUsuario, Usuarios.nombre, Usuarios.apellido, Usuarios.correo,"
-                +" Usuarios.fechaNacimiento, rolesProyecto.rol " 
-                +" FROM Usuarios JOIN rolesProyecto ON rolesProyecto.idRol = Usuarios.idTipo";
+                +" Usuarios.fechaNacimiento, TiposUsuario.tipo " 
+                +" FROM Usuarios JOIN TiposUsuario ON TiposUsuario.idTipo = Usuarios.idTipo";
         
          try {
             db.setPreparedQuery(cmd);
@@ -85,7 +89,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
                 String apellido = rs.getString("apellido");
                 String fechaNac = rs.getString("fechaNacimiento");
                 String correo = rs.getString("correo");
-                String rol = rs.getString("rol");
+                String rol = rs.getString("tipo");
                 
                 DefaultTableModel model = (DefaultTableModel) jTableUsuarios.getModel();
                 model.addRow(new String[] {idProyecto,nombre,apellido,correo,rol,fechaNac});
