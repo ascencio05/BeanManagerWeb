@@ -434,7 +434,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
     }
     
     public DefaultComboBoxModel llenarComboBox(){
-        String cmd="SELECT `idRol`,`rol` FROM `rolesProyecto` where eliminado=0";
+        String cmd="SELECT `idTipo`,`tipo` FROM `TiposUsuario` where eliminado=0";
        DefaultComboBoxModel descripcionRoles = new DefaultComboBoxModel();
          try {
             CargarRoles rol=null;
@@ -442,7 +442,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
             ResultSet rs = bdd.executeReader(null);
             while(rs.next())
             {
-                descripcionRoles.addElement(new CargarRoles(rs.getInt("idRol"),rs.getString("rol")));
+                descripcionRoles.addElement(new CargarRoles(rs.getInt("idTipo"),rs.getString("tipo")));
             }
              
         } catch (Exception e) {
