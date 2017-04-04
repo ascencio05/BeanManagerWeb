@@ -21,10 +21,7 @@ public class ModificarPermisos extends javax.swing.JFrame {
      */
     public ModificarPermisos(String id) {
         idPermiso = id;
-        initComponents();
-        jlbRol.setText("prueba");
-        jlbModulo.setText("prueba");
-//        JOptionPane.showMessageDialog(null, "Error: "+idPermiso);
+        initComponents();  
         CargarDatos();
         setLocationRelativeTo(null);
         setLayout(null);
@@ -43,8 +40,9 @@ public class ModificarPermisos extends javax.swing.JFrame {
             ResultSet resultado = stmt.executeQuery(consulta);
             if(resultado.next())
             {
-                jlbRol.setText(resultado.getString("rol"));
-                jlbModulo.setText("Módulo: "+resultado.getString("modulo"));
+                jlbRol1.setText(resultado.getString("rol"));
+                jlbMod.setText("Módulo: "+resultado.getString("modulo"));
+                //JOptionPane.showMessageDialog(null, resultado.getString("rol")+" "+idPermiso+" "+resultado.getString("modulo"));
                 permiso = (resultado.getBoolean("ingresar"));
                 jcbIngresar.setSelected(permiso);
                 permiso = (resultado.getBoolean("agregar"));
@@ -64,10 +62,12 @@ public class ModificarPermisos extends javax.swing.JFrame {
     {
         try
         {
-                Bdd conexion = new Bdd();
-                String consulta="UPDATE `Permisos` SET `modificar`="+jcbModificar.isSelected()+","
-                        + "`agregar`="+jcbAgregar.isSelected()+",`borrar`="+jcbBorrar.isSelected()+","
-                        + "`ingresar`="+jcbIngresar.isSelected()+" WHERE `idPermiso`= "+idPermiso;
+                 int modificar = (jcbModificar.isSelected())?1:0,
+                     agregar = (jcbAgregar.isSelected())?1:0, 
+                     borrar = (jcbBorrar.isSelected())?1:0,
+                     ingresar = (jcbIngresar.isSelected())?1:0;
+                String consulta="UPDATE `PermisosRoles` SET `modificar`="+modificar+",`agregar`="+agregar+",`borrar`="+borrar+",`ingresar`="+ingresar+" WHERE `idPermiso`="+idPermiso;
+                Bdd conexion = new Bdd();               
                 Statement stmt = conexion.con.createStatement();
                 int agregado = stmt.executeUpdate(consulta);
                 if(agregado>0)
@@ -109,6 +109,8 @@ public class ModificarPermisos extends javax.swing.JFrame {
         jbnCancelar = new javax.swing.JButton();
         jlbModulo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jlbRol1 = new javax.swing.JLabel();
+        jlbMod = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +140,10 @@ public class ModificarPermisos extends javax.swing.JFrame {
 
         jLabel2.setText("Permisos:");
 
+        jlbRol1.setText("jLabel3");
+
+        jlbMod.setText("jLabel3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,13 +152,12 @@ public class ModificarPermisos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlbRol)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jlbRol1, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcbIngresar)
@@ -161,15 +166,20 @@ public class ModificarPermisos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcbBorrar)
-                                    .addComponent(jcbAgregar)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                                .addComponent(jbnModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbnCancelar)))
-                        .addGap(30, 30, 30))
+                                    .addComponent(jcbAgregar))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlbRol)
+                        .addGap(62, 62, 62))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlbModulo)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jbnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbnCancelar)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlbModulo)
+                            .addComponent(jlbMod, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -178,10 +188,13 @@ public class ModificarPermisos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jlbRol))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jlbRol)
+                    .addComponent(jlbRol1))
+                .addGap(11, 11, 11)
+                .addComponent(jlbMod)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbModulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -192,9 +205,9 @@ public class ModificarPermisos extends javax.swing.JFrame {
                     .addComponent(jcbBorrar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jcbModificar))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbnCancelar)
-                    .addComponent(jbnModificar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbnModificar)
+                    .addComponent(jbnCancelar))
                 .addGap(14, 14, 14))
         );
 
@@ -257,7 +270,9 @@ public class ModificarPermisos extends javax.swing.JFrame {
     private javax.swing.JCheckBox jcbBorrar;
     private javax.swing.JCheckBox jcbIngresar;
     private javax.swing.JCheckBox jcbModificar;
+    private javax.swing.JLabel jlbMod;
     private javax.swing.JLabel jlbModulo;
     private javax.swing.JLabel jlbRol;
+    private javax.swing.JLabel jlbRol1;
     // End of variables declaration//GEN-END:variables
 }
