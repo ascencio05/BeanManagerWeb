@@ -7,7 +7,9 @@ package beanmanager.usuarios;
 
 import beanmanager.controles.Bdd;
 import java.awt.Color;
+
 import java.math.BigInteger;
+
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,10 +22,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 import java.security.MessageDigest; 
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -343,6 +347,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
          return descripcionRoles;
     }
     
+
     
     public String encriptarMD5(String cadena){
       MessageDigest m;
@@ -358,6 +363,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
      return encoded ;
     }
     
+
     public void menuUsuario(){
         MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
         frmMenuUsr.setVisible(true); 
@@ -380,7 +386,11 @@ public class NuevoUsuario extends javax.swing.JFrame {
                 jComboBoxRol.setSelectedIndex(CargarRoles.id-1);
                 jTextFieldNombres.setText(rs.getString("nombre")); 
                 jTextFieldApellidos.setText(rs.getString("apellido")); 
+
                 jTextFieldCorreo.setText(rs.getString("correo")); 
+
+                jTextFieldCorreo.setText(rs.getString("fechaNacimiento")); 
+
                 jPasswordFieldContra.setText(rs.getString("contrasena"));
                 jFormattedTextField1.setText(rs.getString("fechaNacimiento")); 
                 int x= rs.getInt("eliminado");
@@ -446,7 +456,9 @@ public class NuevoUsuario extends javax.swing.JFrame {
              parametros.add(jTextFieldNombres.getText());
              parametros.add(jTextFieldApellidos.getText());
              parametros.add(jTextFieldCorreo.getText());
+
              parametros.add(encriptarMD5(String.valueOf(jPasswordFieldContra.getPassword())));
+
              parametros.add(data);
              if(flagColorModificado)
                 parametros.add(colorHexa);
