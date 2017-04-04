@@ -10,12 +10,12 @@ package beanmanager.clases;
  * @author Rodrigo
  */
 public class Permiso {
-    String idPermiso;
-    String idModulo;
-    boolean agregar;
-    boolean borrar;
-    boolean ingresar;
-    boolean modificar;
+    public String idPermiso;
+    public String idModulo;
+    public boolean agregar;
+    public boolean borrar;
+    public boolean ingresar;
+    public boolean modificar;
     
     public Permiso(String idPermiso, String idModulo, String agregar, String borrar, String modificar, String ingresar)
     {

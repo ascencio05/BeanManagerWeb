@@ -5,6 +5,7 @@
  */
 package beanmanager.solicitudes;
 
+import beanmanager.clases.Permiso;
 import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import beanmanager.menuInicio;
@@ -28,6 +29,33 @@ public class IndexSolicitud extends javax.swing.JFrame {
         db = new Bdd();
         ver = new VerSolicitudes(this);
         detalles = new Detalles(this);
+        
+        
+        Permiso aux = session.getPermiso("3");
+        
+        if(!aux.modificar)
+            ver.disableAceptar();
+        
+        
+        setSize(500, 500);
+        setLocationRelativeTo(null);//Centra pantalla
+        getContentPane().setBackground(Color.white);
+        setResizable(false);
+    }
+    
+    public IndexSolicitud(Usuario session) {
+        initComponents();
+        db = new Bdd();
+        ver = new VerSolicitudes(this);
+        detalles = new Detalles(this);
+        
+        this.session = session;
+        
+        Permiso aux = session.getPermiso("3");
+        
+        if(!aux.modificar)
+            ver.disableAceptar();
+        
         
         setSize(500, 500);
         setLocationRelativeTo(null);//Centra pantalla
@@ -84,6 +112,7 @@ public class IndexSolicitud extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
       ver.setVisible(true);
       ver.session = session;
+      ver.padre = this;
       this.add(ver);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

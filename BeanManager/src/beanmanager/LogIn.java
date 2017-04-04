@@ -79,7 +79,7 @@ public class LogIn extends javax.swing.JFrame {
 
         jPanel7.setLayout(new java.awt.GridLayout(3, 1));
 
-        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel4.setLayout(new java.awt.GridLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Usuario:");
@@ -89,7 +89,7 @@ public class LogIn extends javax.swing.JFrame {
 
         jPanel7.add(jPanel4);
 
-        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel5.setLayout(new java.awt.GridLayout());
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Contraseña:");
@@ -98,9 +98,8 @@ public class LogIn extends javax.swing.JFrame {
 
         jPanel7.add(jPanel5);
 
-        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel6.setLayout(new java.awt.GridLayout());
 
-        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/entrar.png"))); // NOI18N
         btnAceptar.setText("Entrar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,7 +108,6 @@ public class LogIn extends javax.swing.JFrame {
         });
         jPanel6.add(btnAceptar);
 
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/exit.png"))); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +162,7 @@ public class LogIn extends javax.swing.JFrame {
                         load.dispose();
                         if(actual != null)
                         {
-                            //JOptionPane.showMessageDialog(null,"Exito.");
+                            JOptionPane.showMessageDialog(null,"Exito.");
                             menuInicio home = new menuInicio();
                             home.session = actual;
                             home.setVisible(true);

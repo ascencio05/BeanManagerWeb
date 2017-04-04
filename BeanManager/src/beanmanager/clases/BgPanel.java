@@ -29,8 +29,6 @@ public class BgPanel extends JPanel{
         super.paintComponent(g);
         int x = super.getWidth();
         int y = super.getHeight();
-        g.setColor(Color.red);
-        g.drawString("ANDATE A LA VERGA", 10, 0);
         img = img.getScaledInstance(x, y, Image.SCALE_DEFAULT);
         g.drawImage(img, 0, 0, null);
     }

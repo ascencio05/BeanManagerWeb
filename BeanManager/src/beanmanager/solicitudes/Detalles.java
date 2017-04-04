@@ -5,6 +5,7 @@
  */
 package beanmanager.solicitudes;
 
+import beanmanager.clases.Permiso;
 import beanmanager.clases.Proyecto;
 import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
@@ -35,7 +36,7 @@ public class Detalles extends javax.swing.JInternalFrame {
         initComponents();
         req= new VerRequerimientos(p);
         padre = p;
-        db = padre.db;
+        db = p.db;
         getContentPane().setBackground(Color.white);
         jPanel1.setBackground(Color.white);
         jPanel2.setBackground(Color.white);
@@ -46,6 +47,7 @@ public class Detalles extends javax.swing.JInternalFrame {
         jPanel7.setBackground(Color.white);
         jPanel8.setBackground(Color.white);
         txtDes.setEditable(false);
+        
     }
 
     public void setActual()

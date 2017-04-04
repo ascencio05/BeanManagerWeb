@@ -5,6 +5,7 @@
  */
 package beanmanager.solicitudes;
 
+import beanmanager.clases.Permiso;
 import beanmanager.controles.Bdd;
 import beanmanager.proyectos.IndexProyecto;
 import beanmanager.solicitudes.Detalles;
@@ -50,17 +51,17 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
     {
         initComponents();
         detalle = new Detalles(p);
-        padre = p;
         table = initTable();
         jScrollPane1.add(table);
         jScrollPane1.setViewportView(table);
-        db = padre.db;
+        db = p.db;
         txtBusqueda.setSize(10, 28);
         getContentPane().setBackground(Color.white);
         jPanel1.setBackground(Color.white);
         jPanel2.setBackground(Color.white);
         loadSol(false,false,null);
         eventBusqueda();
+       
     }
     
     public void eventBusqueda()
@@ -76,7 +77,8 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
                                 + "Proyecto.descripcion, Proyecto.fechaInicio, Proyecto.fechaFinal, "
                                 + "Proyecto.fechaCreacion from Proyecto inner join Usuarios on "
                                 + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0 "
-                            + "and Proyecto.titulo like ?";
+                            + "and Proyecto.titulo like ?"
+                            + "and Proyecto.eliminado = 0 and Usuarios.eliminado = 0";
                     loadSol(true, true, cmd);
                 }
                 else
@@ -85,7 +87,8 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
                                 + "Proyecto.descripcion, Proyecto.fechaInicio, Proyecto.fechaFinal, "
                                 + "Proyecto.fechaCreacion from Proyecto inner join Usuarios on "
                                 + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0 "
-                            + "and Proyecto.idProyecto = ?";
+                            + "and Proyecto.idProyecto = ?"
+                            + "and Proyecto.eliminado = 0 and Usuarios.eliminado = 0";
                     loadSol(true, false, cmd);
                 }
             }
@@ -117,6 +120,11 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
         });
     }
     
+    public void disableAceptar()
+    {
+        btnAceptar.setVisible(false);
+    }
+    
     public JTable initTable()
     {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Id","Titulo","Fecha Creación","Selección"}, 0)
@@ -142,7 +150,8 @@ public final class VerSolicitudes extends javax.swing.JInternalFrame {
             cmd = "select Usuarios.correo, Proyecto.idProyecto, Proyecto.titulo, "
                 + "Proyecto.descripcion, Proyecto.fechaInicio, Proyecto.fechaFinal, "
                 + "Proyecto.fechaCreacion from Proyecto inner join Usuarios on "
-                + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0";
+                + "Usuarios.idUsuario = Proyecto.idUsuario where Proyecto.aceptado = 0 "
+                + "and Proyecto.eliminado = 0 and Usuarios.eliminado = 0";
         }
         else
         {
