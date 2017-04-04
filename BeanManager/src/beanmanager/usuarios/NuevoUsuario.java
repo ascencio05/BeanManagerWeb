@@ -5,6 +5,7 @@
  */
 package beanmanager.usuarios;
 
+import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
@@ -39,17 +40,23 @@ public class NuevoUsuario extends javax.swing.JFrame {
     boolean flagModificar=false, flagColorModificado=false;
     int id_Usr;
     String colorHexa; 
+    Usuario session; 
+    MenuUsuarios padre; 
+    
     
     /**
      * Creates new form NuevoUsuario
      */
     public NuevoUsuario() {
-        
+//        if(Integer.parseInt(session.permisos.get(2).idModulo)==1)
+//              {
         initComponents();
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
         getContentPane().setBackground(Color.decode("#FFFFFF"));
         llenarComboBox(); 
+              
+        
     }
     
     public NuevoUsuario(int idUsuario) {
@@ -446,8 +453,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
     }
     
     public void menuUsuario(){
-        MenuUsuarios frmMenuUsr = new MenuUsuarios(); 
-        frmMenuUsr.setVisible(true); 
+        padre.setVisible(true); 
         this.setVisible(false); 
     }
     

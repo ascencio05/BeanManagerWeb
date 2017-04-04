@@ -30,9 +30,10 @@ import javax.swing.table.DefaultTableModel;
 public class MenuUsuarios extends javax.swing.JFrame {
 
     Bdd db = new Bdd("unconnected");
-    
-
+    public Usuario session; 
+    public menuInicio padre;
     private TableRowSorter trsFiltro;
+    MenuUsuarios autoreference;
 
     /**
      * Creates new form MenuUsuarios
@@ -40,10 +41,12 @@ public class MenuUsuarios extends javax.swing.JFrame {
     public MenuUsuarios() {
         
         initComponents();
+        
         setLocationRelativeTo(null);//Centra pantalla
         setResizable(false); //Quitar Resize
         getContentPane().setBackground(Color.decode("#FFFFFF"));
         
+        autoreference=this;
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             
             @Override
@@ -240,19 +243,28 @@ public class MenuUsuarios extends javax.swing.JFrame {
 
     private void jbtnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoUsuarioActionPerformed
         // TODO add your handling code here:
-        NuevoUsuario frmnew_usr = new NuevoUsuario(); 
-        frmnew_usr.setVisible(true);
+        NuevoUsuario newusr = new NuevoUsuario();
+                newusr.padre= autoreference;
+        newusr.setVisible(true);; 
+       // frmnew_usr.setVisible(true);
         this.setVisible(false); 
     }//GEN-LAST:event_jbtnNuevoUsuarioActionPerformed
 
     private void jbtnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarUsuarioActionPerformed
         // TODO add your handling code here:
+        
         int column=0; 
+        try{
         int row= jTableUsuarios.getSelectedRow(); 
+        
         int idUsr= Integer.valueOf(jTableUsuarios.getModel().getValueAt(row, column).toString());
         NuevoUsuario newusr = new NuevoUsuario(idUsr); 
+        newusr.padre= autoreference;
         newusr.setVisible(true);
         this.setVisible(false);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Seleccione un usuario"); 
+        }
     }//GEN-LAST:event_jbtnModificarUsuarioActionPerformed
 
 
