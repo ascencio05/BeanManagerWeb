@@ -20,7 +20,7 @@ public class Bdd {
         try
         {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con =DriverManager.getConnection("jdbc:mysql://52.37.202.53:3306/BeanManager","beanmanager","CG7Tr9LqpmRCwEne");  
+            con =DriverManager.getConnection("jdbc:mysql://52.37.202.53:3306/BeanManager","beanmanager","CG7Tr9LqpmRCwEne"); 
         }
         catch(Exception e)
         {

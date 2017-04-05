@@ -5,6 +5,7 @@
  */
 package beanmanager.ajustes;
 
+import beanmanager.clases.Usuario;
 import beanmanager.controles.*;
 import java.awt.Color;
 import java.sql.*;
@@ -14,18 +15,19 @@ import javax.swing.JOptionPane;
  * @author jacky
  */
 public class ModificarPermisoTipo extends javax.swing.JFrame {
+    Usuario session;
     String idPermiso;
     /**
      * Creates new form ModificarPermiso
      */
-    public ModificarPermisoTipo(String id) {
+    public ModificarPermisoTipo(String id, Usuario u) {
         idPermiso= id;
         initComponents();
         setLocationRelativeTo(null);
         setLayout(null);
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
         CargarDatos();
-        
+        session = u;
     }
     public void CargarDatos()
     {
@@ -76,7 +78,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Se han modificado los permisos con éxito.");
                     conexion.close();
-                    permisos jfmPermisos = new permisos();
+                    PermisosTipo jfmPermisos = new PermisosTipo(session);
                     jfmPermisos.setVisible(true);
                     this.setVisible(false);
                 }
@@ -207,7 +209,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
 
     private void jbnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancelarActionPerformed
         // TODO add your handling code here:
-        PermisosTipo jfmPermisos = new PermisosTipo();
+        PermisosTipo jfmPermisos = new PermisosTipo(session);
         jfmPermisos.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnCancelarActionPerformed
@@ -248,7 +250,7 @@ public class ModificarPermisoTipo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModificarPermisoTipo("").setVisible(true);
+                new ModificarPermisoTipo("",null).setVisible(true);
             }
         });
     }

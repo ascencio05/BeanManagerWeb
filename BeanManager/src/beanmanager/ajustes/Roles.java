@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package beanmanager.ajustes;
+import beanmanager.clases.*;
 import beanmanager.controles.*;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -18,12 +19,14 @@ import javax.swing.table.*;
  * @author jacky
  */
 public class Roles extends javax.swing.JFrame {
+    public Permiso permiso;
+     public Usuario session;
     DefaultTableModel ModeloJtbRoles;
     String[] columnas = new String[]{"id","Rol","Descripción"};
     /**
      * Creates new form Roles
      */
-    public Roles() {
+    public Roles(Usuario u) {
         ModeloJtbRoles = new DefaultTableModel(null,columnas) {
             @Override
             public boolean isCellEditable (int fila, int columna) {
@@ -42,6 +45,9 @@ public class Roles extends javax.swing.JFrame {
         this.jtbRoles.getColumnModel().getColumn(0).setMinWidth(0);
         this.jtbRoles.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
         this.jtbRoles.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+        session=u;
+        permiso = session.getPermiso("4");
+         if(!permiso.agregar){this.jbnAgregar.setVisible(false);}
          
     }
     public void CargarRoles(){
@@ -154,24 +160,29 @@ public class Roles extends javax.swing.JFrame {
 
     private void jbnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnAgregarActionPerformed
         // TODO add your handling code here:
-        AgregarRol jfmAgregar = new AgregarRol();
+        AgregarRol jfmAgregar = new AgregarRol(session);
         jfmAgregar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnAgregarActionPerformed
 
     private void jtbRolesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbRolesMouseClicked
         // TODO add your handling code here:
-        int i= this.jtbRoles.getSelectedRow();
-        String idRol = this.jtbRoles.getValueAt(i, 0).toString();
-        //JOptionPane.showMessageDialog(null, idRol);
-        ModificarRol jfmModificar = new ModificarRol(idRol);
-        jfmModificar.setVisible(true);
-        this.setVisible(false);
+        if(permiso.modificar){
+            int i= this.jtbRoles.getSelectedRow();
+            String idRol = this.jtbRoles.getValueAt(i, 0).toString();
+            ModificarRol jfmModificar = new ModificarRol(idRol,session);
+            jfmModificar.setVisible(true);
+            this.setVisible(false);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No tienes permiso para modificar");
+        }
     }//GEN-LAST:event_jtbRolesMouseClicked
 
     private void jlbHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbHomeMouseClicked
         // TODO add your handling code here:
-        InicioAjustes jfmAjustes = new InicioAjustes();
+        InicioAjustes jfmAjustes = new InicioAjustes(session);
         jfmAjustes.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jlbHomeMouseClicked
@@ -206,7 +217,7 @@ public class Roles extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Roles().setVisible(true);
+                new Roles(null).setVisible(true);
             }
         });
     }

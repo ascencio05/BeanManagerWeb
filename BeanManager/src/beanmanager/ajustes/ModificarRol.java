@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package beanmanager.ajustes;
-
+import beanmanager.clases.Usuario;
 import beanmanager.controles.*;
 import java.awt.Color;
 import java.sql.*;
@@ -16,10 +16,11 @@ import javax.swing.JOptionPane;
  */
 public class ModificarRol extends javax.swing.JFrame {
     String idRol;
+    Usuario session;
     /**
      * Creates new form ModificarRol
      */
-    public ModificarRol(String id) {
+    public ModificarRol(String id, Usuario u) {
         idRol = id;
         initComponents();
         setResizable(false);
@@ -28,6 +29,7 @@ public class ModificarRol extends javax.swing.JFrame {
         setLayout(null);
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
         CargarDatos();
+        session = u;
     }
     public void CargarDatos()
     {
@@ -65,7 +67,7 @@ public class ModificarRol extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Se ha modificado el rol con éxito.");
                     conexion.close();
-                    Roles jfmRoles = new Roles();
+                    Roles jfmRoles = new Roles(session);
                     jfmRoles.setVisible(true);
                     this.setVisible(false);
                 }
@@ -99,7 +101,7 @@ public class ModificarRol extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Se ha eliminado el rol con éxito.");
                     conexion.close();
-                    Roles jfmRoles = new Roles();
+                    Roles jfmRoles = new Roles(session);
                     jfmRoles.setVisible(true);
                     this.setVisible(false);
                 }
@@ -229,7 +231,7 @@ public class ModificarRol extends javax.swing.JFrame {
 
     private void jbnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancelarActionPerformed
         // TODO add your handling code here:
-        Roles jfmRoles = new Roles();
+        Roles jfmRoles = new Roles(session);
         jfmRoles.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnCancelarActionPerformed
@@ -273,7 +275,7 @@ public class ModificarRol extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModificarRol("").setVisible(true);
+                new ModificarRol("",null).setVisible(true);
             }
         });
     }

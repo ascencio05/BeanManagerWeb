@@ -5,6 +5,7 @@
  */
 package beanmanager.ajustes;
 
+import beanmanager.clases.Usuario;
 import beanmanager.controles.*;
 import java.awt.Color;
 import java.sql.*;
@@ -15,17 +16,19 @@ import javax.swing.JOptionPane;
  * @author jacky
  */
 public class ModificarPermisos extends javax.swing.JFrame {
+    Usuario session;
     String idPermiso;
     /**
      * Creates new form ModificarPermisos
      */
-    public ModificarPermisos(String id) {
+    public ModificarPermisos(String id, Usuario u) {
         idPermiso = id;
         initComponents();  
         CargarDatos();
         setLocationRelativeTo(null);
         setLayout(null);
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
+        session=u;
     }
     public void CargarDatos()
     {
@@ -73,7 +76,7 @@ public class ModificarPermisos extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Se han modificado los permisos con éxito.");
                     conexion.close();
-                    permisos jfmPermisos = new permisos();
+                    permisos jfmPermisos = new permisos(session);
                     jfmPermisos.setVisible(true);
                     this.setVisible(false);
                 }
@@ -215,7 +218,7 @@ public class ModificarPermisos extends javax.swing.JFrame {
 
     private void jbnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancelarActionPerformed
         // TODO add your handling code here:
-        permisos jfmPermisos = new permisos();
+        permisos jfmPermisos = new permisos(session);
         jfmPermisos.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnCancelarActionPerformed
@@ -255,7 +258,7 @@ public class ModificarPermisos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModificarPermisos("").setVisible(true);
+                new ModificarPermisos("",null).setVisible(true);
             }
         });
     }

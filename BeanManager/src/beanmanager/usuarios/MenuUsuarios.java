@@ -8,7 +8,10 @@ package beanmanager.usuarios;
 import beanmanager.clases.Usuario;
 import beanmanager.controles.Bdd;
 import beanmanager.menuInicio;
+import beanmanager.clases.SeguridadProyectos;
 import java.awt.Color;
+import java.awt.Component;
+
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,13 +37,16 @@ public class MenuUsuarios extends javax.swing.JFrame {
     public menuInicio padre;
     private TableRowSorter trsFiltro;
     MenuUsuarios autoreference;
+    public Usuario session;
+    
 
     /**
      * Creates new form MenuUsuarios
      */
-    public MenuUsuarios() {
+    
+    public MenuUsuarios(Usuario session) {
         
-        
+        this.session=session;
         initComponents();
         
         setLocationRelativeTo(null);//Centra pantalla
@@ -68,10 +74,17 @@ public class MenuUsuarios extends javax.swing.JFrame {
            });
            
            loadUsuarios(); 
-              
+           Component [] Agregar ={jbtnNuevoUsuario};
+           Component [] Modificar={jbtnModificarUsuario}; 
+           Component [] Eliminar=null;
+           SeguridadProyectos sp = new SeguridadProyectos(1,session,Agregar,Modificar,Eliminar);
         
         
     }
+    
+    
+    
+  
     
     public void loadUsuarios(){
     
@@ -288,8 +301,8 @@ public class MenuUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldBuscarKeyTyped
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        menuInicio Ini = new menuInicio();
-        Ini.setVisible(true);
+       
+        padre.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -328,7 +341,7 @@ public class MenuUsuarios extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuUsuarios().setVisible(true);
+                new MenuUsuarios(null).setVisible(true);
             }
         });
     }

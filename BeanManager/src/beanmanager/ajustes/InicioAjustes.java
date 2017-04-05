@@ -5,8 +5,11 @@
  */
 package beanmanager.ajustes;
 
+import beanmanager.clases.*;
 import beanmanager.menuInicio;
+import beanmanager.controles.*;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -15,11 +18,14 @@ import javax.swing.border.LineBorder;
  * @author jacky
  */
 public class InicioAjustes extends javax.swing.JFrame {
-
+    public Usuario session;
+    public Permiso permiso;
+    Bdd  c;
     /**
      * Creates new form InicioAjustes
      */
-    public InicioAjustes() {
+    public InicioAjustes(Usuario u) {
+        session = u;
         initComponents();
         setTitle("Bean Manager - Ajustes");//titulo
         setResizable(false); //Quitar Resize
@@ -27,8 +33,8 @@ public class InicioAjustes extends javax.swing.JFrame {
         setLayout(null); // Libre seleccion de tamaño
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
         jlbEtiqueta.setText("");
+        permiso = session.getPermiso("4");
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -183,30 +189,54 @@ public class InicioAjustes extends javax.swing.JFrame {
 
     private void jlbRolesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbRolesMouseClicked
         // TODO add your handling code here:
-        Roles jfmRoles = new Roles();
-        jfmRoles.setVisible(true);
-        this.setVisible(false);
+            
+            if(permiso.ingresar)
+            {
+                Roles jfmRoles = new Roles(session);
+                jfmRoles.setVisible(true);
+                this.setVisible(false); 
+            }
+            else
+            {
+                 JOptionPane.showMessageDialog(null, "No tienes permiso para ingresar a este modulo.");
+            }
+        
     }//GEN-LAST:event_jlbRolesMouseClicked
 
     private void jlbHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbHomeMouseClicked
         // TODO add your handling code here:
         menuInicio jfmMenu = new menuInicio();
+        jfmMenu.session = session;
         jfmMenu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jlbHomeMouseClicked
 
     private void jlbTipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbTipoMouseClicked
         // TODO add your handling code here:
-        PermisosTipo jfmTipo = new PermisosTipo();
-        jfmTipo.setVisible(true);
-        this.setVisible(false);
+        if(permiso.ingresar)
+            {
+                PermisosTipo jfmTipo = new PermisosTipo(session);
+                jfmTipo.setVisible(true);
+                this.setVisible(false);
+            }
+        else
+            {
+                 JOptionPane.showMessageDialog(null, "No tienes permiso para ingresar a este modulo.");
+            }
     }//GEN-LAST:event_jlbTipoMouseClicked
 
     private void jlbRolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbRolMouseClicked
         // TODO add your handling code here:
-        permisos jfmPermisos = new permisos();
-        jfmPermisos.setVisible(true);
-        this.setVisible(false);
+        if(permiso.ingresar)
+            {
+                permisos jfmPermisos = new permisos(session);
+                jfmPermisos.setVisible(true);
+                this.setVisible(false);
+         }
+        else
+            {
+                 JOptionPane.showMessageDialog(null, "No tienes permiso para ingresar a este modulo.");
+            }
         
     }//GEN-LAST:event_jlbRolMouseClicked
 
@@ -250,7 +280,7 @@ public class InicioAjustes extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InicioAjustes().setVisible(true);
+                new InicioAjustes(null).setVisible(true);
             }
         });
     }

@@ -5,6 +5,7 @@
  */
 package beanmanager.ajustes;
 import beanmanager.controles.*;
+import beanmanager.clases.Usuario;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.awt.Color;
@@ -15,16 +16,18 @@ import java.util.*;
  * @author jacky
  */
 public class AgregarRol extends javax.swing.JFrame {
+    Usuario session;
     /**
      * Creates new form AgregarRol
      */
-    public AgregarRol() {
+    public AgregarRol(Usuario u) {
         initComponents();
         setResizable(false);
         setTitle("Bean Manager");
         setLocationRelativeTo(null);
         setLayout(null);
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
+        session = u;
     }
 
     /**
@@ -120,7 +123,7 @@ public class AgregarRol extends javax.swing.JFrame {
 
     private void jbntAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbntAtrasActionPerformed
         // TODO add your handling code here:
-        Roles jfmRoles = new Roles();
+        Roles jfmRoles = new Roles(session);
         jfmRoles.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbntAtrasActionPerformed
@@ -193,7 +196,7 @@ public class AgregarRol extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarRol().setVisible(true);
+                new AgregarRol(null).setVisible(true);
             }
         });
     }

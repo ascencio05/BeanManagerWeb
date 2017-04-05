@@ -14,7 +14,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,7 +33,7 @@ public class LogIn extends javax.swing.JFrame {
     public LogIn() {
         initComponents();
         setResizable(false); //Quitar Resize
-        setLocationRelativeTo(null);//Centra pantalla
+        
         setSize(450,150);
         jPanel2.setBackground(Color.white);
         jPanel4.setBackground(Color.white);
@@ -48,6 +47,7 @@ public class LogIn extends javax.swing.JFrame {
         jLabel3.setBackground(Color.white);
         setBackground(Color.white);
         initImg();
+        setLocationRelativeTo(null);//Centra pantalla
     }
 
     /**
@@ -79,17 +79,17 @@ public class LogIn extends javax.swing.JFrame {
 
         jPanel7.setLayout(new java.awt.GridLayout(3, 1));
 
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Usuario:");
+        jLabel1.setText("Correo:");
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel4.add(jLabel1);
         jPanel4.add(txtUsuario);
 
         jPanel7.add(jPanel4);
 
-        jPanel5.setLayout(new java.awt.GridLayout());
+        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Contraseña:");
@@ -98,8 +98,9 @@ public class LogIn extends javax.swing.JFrame {
 
         jPanel7.add(jPanel5);
 
-        jPanel6.setLayout(new java.awt.GridLayout());
+        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
 
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/entrar.png"))); // NOI18N
         btnAceptar.setText("Entrar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +109,7 @@ public class LogIn extends javax.swing.JFrame {
         });
         jPanel6.add(btnAceptar);
 
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/beanmanager/recursos/imagenes/exit.png"))); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +164,7 @@ public class LogIn extends javax.swing.JFrame {
                         load.dispose();
                         if(actual != null)
                         {
-                            JOptionPane.showMessageDialog(null,"Exito.");
+                            //JOptionPane.showMessageDialog(null,"Exito.");
                             menuInicio home = new menuInicio();
                             home.session = actual;
                             home.setVisible(true);
@@ -192,7 +194,7 @@ public class LogIn extends javax.swing.JFrame {
             
             if(aux.authenticate(pass, db))
             {
-                aux.getListedPermisos(db);
+                aux.getPermisos(db);
                 aux.validado = true;
                 db.close();
                 return aux;

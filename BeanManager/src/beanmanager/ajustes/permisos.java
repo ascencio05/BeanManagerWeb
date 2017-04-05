@@ -5,6 +5,7 @@
  */
 package beanmanager.ajustes;
 import beanmanager.controles.*;
+import beanmanager.clases.*;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,13 +21,15 @@ import javax.swing.JCheckBox;
  * @author jacky
  */
 public class permisos extends javax.swing.JFrame {
+    public Permiso permiso;
+    Usuario session;
     DefaultTableModel ModelPermisos;
     List<String> idRol;
     String[] columnas = new String[]{"id","Modulo","Ingresar","Agregar","Modificar","Borrar"};
     /**
      * Creates new form permisos
      */
-    public permisos() {
+    public permisos(Usuario u) {
         ModelPermisos = new DefaultTableModel(null,columnas) {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
@@ -49,10 +52,13 @@ public class permisos extends javax.swing.JFrame {
         this.jtbPermisos.getColumnModel().getColumn(0).setMinWidth(0);
         this.jtbPermisos.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
         this.jtbPermisos.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+        session = u;
+        permiso = session.getPermiso("4");
+        if(!permiso.agregar){this.jbnAgregar.setVisible(false);}
 
     }
+
     public void CargarPermisos(){
-       // Boolean[] prueba = new Boolean[]{true,false,true,false,false,true};
        try{
             int rows = ModelPermisos.getRowCount();
             for(int j = 0; j<rows;j++)
@@ -226,24 +232,31 @@ public class permisos extends javax.swing.JFrame {
 
     private void jtbPermisosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbPermisosMouseClicked
         // TODO add your handling code here:
-        int i= this.jtbPermisos.getSelectedRow();
-        String idPermiso = this.jtbPermisos.getValueAt(i, 0).toString();
-//        JOptionPane.showMessageDialog(null, idPermiso);
-        ModificarPermisos jfmModificar = new ModificarPermisos(idPermiso);
-        jfmModificar.setVisible(true);
-        this.setVisible(false);
+         if(permiso.modificar){
+             int i= this.jtbPermisos.getSelectedRow();
+            String idPermiso = this.jtbPermisos.getValueAt(i, 0).toString();
+
+            ModificarPermisos jfmModificar = new ModificarPermisos(idPermiso,session);
+            jfmModificar.setVisible(true);
+            this.setVisible(false);
+         }
+         else
+         {
+             JOptionPane.showMessageDialog(null, "No tienes permiso para modificar");        
+         }
+        
     }//GEN-LAST:event_jtbPermisosMouseClicked
 
     private void jbnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnAgregarActionPerformed
         // TODO add your handling code here:
-        AgregarPermiso jfmAgregar = new AgregarPermiso();
+        AgregarPermiso jfmAgregar = new AgregarPermiso(session);
         jfmAgregar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnAgregarActionPerformed
 
     private void jlbHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlbHomeMouseClicked
         // TODO add your handling code here:
-        InicioAjustes jfmAjustes = new InicioAjustes();
+        InicioAjustes jfmAjustes = new InicioAjustes(session);
         jfmAjustes.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jlbHomeMouseClicked
@@ -278,7 +291,7 @@ public class permisos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new permisos().setVisible(true);
+                new permisos(null).setVisible(true);
             }
         });
     }

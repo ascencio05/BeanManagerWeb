@@ -5,6 +5,7 @@
  */
 package beanmanager.ajustes;
 
+import beanmanager.clases.Usuario;
 import beanmanager.controles.*;
 import java.awt.Color;
 import java.sql.*;
@@ -15,11 +16,12 @@ import javax.swing.JOptionPane;
  * @author jacky
  */
 public class AgregarPermiso extends javax.swing.JFrame {
+    Usuario session;
     List<String> idRol,idModulo;
     /**
      * Creates new form AgregarPermiso
      */
-    public AgregarPermiso() {
+    public AgregarPermiso(Usuario u) {
         initComponents();
         setTitle("Bean Manager");
         setLocationRelativeTo(null);
@@ -28,6 +30,7 @@ public class AgregarPermiso extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.decode("#FFFFFF"));
         CargarRoles();
         CargarModulos();
+        session=u;
     }
      public void CargarRoles(){
         try{
@@ -81,7 +84,7 @@ public class AgregarPermiso extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(null, "Se han agregado los permisos con éxito.");
                     conexion.close();
-                    permisos jfmPermisos = new permisos();
+                    permisos jfmPermisos = new permisos(session);
                     jfmPermisos.setVisible(true);
                     this.setVisible(false);
                 }
@@ -226,7 +229,7 @@ public class AgregarPermiso extends javax.swing.JFrame {
 
     private void jbnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnCancelarActionPerformed
         // TODO add your handling code here:
-        permisos jfmPermisos = new permisos();
+        permisos jfmPermisos = new permisos(session);
         jfmPermisos.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbnCancelarActionPerformed
@@ -261,7 +264,7 @@ public class AgregarPermiso extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarPermiso().setVisible(true);
+                new AgregarPermiso(null).setVisible(true);
             }
         });
     }

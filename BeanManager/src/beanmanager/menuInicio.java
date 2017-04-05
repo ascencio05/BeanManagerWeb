@@ -38,6 +38,7 @@ public class menuInicio  extends javax.swing.JFrame{
     private JLabel etiquetaUsuarios ;
     private JLabel etiquetaAjustes ;
     private JLabel texto ;
+    private JLabel cerrarSesion;
     public Usuario session;
     private menuInicio autoreference;
     
@@ -98,6 +99,41 @@ public class menuInicio  extends javax.swing.JFrame{
         texto.setSize(425,25);
         texto.setLocation(25, 470);
         texto.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        //Cerrar Sesion
+        cerrarSesion=new JLabel();
+        Font fuente2=new Font("Monospaced", Font.BOLD, 10);
+        cerrarSesion.setForeground(Color.BLUE);
+        cerrarSesion.setFont(fuente2);
+        cerrarSesion.setText("Cerrar Sesion");
+        cerrarSesion.setSize(100,25);
+        cerrarSesion.setHorizontalAlignment(SwingConstants.RIGHT);
+        cerrarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cerrarSesion.setLocation(0, 0);
+        cerrarSesion.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {}
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                LogIn r=new LogIn();
+                r.setVisible(true);
+                cerrar();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        
+        });
         //Agregarlos
         getContentPane().setBackground(Color.decode("#FFFFFF"));
         getContentPane().add(etiquetaSolicitudes);
@@ -105,7 +141,7 @@ public class menuInicio  extends javax.swing.JFrame{
         getContentPane().add(etiquetaUsuarios);
         getContentPane().add(etiquetaAjustes);
         getContentPane().add(texto);
-        
+        getContentPane().add(cerrarSesion);
         
         etiquetaSolicitudes.addMouseListener(new MouseListener(){
             @Override
@@ -152,7 +188,13 @@ public class menuInicio  extends javax.swing.JFrame{
                 texto.setText("Controles");
             }
             @Override
-            public void mouseClicked(MouseEvent e) { }
+            public void mouseClicked(MouseEvent e) { 
+            Load l=new Load(2);
+            l.session=session;
+            l.setVisible(true);
+            cerrar();
+            
+            }
 
             @Override
             public void mousePressed(MouseEvent e) {}
@@ -178,10 +220,10 @@ public class menuInicio  extends javax.swing.JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
               Load l=new Load(3);
-               l.session = session;
-                    l.padre = autoreference;
-                    l.setVisible(true); 
-               cerrar();
+              l.session = session;
+              l.padre = autoreference;
+              l.setVisible(true); 
+              cerrar();
             }
 
             @Override
@@ -210,8 +252,9 @@ public class menuInicio  extends javax.swing.JFrame{
             public void mouseClicked(MouseEvent e) {  
                Load l=new Load(4);
                l.session = session;
-                    l.padre = autoreference;
-                    l.setVisible(true); 
+               l.padre = autoreference;
+               l.setVisible(true); 
+               cerrar();
             }
 
             @Override

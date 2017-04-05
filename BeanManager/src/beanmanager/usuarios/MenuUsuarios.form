@@ -111,7 +111,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnModificarUsuarioActionPerformed"/>
       </Events>
-
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBoxFiltro">
       <Properties>
@@ -130,7 +129,6 @@
       <Events>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldBuscarKeyTyped"/>
       </Events>
-
     </Component>
   </SubComponents>
 </Form>

@@ -396,7 +396,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
                  char c = e.getKeyChar();
                 if (!((Character.isDigit(c)) ||
                 (c == KeyEvent.VK_BACK_SPACE) ||
-                (c == KeyEvent.VK_DELETE)||(c == '/'))) {
+                (c == KeyEvent.VK_DELETE)||(c == '/')||(c == '-'))) {
                 getToolkit().beep();
                 e.consume();
             }
@@ -531,7 +531,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
              cmd="INSERT INTO `Usuarios`( `idTipo`, `nombre`, `apellido`, `correo`, `contrasena`,"
                  +"`fechaNacimiento`, `colorGUI`, `eliminado`) VALUES (?,?,?,?,?,?,?,?)";
              
-             sdf = new SimpleDateFormat("dd/MM/yyyy");
+             sdf = new SimpleDateFormat("dd-MM-yyyy");
         }
         else {
             if (flagColorModificado)

@@ -5,6 +5,7 @@
  */
 package beanmanager;
 
+import beanmanager.ajustes.InicioAjustes;
 import beanmanager.clases.Usuario;
 import java.awt.Color;
 import beanmanager.proyectos.IndexProyecto;
@@ -70,15 +71,20 @@ public class Load extends javax.swing.JFrame {
                 proyectos.setVisible(true);
                 break;
             case 2:
-                //Inicio de Jacky
+               InicioAjustes u=new InicioAjustes(session);
+               u.session=session;
+               u.setVisible(true);
                 break;
             case 3:
-                MenuUsuarios menuUsr = new MenuUsuarios();
+                MenuUsuarios menuUsr = new MenuUsuarios(session);
+                menuUsr.padre=padre;
                 menuUsr.setVisible(true);
                 break;
             case 4:
                IndexProyecto a=new IndexProyecto(session);
+               a.session=session;
                a.setVisible(true);
+               
              break;
             case 5:
                menuInicio m=new menuInicio();
