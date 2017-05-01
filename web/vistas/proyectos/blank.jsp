@@ -8,21 +8,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <jsp:include page="../partes/head.jsp" />
+        <jsp:include page="../../recursos/partes/head.jsp" />
         <title>BeanManager-</title>
     </head>
     
     <body class="no-skin">
-        <jsp:include page="../partes/header.jsp" />
+        <jsp:include page="../../recursos/partes/header.jsp" />
 
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container');}catch(e){}
 			</script>
-                        <jsp:include page="../partes/sideBar.jsp" />
+                        <jsp:include page="../../recursos/partes/sideBar.jsp" />
 					
 			<div class="main-content">
-                            <jsp:include page="../partes/menu.jsp" />
+                            <jsp:include page="../../recursos/partes/menu.jsp" />
                             <div class="page-content">
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -34,9 +34,8 @@
                             </div>
                         </div>
                 </div>
-                 <jsp:include page="../partes/javaScript.jsp" />           
+                 <jsp:include page="../../recursos/partes/javaScript.jsp" />           
     </body>
-</html>
-
+</html>								
 								
 						

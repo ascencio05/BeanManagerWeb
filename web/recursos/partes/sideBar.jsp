@@ -3,12 +3,15 @@
     Created on : 04-27-2017, 10:39:55 AM
     Author     : ascencio
 --%>
-<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+            <div id="sidebar" class="sidebar responsive ace-save-state">
 							<script type="text/javascript">
 								try{ace.settings.loadState('sidebar')}catch(e){}
 							</script>
 
 							<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+    
+                                                                <img id ="Mascota" class="img-responsive"/>
+                                                            	
 								<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 									<button class="btn btn-success">
 										<i class="ace-icon fa fa-signal"></i>

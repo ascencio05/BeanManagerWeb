@@ -4,9 +4,9 @@
     Author     : ascencio
 --%>
 
-		<div id="navbar" class="navbar navbar-default          ace-save-state">
+<div id="navbar" class="navbar navbar-default" style="background-color:	#555555;">
 			<div class="navbar-container ace-save-state" id="navbar-container">
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar" style="background-color: #555555">
 					<span class="sr-only">Toggle sidebar</span>
 
 					<span class="icon-bar"></span>
@@ -16,11 +16,14 @@
 					<span class="icon-bar"></span>
 				</button>
 
-				<div class="navbar-header pull-left">
+				<div class="navbar-header pull-left col-xs-6">
 					<a href="index.html" class="navbar-brand">
 						<small>
-							<img src="../img/FrijolLineal.png" width="50px" />
-							Bean Manager
+                                                    <div class="col-md-1 col-xs-2">
+                                                          <img src="../../recursos/img/FrijolLinealBlanco.png" class="img-responsive"/>
+                                                    </div>
+
+                                                    <b>Bean Manager</b>
 						</small>
 					</a>
 				</div>
@@ -174,7 +177,7 @@
 
 						<li class="grey dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="../img/villacorta.png" alt="Villacorta's Photo" />
+								<img class="nav-user-photo" src="../../recursos/img/villacorta.png" alt="Villacorta's Photo" />
 								<span class="user-info">
 									<small>Bienvenido,</small>
 									Villacorta, Rodrigo
