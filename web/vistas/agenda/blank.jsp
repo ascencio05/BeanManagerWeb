@@ -33,6 +33,7 @@
                                 </div>
                             </div>
                         </div>
+                        <jsp:include page="../../recursos/partes/footer.jsp" /> 
                 </div>
                  <jsp:include page="../../recursos/partes/javaScript.jsp" />           
     </body>
