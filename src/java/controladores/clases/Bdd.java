@@ -7,13 +7,17 @@ package controladores.clases;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.util.List;
+import javax.naming.Context;
+import javax.sql.DataSource;
 /**
  *
  * @author ascencio
  */
 public class Bdd {
     public Connection con;
-    public PreparedStatement preparedStatement;
+    public DataSource ds;
+    private PreparedStatement preparedStatement;
+    private CallableStatement callableStatement;
     
     public Bdd()
     {
@@ -39,8 +43,10 @@ public class Bdd {
         }
     }
     
-    public Bdd(String unconnected)
+    public Bdd(Context initContext, String ref) throws Exception
     {
+       Context env = (Context)initContext.lookup("java:comp/env");
+       ds = (DataSource)env.lookup(ref);
     }
     
     private Connection conectar() throws Exception
@@ -56,6 +62,12 @@ public class Bdd {
     {
         con = conectar();
         preparedStatement = con.prepareStatement(cmd);
+    }
+    
+    public void setCallableQuery(String cmd) throws Exception
+    {
+        con = conectar();
+        callableStatement = con.prepareCall(cmd);
     }
     
     public void executeQuery(List<Object> parametrosList) throws Exception
@@ -99,7 +111,32 @@ public class Bdd {
         
         rs.next();
         String lastId = rs.getString(1);
+        disconnect();
         return lastId;
+    }
+    
+    public ResultSet executeCallRead(List<Object> parametrosList) throws Exception
+    {
+        if(parametrosList != null && parametrosList.size() >0)
+        {
+            for (int i = 0; i < parametrosList.size(); i++) {
+                callableStatement.setObject((i+1), parametrosList.get(i));
+            }
+            callableStatement.executeQuery();
+        }
+        return callableStatement.executeQuery();
+    }
+    
+    public void executeCall(List<Object> parametrosList) throws Exception
+    {
+        if(parametrosList != null && parametrosList.size() >0)
+        {
+            for (int i = 0; i < parametrosList.size(); i++) {
+                callableStatement.setObject((i+1), parametrosList.get(i));
+            }
+            callableStatement.executeUpdate();
+        }
+        disconnect();
     }
     
 }
