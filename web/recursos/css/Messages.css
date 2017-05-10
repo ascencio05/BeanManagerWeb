@@ -1,0 +1,23 @@
+.messages
+{
+    border: solid;
+    text-align: center;
+    border-width: 1px;
+    border-radius: 5px;
+    display: none;
+}
+
+.errorMsg
+{
+    border-color:#FFBF48;
+}
+
+.successMsg
+{
+    border-color:#12A11C;
+}
+
+.none {
+    display: none;
+}
+
