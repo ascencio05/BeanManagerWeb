@@ -5,12 +5,24 @@
  */
 package controladores.usuarios;
 
+import controladores.clases.Bdd;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 /**
  *
  * @author monica
  */
 public class usuarios {
 
+    
+    public  Bdd db;
     /**
      * @return the nombre
      */
@@ -192,6 +204,65 @@ public class usuarios {
     public void setContrasena2(String contrasena2) {
         this.contrasena2 = contrasena2;
     }
+    
+    public void setUser(int u){
+            ResultSet usuario; 
+       try{
+             List<Object> param = new ArrayList<>();
+             param.add(u);
+             Context initial = new InitialContext();
+             db = new Bdd(initial,"jdbc/AWS");
+             db.setCallableQuery("{call selectUsers(?)}");
+            usuario = db.executeCallRead(param);
+            while(usuario.next()){
+                nombre=usuario.getString("nombre");
+                apellido=usuario.getString("apellido");
+                fechanac=usuario.getString("fechaNacimiento");
+                presentacion=usuario.getString("presentacion");
+                pais=usuario.getString("pais");
+                ciudad=usuario.getString("ciudad");
+                correo=usuario.getString("correo");
+                paginaweb=usuario.getString("paginaweb");
+                facebook=usuario.getString("facebook");
+                twitter=usuario.getString("twitter");
+                github=usuario.getString("github");
+            }
+            
+           db.disconnect();
+        }catch(Exception e){
+            usuario = null;
+        }
+             
+       
+    }
+   
+     public void updateUser(int u){
+            
+       try{
+             List<Object> param = new ArrayList<>();
+             param.add(u);
+             param.add(nombre); 
+             param.add(apellido); 
+             param.add(correo);
+             param.add(fechanac);
+             param.add(pais); 
+             param.add(ciudad); 
+             param.add(presentacion); 
+             param.add(paginaweb); 
+             param.add(facebook); 
+             param.add(twitter); 
+             param.add(github);
+             Context initial = new InitialContext();
+             db = new Bdd(initial,"jdbc/AWS");
+             db.setCallableQuery("{call Users_Updat(?,?,?,?,?,?,?,?,?,?,?,?)}");
+             db.executeCall(param);
+     
+        }catch(Exception e){
+           
+        }
+             
+       
+    }
     private String nombre; 
     private String apellido; 
     private String fechanac; 
@@ -205,4 +276,5 @@ public class usuarios {
     private String github; 
     private String contrasena1; 
     private String contrasena2; 
+    
 }
