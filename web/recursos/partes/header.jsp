@@ -188,16 +188,16 @@
 
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="#">
+									<a href="../../vistas/usuarios/confPerfil.jsp">
 										<i class="ace-icon fa fa-cog"></i>
-										Settings
+										Configuracion
 									</a>
 								</li>
 
 								<li>
-									<a href="profile.html">
+									<a href="../../vistas/usuarios/myProfile.jsp">
 										<i class="ace-icon fa fa-user"></i>
-										Profile
+										Mi Perfil
 									</a>
 								</li>
 

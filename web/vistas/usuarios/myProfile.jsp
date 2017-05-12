@@ -1,6 +1,6 @@
 <%-- 
-    Document   : confPerfil
-    Created on : 07-may-2017, 11:35:27
+    Document   : myProfilel
+    Created on : 12-may-2017, 9:45:54
     Author     : Monica Escrich
 --%>
 
@@ -39,222 +39,113 @@
 								<!-- PAGE CONTENT BEGINS -->
 
 
+								<div>
+									<div id="user-profile-1" class="user-profile row">
+										<div class="col-xs-12 col-sm-3 center">
+											<div>
+												<span class="profile-picture">
+													<img id="avatar" class="editable img-responsive" alt="Avatar" src="../../recursos/img/villacorta.png" />
+												</span>
 
-					<div class="page-content">
+												<div class="space-4"></div>
 
+												<div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+													<div class="inline position-relative">
+														<a href="#" class="user-title-label dropdown-toggle" data-toggle="dropdown">
+															<i class="ace-icon fa fa-circle light-green"></i>
+															&nbsp;
+                                                                                                                        <span class="white"><jsp:getProperty name="usuario" property="nombre"/>,<jsp:getProperty name="usuario" property="apellido"/></span>
+														</a>
 
+	
+													</div>
+												</div>
+											</div>
 
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
+											<div class="space-6"></div>
 
+											<div class="profile-contact-info">
+												<div class="profile-contact-links align-left">
 
-								<div >
-									<div id="user-profile-3" class="user-profile row">
-										<div class="col-sm-offset-1 col-sm-10">
+													
+
+													<a href="#" class="btn btn-link">
+														<i class="ace-icon fa fa-globe bigger-125 blue"></i>
+														<jsp:getProperty name="usuario" property="paginaweb"/>
+													</a>
+												</div>
+
+												<div class="space-6"></div>
+
+												<div class="profile-social-links align-center">
+													<a href="<jsp:getProperty name="usuario" property="facebook"/>" class="tooltip-info" title="" data-original-title="Visita mi Facebook">
+														<i class="middle ace-icon fa fa-facebook-square fa-2x blue"></i>
+													</a>
+
+													<a href="<jsp:getProperty name="usuario" property="twitter"/>" class="tooltip-info" title="" data-original-title="Visita mi Twitter">
+														<i class="middle ace-icon fa fa-twitter-square fa-2x light-blue"></i>
+													</a>
+
+													<a href="<jsp:getProperty name="usuario" property="github"/>" class="tooltip-error" title="" data-original-title="Visita mi Git Hub">
+														<i class="middle ace-icon fa fa-github-square fa-2x red"></i>
+													</a>
+												</div>
+											</div>
+
+											<div class="hr hr12 dotted"></div>
+
+											<div class="hr hr16 dotted"></div>
+										</div>
+
+										<div class="col-xs-12 col-sm-9">
 											
 
-											<div class="space"></div>
+											<div class="space-12"></div>
 
-                                                                                        <form class="form-horizontal" action="savePerfil.jsp">
-												<div class="tabbable">
-													<ul class="nav nav-tabs padding-16">
-														<li class="active">
-															<a data-toggle="tab" href="#edit-basic">
-																<i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
-                                                                                                                                    Informacion Basica
-															</a>
-														</li>
+											<div class="profile-user-info profile-user-info-striped">
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Correo </div>
 
-														
-
-														<!--li>
-															<a data-toggle="tab" href="#edit-password">
-																<i class="blue ace-icon fa fa-key bigger-125"></i>
-																Cambiar Contraseña
-															</a>
-														</li-->
-													</ul>
-
-													<div class="tab-content profile-edit-tab-content">
-														<div id="edit-basic" class="tab-pane in active">
-															<h4 class="header blue bolder smaller">General</h4>
-
-															<div class="row">
-																<div class="col-xs-12 col-sm-4">
-																	<input type="file" />
-																</div>
-
-																<div class="vspace-12-sm"></div>
-
-																<div class="col-xs-12 col-sm-8">
-																	
-
-																	<div class="space-4"></div>
-
-																	<div class="form-group">
-																		<label class="col-sm-4 control-label no-padding-right" for="form-field-first">Nombre</label>
-
-																		<div class="col-sm-8">
-                                                                                                                                                    <input class="input-small" type="text" id="form-field-first" name="nombre" placeholder="Nombre" value="<jsp:getProperty name="usuario" property="nombre"/>" />
-																			<input class="input-small" type="text" id="form-field-last" name="apellido" placeholder="Apellido" value="<jsp:getProperty name="usuario" property="apellido"/>" />
-																		</div>
-																	</div>
-																</div>
-															</div>
-
-															<hr />
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-date">Fecha de Nacimiento</label>
-
-																<div class="col-sm-9">
-																	<div class="input-medium">
-																		<div class="input-group">
-                                                                                                                                                    <input class="input-medium date-picker" id="form-field-date" name="fechanac" type="text" data-date-format="yyyy-mm-dd" placeholder="dd-mm-yyyy" value="<jsp:getProperty name="usuario" property="fechanac"/>" />
-																			<span class="input-group-addon">
-																				<i class="ace-icon fa fa-calendar"></i>
-																			</span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-
-															<div class="space-4"></div>
-
-				
-
-															<div class="space-4"></div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-comment">Presentacion</label>
-
-																<div class="col-sm-9">
-                                                                                                                                    <textarea id="form-field-comment" name="presentacion" placeholder="Escribe algo sobre ti" value="<jsp:getProperty name="usuario" property="presentacion"/>"></textarea>
-																</div>
-															</div>
-                                                                                                                        <div class="space-4"></div>
-                                                                                                                        <div class="form-group">
-																		<label class="col-sm-4 control-label no-padding-right" for="form-field-country">Ubicacion</label>
-
-																		<div class="col-sm-8">
-																			<input class="input-small" type="text" id="form-field-country" name="pais" placeholder="Pais" value="<jsp:getProperty name="usuario" property="pais"/>" />
-                                                                                                                                                        <input class="input-small" type="text" id="form-field-country" name="ciudad" placeholder="Ciudad" value="<jsp:getProperty name="usuario" property="ciudad"/>" />
-																		</div>
-																	</div>
-
-															<div class="space"></div>
-															<h4 class="header blue bolder smaller">Contacto</h4>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-email">Correo electronico</label>
-
-																<div class="col-sm-9">
-																	<span class="input-icon input-icon-right">
-                                                                                                                                            <input type="email" name="correo" id="form-field-email" value="<jsp:getProperty name="usuario" property="correo"/>" />
-																		<i class="ace-icon fa fa-envelope"></i>
-																	</span>
-																</div>
-															</div>
-
-															<div class="space-4"></div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-website">Sitio web</label>
-
-																<div class="col-sm-9">
-																	<span class="input-icon input-icon-right">
-																		<input type="url" id="form-field-website" name="paginaweb" value="<jsp:getProperty name="usuario" property="paginaweb"/>" />
-																		<i class="ace-icon fa fa-globe"></i>
-																	</span>
-																</div>
-															</div>
-
-															<div class="space-4"></div>
-
-															
-															<div class="space"></div>
-															<h4 class="header blue bolder smaller">Social</h4>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Facebook</label>
-
-																<div class="col-sm-9">
-																	<span class="input-icon">
-																		<input type="text"  id="form-field-facebook" name="facebook" value="<jsp:getProperty name="usuario" property="facebook"/>"/>
-																		<i class="ace-icon fa fa-facebook blue"></i>
-																	</span>
-																</div>
-															</div>
-
-															<div class="space-4"></div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-twitter">Twitter</label>
-
-																<div class="col-sm-9">
-																	<span class="input-icon">
-                                                                                                                                            <input type="text"  id="form-field-twitter" name="twitter" value="<jsp:getProperty name="usuario" property="twitter"/>" />
-																		<i class="ace-icon fa fa-twitter light-blue"></i>
-																	</span>
-																</div>
-															</div>
-
-															<div class="space-4"></div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-gplus">Github</label>
-
-																<div class="col-sm-9">
-																	<span class="input-icon">
-																		<input type="text" " id="form-field-gplus" name="github" value="<jsp:getProperty name="usuario" property="github"/>"/>
-																		<i class="ace-icon fa fa-github"></i>
-																	</span>
-																</div>
-															</div>
-														</div>
-
-														
-														<!--div id="edit-password" class="tab-pane">
-															<div class="space-10"></div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-pass1">Nueva Contraseña</label>
-
-																<div class="col-sm-9">
-                                                                                                                                    <input type="password" id="form-field-pass1" name="contrasena1" value="<jsp:getProperty name="usuario" property="contrasena1"/>"/>
-																</div>
-															</div>
-
-															<div class="space-4"></div>
-
-															<div class="form-group">
-																<label class="col-sm-3 control-label no-padding-right" for="form-field-pass2">Confirmar Contraseña</label>
-
-																<div class="col-sm-9">
-																	<input type="password" id="form-field-pass2" name="contrasena2" value="<jsp:getProperty name="usuario" property="contrasena2"/>"/>
-																</div>
-															</div>
-														</div-->
+													<div class="profile-info-value">
+														<span class="editable" id="username"><jsp:getProperty name="usuario" property="correo"/></span>
 													</div>
 												</div>
 
-												<div class="clearfix form-actions">
-													<div class="col-md-offset-3 col-md-9">
-                                                                                                            <input class="btn btn-info" type="submit" value="Guardar">
-															
-														</input>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Ubicación </div>
 
-														&nbsp; &nbsp;
-														<button class="btn" type="reset">
-															<i class="ace-icon fa fa-undo bigger-110"></i>
-															Cancelar
-														</button>
+													<div class="profile-info-value">
+														<i class="fa fa-map-marker light-orange bigger-110"></i>
+														<span class="editable" id="country"><jsp:getProperty name="usuario" property="pais"/></span>
+														<span class="editable" id="city"><jsp:getProperty name="usuario" property="ciudad"/></span>
 													</div>
 												</div>
-											</form>
-										</div><!-- /.span -->
-									</div><!-- /.user-profile -->
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Fecha de Nacimiento </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="age"><jsp:getProperty name="usuario" property="fechanac"/></span>
+													</div>
+												</div>
+
+
+												<div class="profile-info-row">
+													<div class="profile-info-name"> Presentación </div>
+
+													<div class="profile-info-value">
+														<span class="editable" id="about"><jsp:getProperty name="usuario" property="presentacion"/></span>
+													</div>
+												</div>
+											</div>
+
+											
+
+										</div>
+									</div>
 								</div>
+
+							
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
@@ -264,7 +155,7 @@
 			</div><!-- /.main-content -->
 
 			<jsp:include page="../../recursos/partes/footer.jsp" /> 
-
+                        
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
