@@ -70,7 +70,7 @@
 									<b class="arrow"></b>
 								</li>
 								<li class="">
-									<a href="">
+									<a href="../../vistas/usuarios/toDoList.jsp">
 										<i class="menu-icon fa fa-pencil-square-o"></i>
 										<span class="menu-text"> To do list </span>
 									</a>

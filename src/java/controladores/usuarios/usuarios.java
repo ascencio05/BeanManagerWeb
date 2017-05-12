@@ -21,6 +21,20 @@ import javax.naming.NamingException;
  */
 public class usuarios {
 
+    /**
+     * @return the respuesta
+     */
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    /**
+     * @param respuesta the respuesta to set
+     */
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
+
     
     public  Bdd db;
     /**
@@ -256,9 +270,9 @@ public class usuarios {
              db = new Bdd(initial,"jdbc/AWS");
              db.setCallableQuery("{call Users_Updat(?,?,?,?,?,?,?,?,?,?,?,?)}");
              db.executeCall(param);
-     
+              respuesta= "Actualizado con exito"; 
         }catch(Exception e){
-           
+           respuesta=e.toString(); 
         }
              
        
@@ -276,5 +290,6 @@ public class usuarios {
     private String github; 
     private String contrasena1; 
     private String contrasena2; 
+    private String respuesta; 
     
 }

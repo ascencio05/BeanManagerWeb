@@ -134,7 +134,7 @@
 													<div class="profile-info-name"> Presentación </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="about"><jsp:getProperty name="usuario" property="presentacion"/></span>
+														<span class="editable" id="presentacion" name="presentacion"><jsp:getProperty name="usuario" property="presentacion"/></span>
 													</div>
 												</div>
 											</div>

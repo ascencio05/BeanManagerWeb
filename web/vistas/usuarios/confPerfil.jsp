@@ -81,9 +81,9 @@
 															<h4 class="header blue bolder smaller">General</h4>
 
 															<div class="row">
-																<div class="col-xs-12 col-sm-4">
+																<!--div class="col-xs-12 col-sm-4">
 																	<input type="file" />
-																</div>
+																</div-->
 
 																<div class="vspace-12-sm"></div>
 
@@ -129,7 +129,7 @@
 																<label class="col-sm-3 control-label no-padding-right" for="form-field-comment">Presentacion</label>
 
 																<div class="col-sm-9">
-                                                                                                                                    <textarea id="form-field-comment" name="presentacion" placeholder="Escribe algo sobre ti" value="<jsp:getProperty name="usuario" property="presentacion"/>"></textarea>
+                                                                                                                                    <textarea id="form-field-comment" name="presentacion" placeholder="Escribe algo sobre ti" ><jsp:getProperty name="usuario" property="presentacion"/></textarea>
 																</div>
 															</div>
                                                                                                                         <div class="space-4"></div>

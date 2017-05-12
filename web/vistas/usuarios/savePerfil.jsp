@@ -1,11 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="usuario" scope="page" class="controladores.usuarios.usuarios"/>
 <jsp:setProperty name="usuario" property="*"/>
-<% try{
-    usuario.updateUser(10);
-}catch(Exception e){
-    
-}
+<%
+    try{
+        usuario.updateUser(10);
+    }catch(Exception e){
+        usuario.setRespuesta(e.toString());
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +33,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-                                                                <%="Exito!"%>
+                                                                <jsp:getProperty name="usuario" property="respuesta"/>
                                                         </div>
 			</div><!-- /.main-content -->
 
