@@ -4,6 +4,8 @@
     Author     : ascencio
 --%>
 
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="java.sql.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -12,7 +14,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
- Bdd bd = new Bdd();
+            Context initial = new InitialContext();
+            Bdd bd = new Bdd(initial,"jdbc/AWS");;
             ResultSet rs =null;
             String idUsuario = request.getParameter("idUsuario");
             String titulo = request.getParameter("titulo");

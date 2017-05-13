@@ -214,7 +214,7 @@
 								<span class="user-info">
 									<small>Bienvenido,</small>
                                                                         <%
-                                                                            out.println(session.getAttribute("nombre"));
+                                                                            out.println(session.getAttribute("nombre").toString()+","+session.getAttribute("apellido").toString());  
                                                                         %>
 								</span>
 
@@ -232,7 +232,7 @@
 								<li>
 									<a href="profile.html">
 										<i class="ace-icon fa fa-user"></i>
-										Profile
+										Perfil  
 									</a>
 								</li>
 
@@ -250,3 +250,4 @@
 				</div>
 			</div><!-- /.navbar-container -->
 		</div>
+                                                                

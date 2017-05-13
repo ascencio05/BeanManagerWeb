@@ -227,7 +227,8 @@
                                           <select id="tipoAct">';
                         var modal2=modal2+<%
                          try{
-                                Bdd bd = new Bdd();
+                                Context initial = new InitialContext();
+                                Bdd bd = new Bdd(initial,"jdbc/AWS");;
                                 ResultSet rs =null;
                                 bd.setCallableQuery("{call tiposActividades()}");
                                 List<Object> param = new ArrayList<>();        
@@ -345,7 +346,8 @@
                                           <select id="tipoActividad">';
                         var modal=modal+<%
                          try{
-                                Bdd bd = new Bdd();
+                                Context initial = new InitialContext();
+                                Bdd bd = new Bdd(initial,"jdbc/AWS");;
                                 ResultSet rs =null;
                                 bd.setCallableQuery("{call tiposActividades()}");
                                 List<Object> param = new ArrayList<>();        

@@ -21,15 +21,7 @@ public class Bdd {
     
     public Bdd()
     {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con =DriverManager.getConnection("jdbc:mysql://52.37.202.53:3306/BeanManager","beanmanager","CG7Tr9LqpmRCwEne");  
-        }
-        catch(Exception e)
-        {
-            System.out.println("ERROR_ "+e);     
-        }
+        
     }
     public void close()
     {
@@ -42,7 +34,6 @@ public class Bdd {
              System.out.println("ERROR_ "+e);
         }
     }
-    
     
     public CallableStatement getCallable()
     {
@@ -58,8 +49,7 @@ public class Bdd {
     private Connection conectar() throws Exception
     {
         if(con == null || con.isClosed()){
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
-        con = DriverManager.getConnection("jdbc:mysql://52.37.202.53:3306/BeanManager", "beanmanager", "CG7Tr9LqpmRCwEne");
+           con = ds.getConnection();
         }
         return con;
     }
@@ -91,11 +81,6 @@ public class Bdd {
     public void disconnect() throws Exception
     {
         con.close();
-        try {
-            preparedStatement.close();
-            callableStatement.close();
-        } catch (Exception e) {
-        }
     }
     
     public ResultSet executeReader(List<Object> parametrosList) throws Exception
