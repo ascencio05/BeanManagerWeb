@@ -4,7 +4,6 @@
     text-align: center;
     border-width: 1px;
     border-radius: 5px;
-    display: none;
 }
 
 .errorMsg
@@ -18,6 +17,10 @@
 }
 
 .none {
+    display: none;
+}
+
+.msg{
     display: none;
 }
 

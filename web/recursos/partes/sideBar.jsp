@@ -3,6 +3,25 @@
     Created on : 04-27-2017, 10:39:55 AM
     Author     : ascencio
 --%>
+
+<%@page import="controladores.solicitudes.solicitudes"%>
+<%@page import="controladores.session.Permiso"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
+<%
+    Permiso solicitudesSideBar = new Permiso();
+    if(session.getAttribute("autenticado") != null && (boolean)session.getAttribute("autenticado"))
+                {
+                    List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
+                    
+                    for(Permiso per : permisos)
+                    {
+                        if(per.idModulo.equals("3"))
+                        {
+                            solicitudesSideBar = per;
+                        }
+                    }
+                }%>
             <div id="sidebar" class="sidebar responsive ace-save-state">
 							<script type="text/javascript">
 								try{ace.settings.loadState('sidebar')}catch(e){}
@@ -49,7 +68,7 @@
 									</a>
 									<b class="arrow"></b>
 								</li>
-								<li class="active">
+								<li>
 									<a href="">
 										<i class="menu-icon fa fa-calendar"></i>
 
@@ -59,18 +78,43 @@
 									</a>
 									<b class="arrow"></b>
 								</li>
-								<li class="">
-									<a href="">
-										<i class="menu-icon fa fa-cubes"></i>
+                                                                
+                                                                <% 
+                                                                    if(solicitudesSideBar.ingresar)
+                                                                    {
+                                                                %>
+								<li id="liMP" class="">
+									<a href="" class="dropdown-toggle">
+										<i class="menu-icon fa fa-desktop"></i>
 
 										<span class="menu-text">
 											Mis Proyectos
 										</span>
 									</a>
 									<b class="arrow"></b>
+                                                                        <ul class="submenu">
+                                                                            <li id="1" class="">
+                                                                                    <a href="solicitudes.jsp">
+                                                                                            <i class="menu-icon fa fa-folder-open"></i>
+                                                                                            Ver Proyectos
+                                                                                    </a>
+                                                                                    <b class="arrow"></b>
+                                                                            </li>
+                                                                            <% if(solicitudesSideBar.modificar)
+                                                                            { %>
+                                                                            <li id="2" class="">
+                                                                                    <a href="nuevoProyecto.jsp">
+                                                                                            <i class="menu-icon fa fa-cloud-upload"></i>
+                                                                                            Nuevo Proyecto
+                                                                                    </a>
+                                                                                    <b class="arrow"></b>
+                                                                            </li>
+                                                                            <% } %>
+                                                                        </ul>
 								</li>
+                                                                <% } %>
 								<li class="">
-									<a href="../../vistas/usuarios/toDoList.jsp">
+									<a href="">
 										<i class="menu-icon fa fa-pencil-square-o"></i>
 										<span class="menu-text"> To do list </span>
 									</a>

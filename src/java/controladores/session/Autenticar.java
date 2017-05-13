@@ -45,37 +45,60 @@ public class Autenticar extends HttpServlet {
             String user = request.getParameter("user");
             String pass = request.getParameter("pass");
             String json;
+            String id = "", tipo = "", nombre = "", apellido = "", correo = "", gui = "";
+            Bdd db = new Bdd();
             
+            List<Permiso> permisos = new ArrayList<>();
             List<Object> param = new ArrayList<>();
             param.add(user);
             param.add(pass);
             try {
                 Context initial = new InitialContext();
-                Bdd db = new Bdd(initial,"jdbc/AWS");
+                db = new Bdd(initial,"jdbc/AWS");
                 db.setCallableQuery("{call LOGIN(?,?)}");
                 ResultSet rs = db.executeCallRead(param);
                 int i = 0;
                 
-                if(!rs.next())
+                while(rs.next())
                 {
-                    Exception ex = new Exception("Error al autenticar<br>");
-                    throw ex;
+                    if(i == 0 && rs.getString("result").equals("0"))
+                    {
+                        Exception ex = new Exception("Error al autenticar<br>");
+                        throw ex;
+                    }
+                    else if(i==0)
+                    {
+                        id =  String.valueOf(rs.getObject("idUsuario"));
+                        tipo = String.valueOf(rs.getObject("idTipo"));
+                        nombre = String.valueOf(rs.getObject("nombre"));
+                        apellido = String.valueOf(rs.getObject("apellido"));
+                        correo = String.valueOf(rs.getObject("correo"));
+                        apellido = String.valueOf(rs.getObject("apellido"));
+                        gui = String.valueOf(rs.getObject("colorGui"));
+                    }
+                    Permiso aux = new Permiso(rs.getString("idPermiso"), rs.getString("idModulo"), rs.getString("agregar"), rs.getString("borrar"), rs.getString("modificar"), rs.getString("ingresar"));
+                    permisos.add(aux);
                 }
                 
-                
                 HttpSession session = request.getSession();
-                session.setAttribute("id", rs.getObject("idUsuario"));
-                session.setAttribute("tipo", rs.getObject("idTipo"));
-                session.setAttribute("nombre", rs.getObject("nombre"));
-                session.setAttribute("apellido", rs.getObject("apellido"));
-                session.setAttribute("correo", rs.getObject("correo"));
-                session.setAttribute("gui", rs.getObject("colorGui"));
+                session.setAttribute("id", id);
+                session.setAttribute("tipo", tipo);
+                session.setAttribute("nombre", nombre);
+                session.setAttribute("apellido", apellido);
+                session.setAttribute("correo", correo);
+                session.setAttribute("gui", gui);
+                session.setAttribute("permisos", permisos);
                 session.setAttribute("autenticado", true);
-                
+                rs.close();
                 json = "autenticado:true";
-                db.disconnect();
+                
             } catch (Exception e) {
                 json = "autenticado:false";
+            }
+            try {
+               db.disconnect();
+            } catch (Exception e) {
+                out.write("Error al cerrar");
             }
             out.write(json);
         }

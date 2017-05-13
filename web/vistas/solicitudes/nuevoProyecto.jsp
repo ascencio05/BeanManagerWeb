@@ -4,6 +4,8 @@
     Author     : Rodrigo
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="controladores.session.Permiso"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +20,25 @@
     
     <body class="no-skin">
         <jsp:include page="../../recursos/partes/header.jsp" />
+        <%
+                Permiso solicitudes = new Permiso();
+                if( session != null && session.getAttribute("autenticado") != null && (boolean)session.getAttribute("autenticado"))
+                            {
+                                List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 
+                                for(Permiso per : permisos)
+                                {
+                                    if(per.idModulo.equals("3"))
+                                    {
+                                        solicitudes = per;
+                                    }
+                                }
+                            }
+                else
+                {
+                    response.sendRedirect("../../login.html?failed=true");
+                }
+            %>
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container');}catch(e){}
@@ -28,20 +48,22 @@
 			<div class="main-content">
                             <jsp:include page="../../recursos/partes/menu.jsp" />
                             <div class="page-content">
+                                <% if(solicitudes.agregar)
+                                { %>
                                 <div class="page-header">
                                     <div class="text-center">
                                         <h2>Ingrese los siguientes datos</h2>
                                     </div>                                    
                                 </div>
                                 <div class="col-xs-offset-1 col-xs-10">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" action="calls/insertSol.jsp" method="post">
                                         <div class="col-sm-offset-2 col-sm-8">
-                                            <input type="text" class="form-control" placeholder="T&iacute;tulo del poryecto"/>
+                                            <input type="text" class="form-control" name="titulo" placeholder="T&iacute;tulo del poryecto" required/>
                                             
                                             <div class="col-sm-6 no-padding-left">
                                                 <label class="control-label">Fecha de Inicio</label>
                                                 <div class="input-group">
-                                                    <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD">
+                                                    <input class="form-control date-picker" id="id-date-picker-1" name="fI" type="text" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD" required>
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                         </span>
@@ -52,7 +74,7 @@
                                             <div class="col-sm-6 no-padding-right">
                                                 <label class="control-label">Fecha Final</label>
                                                 <div class="input-group">
-                                                    <input class="form-control date-picker" id="id-date-picker-2" type="text" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD">
+                                                    <input class="form-control date-picker" id="id-date-picker-2" name="fF" type="text" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD" required>
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                         </span>
@@ -60,7 +82,7 @@
                                             <br>
                                             </div>
                                             
-                                            <textarea class="form-control" rows="8" cols="80" placeholder=" Descripción Corta del Proyecto ..."></textarea>
+                                            <textarea class="form-control" rows="8" cols="80" name="des" placeholder=" Descripción Corta del Proyecto ..." required></textarea>
                                             <br>
                                             <div class="text-center">
                                                 <button class="btn btn-success">
@@ -73,6 +95,8 @@
                                        </div>
                                     </form>
                                 </div>
+                                <% } else { %>
+                                <h1>No tiene suficientes permisos </h1> <% } %>
                             </div>
                         </div>
                         <jsp:include page="../../recursos/partes/footer.jsp" /> 

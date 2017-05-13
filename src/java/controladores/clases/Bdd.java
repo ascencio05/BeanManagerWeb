@@ -43,6 +43,12 @@ public class Bdd {
         }
     }
     
+    
+    public CallableStatement getCallable()
+    {
+        return this.callableStatement;
+    }
+    
     public Bdd(Context initContext, String ref) throws Exception
     {
        Context env = (Context)initContext.lookup("java:comp/env");
@@ -85,6 +91,11 @@ public class Bdd {
     public void disconnect() throws Exception
     {
         con.close();
+        try {
+            preparedStatement.close();
+            callableStatement.close();
+        } catch (Exception e) {
+        }
     }
     
     public ResultSet executeReader(List<Object> parametrosList) throws Exception
@@ -137,6 +148,17 @@ public class Bdd {
             callableStatement.executeUpdate();
         }
         disconnect();
+    }
+    
+    public void executeCall(List<Object> parametrosList, String unclosed) throws Exception
+    {
+        if(parametrosList != null && parametrosList.size() >0)
+        {
+            for (int i = 0; i < parametrosList.size(); i++) {
+                callableStatement.setObject((i+1), parametrosList.get(i));
+            }
+            callableStatement.executeUpdate();
+        }
     }
     
 }
