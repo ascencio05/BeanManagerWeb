@@ -4,6 +4,12 @@
     Author     : ascencio
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="java.sql.*"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="controladores.clases.Bdd"%>
+<%@page import="javax.naming.Context"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +19,17 @@
     </head>
     
     <body class="no-skin">
+        <%
+       try{
+        Context initial = new InitialContext();
+        Bdd db = new Bdd(initial,"jdbc/AWS");
+       }
+       catch(Exception e)
+       {
+            out.println(e.toString());
+        }
+        
+        %>
         <jsp:include page="../../recursos/partes/header.jsp" />
 
 		<div class="main-container ace-save-state" id="main-container">
@@ -31,16 +48,16 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">
-									<div class="col-sm-9">
+									<div class="col-sm-10">
 										<div class="space"></div>
 
 										<div id="calendar"></div>
 									</div>
 
-									<div class="col-sm-3">
+									<div class="col-sm-2">
 										<div class="widget-box transparent">
 											<div class="widget-header">
-												<h4>Tipo de Eventos</h4>
+												<h4>Tipo de Actividad</h4>
 											</div>
 
 											<div class="widget-body">
@@ -48,41 +65,47 @@
 													<div id="external-events">
 														<div class="external-event label-grey" data-class="label-grey">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 1
+															Codigo
 														</div>
 
 														<div class="external-event label-success" data-class="label-success">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 2
+															Exposicion
 														</div>
 
 														<div class="external-event label-danger" data-class="label-danger">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 3
+															Emergencia
 														</div>
 
 														<div class="external-event label-purple" data-class="label-purple">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 4
+															Salida
 														</div>
 
 														<div class="external-event label-yellow" data-class="label-yellow">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 5
+															Reunion
 														</div>
 
 														<div class="external-event label-pink" data-class="label-pink">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 6
+															Analisis
 														</div>
 
 														<div class="external-event label-info" data-class="label-info">
 															<i class="ace-icon fa fa-arrows"></i>
-															Evento 7
+															Otro
 														</div>
 													</div>
 												</div>
 											</div>
+                                                                                    <div class="widget-header">
+												<h4>Descripción Actividad: </h4>
+                                                                                    </div>
+                                                                                    <blockquote>
+                                                                                        <p id="descripcion"></p>
+                                                                                    </blockquote>
 										</div>
 									</div>
 								</div>
@@ -97,6 +120,11 @@
                  
                  <jsp:include page="../../recursos/partes/javaScript.jsp" />    
                  <script type="text/javascript">
+                         var a=0;
+                         var idAc;
+                                 var fechaI;
+        var fechaF;
+
 			jQuery(function($) {
 
 /* initialize the external events
@@ -133,10 +161,7 @@
 	var m = date.getMonth();
 	var y = date.getFullYear();
 
-
 	var calendar = $('#calendar').fullCalendar({
-		//isRTL: true,
-		//firstDay: 1,// >> change first day of week
 
 		buttonHtml: {
 			prev: '<i class="ace-icon fa fa-chevron-left"></i>',
@@ -146,148 +171,319 @@
 		header: {
 			left: 'prev,next today',
 			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
+			right: ''
 		},
 		events: [
-		  {
-			title: 'All Day Event',
-			start: new Date(y, m, 1),
-			className: 'label-important'
-		  },
-		  {
-			title: 'Parciales',
-			start: moment().subtract(5, 'days').format('YYYY-MM-DD'),
-			end: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-			className: 'label-success'
-		  },
-		  {
-			title: 'Some Event',
-			start: new Date(y, m, d-3, 16, 0),
-			allDay: false,
-			className: 'label-info'
-		  }
+                    
+                        <%
+                        try{
+                            Context initial = new InitialContext();
+                            Bdd db = new Bdd(initial,"jdbc/AWS");
+                            String datos="";
+                            db.setCallableQuery("{call allActividades(?)}");
+                            List<Object> param = new ArrayList<>();
+                            int id=1;
+                            param.add(id);
+                            ResultSet rs = db.executeCallRead(param);
+                            while(rs.next())
+                            {
+                                if(rs.getDate("fechaInicio").equals(rs.getDate("fechaFinal")))
+                                    datos+="{id:'"+rs.getInt("idActividad")+"',title:'"+rs.getString("titulo")+"',start:'"+rs.getDate("fechaInicio")+"',allDay:true"+",className: '"+rs.getString("descripcion")+"',description:'"+rs.getString("descAct")+"'},";
+                                else
+                                {
+                                    String [] parts = rs.getDate("fechaFinal").toString().split("-");
+                                    int diaF=Integer.parseInt(parts[2])+1;
+                                    datos+="{id:'"+rs.getInt("idActividad")+"',title:'"+rs.getString("titulo")+"',start:'"+rs.getDate("fechaInicio")+"',end:'"+parts[0]+"-"+parts[1]+"-"+diaF+"',className: '"+rs.getString("descripcion")+"',description:'"+rs.getString("descAct")+"'},";
+                                }
+                            }
+                                out.println(datos);
+                                
+                           }
+                           catch(Exception e)
+                           {
+                                out.println(e.toString());
+                            }
+                        
+                        
+                        %>
 		]
-		,
 
-		/**eventResize: function(event, delta, revertFunc) {
-
-			alert(event.title + " end is now " + event.end.format());
-
-			if (!confirm("is this okay?")) {
-				revertFunc();
-			}
-
-		},*/
-
-		editable: true,
-		droppable: true, // this allows things to be dropped onto the calendar !!!
-		drop: function(date) { // this function is called when something is dropped
-
-			// retrieve the dropped element's stored Event Object
-			var originalEventObject = $(this).data('eventObject');
-			var $extraEventClass = $(this).attr('data-class');
-
-
-			// we need to copy it, so that multiple events don't have a reference to the same object
-			var copiedEventObject = $.extend({}, originalEventObject);
-
-			// assign it the date that was reported
-			copiedEventObject.start = date;
-			copiedEventObject.allDay = false;
-			if($extraEventClass) copiedEventObject['className'] = [$extraEventClass];
-
-			// render the event on the calendar
-			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-			$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-			// is the "remove after drop" checkbox checked?
-			if ($('#drop-remove').is(':checked')) {
-				// if so, remove the element from the "Draggable Events" list
-				$(this).remove();
-			}
-
-		}
-		,
+                ,
 		selectable: true,
 		selectHelper: true,
-		select: function(start, end, allDay) {
-
-			bootbox.prompt("New Event Title:", function(title) {
-				if (title !== null) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay,
-							className: 'label-info'
-						},
-						true // make the event "stick"
-					);
-				}
-			});
-
-
-			calendar.fullCalendar('unselect');
-		}
-		,
-		eventClick: function(calEvent, jsEvent, view) {
-
-			//display a modal
-			var modal =
-			'<div class="modal fade">\
+		select: function(start, end) {
+                    //display a modal
+			var modal2 =
+			'<div  class="modal fade">\
 			  <div class="modal-dialog">\
 			   <div class="modal-content">\
 				 <div class="modal-body">\
 				   <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px;">&times;</button>\
-				   <form class="no-margin">\
-					  <label>Change event name &nbsp;</label>\
-					  <input class="middle" autocomplete="off" type="text" value="' + calEvent.title + '" />\
-					 <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Save</button>\
-				   </form>\
-				 </div>\
-				 <div class="modal-footer">\
-					<button type="button" class="btn btn-sm btn-danger" data-action="delete"><i class="ace-icon fa fa-trash-o"></i> Delete Event</button>\
-					<button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> Cancel</button>\
-				 </div>\
-			  </div>\
-			 </div>\
+				   <form id="agregarAct" class="no-margin">\
+                                   <h3>Agregar Nueva Actividad</h3><br>\
+					  <label>Titulo de Actividad &nbsp; </label>\
+					  <input required type="text" id="newTitle" class="middle" autocomplete="off"  value=" " />\
+                                          <label>Tipo de Actividad: &nbsp; </label>\
+                                          <select id="tipoAct">';
+                        var modal2=modal2+<%
+                         try{
+                                Bdd bd = new Bdd();
+                                ResultSet rs =null;
+                                bd.setCallableQuery("{call tiposActividades()}");
+                                List<Object> param = new ArrayList<>();        
+                                rs = bd.executeCallRead(param);
+                                out.print('"');
+                                while(rs.next())
+                                {
+                                    out.print("<option value='");
+                                    out.print(rs.getInt("idTipo"));
+                                    out.print("' name='");
+                                    out.print(rs.getString("descripcion"));
+                                    out.print("'>");
+                                    out.print(rs.getString("tipo"));
+                                    out.print("</option>");
+                                }
+                                out.print('"');
+                            }
+                            catch(Exception e)
+                            {
+                                out.println("Error al agregar : "+e.toString());
+                            }
+                        %> ;                
+                        modal2= modal2+'</select><br><br>\
+                        <label>Fecha Inicio: &nbsp; </label>\
+                        <input value="'+start._d.getFullYear()+"-"+(start._d.getMonth()+1)+"-"+start.date()+'" id="newFechaInicial" type="text" pattern="[0-9]{4}-[0-1]{0,1}[0-9]{1}-[0-3]{0,1}[0-9]{1}" placeholder="YYYY-mm-dd"/>\
+                        <label>Fecha Final: &nbsp; </label>\
+                        <input value="'+end._d.getFullYear()+"-"+(end._d.getMonth()+1)+"-"+(end.date()-1)+'" id="newFechaFinal" type="text" pattern="[0-9]{4}-[0-1]{0,1}[0-9]{1}-[0-3]{0,1}[0-9]{1}" placeholder="YYYY-mm-dd"/><br><br>\
+                        <div class="col-md-12">\
+                        <div class="col-md-6">\
+                        <label>Descripción: &nbsp; </label><br>\
+                        <textarea type="text" id="newDescripcion"></textarea><br><br>\
+                        </div>\
+                        <div class="col-md-6"><br>\
+                        <button type="submit" class="btn btn-block btn-success"><i class="ace-icon fa fa-check"></i> Crear</button>\
+                        </div>\
+                        </div>\
+                        </form>\
+			</div><br><br><br><br>\
+			</div>\
+			</div>\
 			</div>';
 
-
-			var modal = $(modal).appendTo('body');
-			modal.find('form').on('submit', function(ev){
-				ev.preventDefault();
-
-				calEvent.title = $(this).find("input[type=text]").val();
-				calendar.fullCalendar('updateEvent', calEvent);
-				modal.modal("hide");
+                        //ACTUALIZAR TITULO
+			var modal2 = $(modal2).appendTo('body');
+			modal2.modal('show').on('hidden.bs.modal', function(){
+				modal2.remove();
 			});
+                        
+                        modal2.find('form').on('submit', function(ev){
+                            ev.preventDefault();
+                                var classAct=$('#tipoAct').find(":selected").attr("name");
+				var title = $(this).find("#newTitle").val();
+                                var tipoA=$('#tipoAct').find(":selected").val();
+                                fechaI=$('#newFechaInicial').val();
+                                fechaF=$('#newFechaFinal').val();
+                                var diaI=parseInt(fechaI.slice(fechaI.lastIndexOf("-")+1,fechaI.length))+1;
+                                var diaF=parseInt(fechaF.slice(fechaF.lastIndexOf("-")+1,fechaF.length))+1;
+                                var des=$('#newDescripcion').val();
+                                var id =1;
+                                $.post('agregarActividad.jsp', {
+                                        idUsuario:id,
+                                        titulo: title,
+                                        fechaFinal:fechaF,
+                                        fechaInicial:fechaI,
+                                        tipoActividad:tipoA,
+                                        descripcion:des
+                                        
+                                        }, function(responseText) {
+                                     
+                                      calendar.fullCalendar('renderEvent',
+                                         {
+                                            id:responseText.trim(),
+                                            title: title,
+                                            start: fechaI.slice(0,fechaI.lastIndexOf("-")+1)+diaI,
+                                            end: fechaF.slice(0,fechaF.lastIndexOf("-")+1)+diaF,
+                                            className: classAct,
+                                            description:des,
+                                            allDay:true
+                                            
+                                          },
+                                        true // make the event "stick"
+                                  );
+                                  });  
+				modal2.modal("hide");
+                                
+                                
+			});
+			calendar.fullCalendar('unselect');
+                        
+		}
+		,
+		eventClick: function(calEvent, jsEvent, view) {
+                    
+                        var fInicial;
+                        var fFinal;
+                        if(calEvent._end==null)
+                            fInicial=fFinal=calEvent._start._i;
+                        else
+                        {
+                            fInicial=calEvent._start._i;
+                            fFinal=calEvent._end._i;
+                        }
+ 
+			var modal =
+			'<div  class="modal fade">\
+			  <div class="modal-dialog">\
+			   <div class="modal-content">\
+				 <div class="modal-body">\
+				   <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px;">&times;</button>\
+				   <form id="agregarAct" class="no-margin">\
+                                   <h3>Modificar Actividad</h3><br>\
+					  <label>Titulo de Actividad &nbsp; </label>\
+					  <input required type="text" id="newTitle" class="middle" autocomplete="off"  value="'+calEvent.title+'" />\
+                                          <label>Tipo de Actividad: &nbsp; </label>\
+                                          <select id="tipoActividad">';
+                        var modal=modal+<%
+                         try{
+                                Bdd bd = new Bdd();
+                                ResultSet rs =null;
+                                bd.setCallableQuery("{call tiposActividades()}");
+                                List<Object> param = new ArrayList<>();        
+                                rs = bd.executeCallRead(param);
+                                out.print('"');
+                                while(rs.next())
+                                {
+                                    out.print("<option value='");
+                                    out.print(rs.getInt("idTipo"));
+                                    out.print("' name='");
+                                    out.print(rs.getString("descripcion"));
+                                    out.print("'>");
+                                    out.print(rs.getString("tipo"));
+                                    out.print("</option>");
+                                }
+                                out.print('"');
+                            }
+                            catch(Exception e)
+                            {
+                                out.println("Error al agregar : "+e.toString());
+                            }
+                        %> ;                
+                        modal= modal+'</select><br><br>\
+                        <label>Fecha Inicio: &nbsp; </label>\
+                        <input value="'+fInicial+'" id="newFechaInicial" type="text" pattern="[0-9]{4}-[0-1]{0,1}[0-9]{1}-[0-3]{0,1}[0-9]{1}" placeholder="YYYY-mm-dd"/>\
+                        <label>Fecha Final: &nbsp; </label>\
+                        <input value="'+fFinal+'" id="newFechaFinal" type="text" pattern="[0-9]{4}-[0-1]{0,1}[0-9]{1}-[0-3]{0,1}[0-9]{1}" placeholder="YYYY-mm-dd"/><br><br>\
+                        <div class="col-md-12">\
+                        <div class="col-md-6">\
+                        <label>Descripción: &nbsp; </label><br>\
+                        <textarea type="text" id="newDescripcion">'+calEvent.description+'</textarea><br><br>\
+                        </div>\
+                        <div class="col-md-6"><br>\
+                        <button type="submit" class="btn btn-sm btn-block btn-info"><i class="ace-icon fa fa-floppy-o"></i> Guardar</button>\
+                        <button type="button" class="btn btn-sm btn-block btn-warning" data-action="complete"><i class="ace-icon fa fa-check"></i> Finalizar Actividad</button>\
+                        <button type="button" class="btn btn-sm btn-block btn-danger" data-action="delete"><i class="ace-icon fa fa-trash-o"></i> Eliminar Actividad</button>\
+                        </div>\
+                        </div>\
+                        </form>\
+			</div><br><br><br><br><br><br><br>\
+			</div>\
+			</div>\
+			</div>';
+                          
+
+                       
+			var modal = $(modal).appendTo('body');
+                        
+                        
+                        modal.find('form').on('submit', function(ev){
+                            
+                                ev.preventDefault();
+                                
+				var title = $(this).find("#newTitle").val();
+                                var tipoA=$('#tipoActividad').find(":selected").val();
+                                var tipoB=$('#tipoActividad').find(":selected").attr("name");
+                                fechaI=$('#newFechaInicial').val();
+                                fechaF=$('#newFechaFinal').val();
+                                var diaI=parseInt(fechaI.slice(fechaI.lastIndexOf("-")+1,fechaI.length))+1;
+                                var diaF=parseInt(fechaF.slice(fechaF.lastIndexOf("-")+1,fechaF.length))+1;
+                                var des=$('#newDescripcion').val();
+                                $.post('modificarActividad.jsp', {
+                                        id:calEvent._id,
+                                        titulo: title,
+                                        fechaFinal:fechaF,
+                                        fechaInicial:fechaI,
+                                        tipoActividad:tipoA,
+                                        descripcion:des
+                                        
+                                        }, function(responseText) {
+                                         if(fechaF==fechaI)
+                                             calEvent.end=null;
+                                         else
+                                         {
+                                             calEvent.start=fechaI;
+                                             calEvent.end=fechaF;
+                                         }
+                                         calEvent.title=title;
+                                         calEvent.description=des;
+                                         calEvent.className=tipoB;
+                                          $('#calendar').fullCalendar('updateEvent', calEvent);
+                                  });  
+                                    
+				modal.modal("hide");
+                                
+                                
+			});
+			calendar.fullCalendar('unselect');
+                        
+                        //////////////////////
+                        //ELIMINA EVENTO
 			modal.find('button[data-action=delete]').on('click', function() {
+
+                                $.post('eliminarActividad.jsp', {
+                                        idActividad: calEvent._id
+                                }, function(responseText) {
+                                      
+                                });
+                                
 				calendar.fullCalendar('removeEvents' , function(ev){
 					return (ev._id == calEvent._id);
 				})
 				modal.modal("hide");
+                                
 			});
+                        
+                        
+                        //////////////////////
+                        //Completo EVENTO
+			modal.find('button[data-action=complete]').on('click', function() {
 
-			modal.modal('show').on('hidden', function(){
+                                $.post('completarActividad.jsp', {
+                                        idActividad: calEvent._id
+                                }, function(responseText) {
+                                      
+                                });
+                                
+				calendar.fullCalendar('removeEvents' , function(ev){
+					return (ev._id == calEvent._id);
+				})
+				modal.modal("hide");
+                                
+			});
+                        //////////////////////////////////////
+                        
+			modal.modal('show').on('hidden.bs.modal', function(){
 				modal.remove();
 			});
-
-
-			//console.log(calEvent.id);
-			//console.log(jsEvent);
-			//console.log(view);
-
-			// change the border color just for fun
-			//$(this).css('border-color', 'red');
-
-		}
+		},
+         
+         eventMouseover:function( event, jsEvent, view ) { 
+             document.getElementById("descripcion").innerHTML=event.description;
+            }
 
 	});
 
 
-})
+});
 		</script>
     </body>
 </html>

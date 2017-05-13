@@ -9,7 +9,7 @@
 		<script type="text/javascript">
                         var  lata=["LataC2-Kawaii.png","LataC3-Monoculo.png","LataC4-Enojado-Gamer.png","LataC5-Villacorta.png","LataC6-Cute-Coffe.png","LataC6-Cute.png"];
                         $('#Mascota').attr("src","../../recursos/img/"+lata[Math.floor(Math.random() * lata.length)]);
-			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='../../recursos/plantilla/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 		<script src="../../recursos/plantilla/js/bootstrap.min.js"></script>
 
