@@ -182,7 +182,7 @@
                             String datos="";
                             db.setCallableQuery("{call allActividades(?)}");
                             List<Object> param = new ArrayList<>();
-                            int id=1;
+                            int id=Integer.parseInt(session.getAttribute("id").toString());
                             param.add(id);
                             ResultSet rs = db.executeCallRead(param);
                             while(rs.next())
@@ -286,7 +286,7 @@
                                 var diaI=parseInt(fechaI.slice(fechaI.lastIndexOf("-")+1,fechaI.length))+1;
                                 var diaF=parseInt(fechaF.slice(fechaF.lastIndexOf("-")+1,fechaF.length))+1;
                                 var des=$('#newDescripcion').val();
-                                var id =1;
+                                var id =Integer.parseInt(session.getAttribute("id").toString());
                                 $.post('agregarActividad.jsp', {
                                         idUsuario:id,
                                         titulo: title,

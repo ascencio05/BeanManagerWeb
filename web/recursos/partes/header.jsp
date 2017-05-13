@@ -4,6 +4,13 @@
     Author     : ascencio
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
+<%@page import="controladores.clases.Bdd"%>
+<%@page import="java.util.List"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.util.Calendar"%>
 <div id="navbar" class="navbar navbar-default" style="background-color:	#555555;">
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar" style="background-color: #555555">
@@ -108,67 +115,90 @@
 						</li>
 
 						<li class="grey dropdown-modal">
+							<%
+                                                        int Contador=0;
+                                                        String Datos="";
+                                                        try{
+                                                        Context initial = new InitialContext();
+                                                        Bdd db = new Bdd(initial,"jdbc/AWS");
+                                                        out.println("");
+                                                        db.setCallableQuery("{call fechaActividades(?,?)}");
+                                                        List<Object> param = new ArrayList<>();
+                                                        Calendar c1 = Calendar.getInstance();
+               
+                                                        String dia = Integer.toString(c1.get(Calendar.DATE));
+                                                        String mes = Integer.toString(c1.get(Calendar.MONTH)+1);
+                                                        String annio = Integer.toString(c1.get(Calendar.YEAR));
+
+                                                        String fecha=annio+"-"+mes+"-"+dia;
+                                                        int id=1;
+                                                        param.add(id);
+                                                        param.add(fecha);
+                                                        ResultSet rs = db.executeCallRead(param);
+                                                        
+                                                        while(rs.next())
+                                                        {
+                                                            Contador++;
+                                                            String Pivote="";
+                                                            switch(rs.getInt("idTipo"))
+                                                            {
+                                                                case 1:
+                                                                     Pivote="fa fa-code";
+                                                                  break;
+                                                                case 2:
+                                                                     Pivote="fa fa-paint-brush";
+                                                                   break;
+                                                                case 4:
+                                                                     Pivote="fa fa-exclamation-triangle";
+                                                                   break;    
+                                                                case 5:
+                                                                     Pivote="fa fa-sign-out";
+                                                                   break;
+                                                                case 6:
+                                                                     Pivote="fa fa-users";
+                                                                   break;
+                                                                case 7:
+                                                                     Pivote="fa fa-line-chart";
+                                                                   break;
+                                                                case 8:
+                                                                     Pivote="fa fa-bug";
+                                                                   break;
+                                                                default:
+                                                                     Pivote="fa fa-user";
+                                                                    break;
+                                                            }
+                                                           Datos+="<li><a href='#'><i class='btn btn-xs "+Pivote+" "+rs.getString("descripcion")+"'></i> "+rs.getString("titulo")+"</a></li>";
+                                                        }
+
+                                                       }
+                                                       catch(Exception e)
+                                                       {
+                                                            out.println(e.toString());
+                                                        }
+
+                                                    %>
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span class="badge badge-important">0</span>
+								<span class="badge badge-important"><%out.println(Contador);%></span>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar navbar-blue dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									8 Notifications
+									<%out.println(Contador);%> Actividades
 								</li>
 
 								<li class="dropdown-content">
 									<ul class="dropdown-menu dropdown-navbar navbar-pink">
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-														New Comments
-													</span>
-													<span class="pull-right badge badge-info">+12</span>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<i class="btn btn-xs btn-primary fa fa-user"></i>
-												Bob just signed up as an editor ...
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
-														New Orders
-													</span>
-													<span class="pull-right badge badge-success">+8</span>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
-														Followers
-													</span>
-													<span class="pull-right badge badge-info">+11</span>
-												</div>
-											</a>
-										</li>
+										<%
+                                                                                out.println(Datos);
+                                                                                %>
 									</ul>
 								</li>
 
 								<li class="dropdown-footer">
-									<a href="#">
-										See all notifications
+									<a href="../agenda/agenda.jsp">
+										Mirar Todas las Actividades
 										<i class="ace-icon fa fa-arrow-right"></i>
 									</a>
 								</li>
@@ -177,10 +207,12 @@
 
 						<li class="grey dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="../../recursos/img/villacorta.png" alt="Villacorta's Photo" />
+		
 								<span class="user-info">
 									<small>Bienvenido,</small>
-									Villacorta, Rodrigo
+                                                                        <%
+                                                                            out.println(session.getAttribute("nombre"));
+                                                                        %>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
