@@ -10,8 +10,12 @@
 <jsp:useBean id="todo" scope="page" class="controladores.usuarios.toDo"/>
 <%
 String actividad = request.getParameter("addToList");
+String eliminar = request.getParameter("done");
 if(actividad!=null){
     todo.insertActividad(10, actividad);
+}
+if(eliminar!=null){
+   todo.updateActividad(10,Integer.parseInt(eliminar));
 }
 %>
 <!DOCTYPE html>
@@ -85,7 +89,7 @@ if(actividad!=null){
 															<div class="widget-header widget-header-small">
                                                                                                                             <h5 class="widget-title smaller"><%=r.getString("actividad")%></h5>
                                                                                                                                     <span class="widget-toolbar">
-																	<a href="#" data-action="collapse">
+																	<a href="toDoList.jsp?done=<%=r.getInt("idActividad")%>" >
 																		<i class="ace-icon fa fa-check"></i>
 																	</a>
 																</span>
@@ -99,7 +103,9 @@ if(actividad!=null){
                                                                                             <% }
                                                                                             } catch (Exception e) {
                                                                                             %><%=e.toString()%> <%
-                                                                                                    }%>
+                                                                                                    }
+                                                                                             todo.disconnect();
+                                                                                            %>
                                                                                         </div><!-- /.timeline-container -->
 
 											
