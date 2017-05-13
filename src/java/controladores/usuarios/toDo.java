@@ -102,6 +102,23 @@ public class toDo {
              
        
     }
+     
+     public void updateActividad(int u, int eliminar){
+            
+       try{
+             List<Object> param = new ArrayList<>();
+             param.add(eliminar);
+             Context initial = new InitialContext();
+             db = new Bdd(initial,"jdbc/AWS");
+             db.setCallableQuery("{call updateTodo(?)}");
+             db.executeCall(param);
+              respuesta= "Actualizado con exito"; 
+        }catch(Exception e){
+           respuesta=e.toString(); 
+        }
+             
+       
+    }
     
     public void disconnect(){
         try {
