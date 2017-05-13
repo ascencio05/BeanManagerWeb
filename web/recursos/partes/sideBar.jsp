@@ -28,36 +28,9 @@
 							</script>
 
 							<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-    
+                                                            
                                                                 <img id ="Mascota" class="img-responsive"/>
-                                                            	
-								<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-									<button class="btn btn-success">
-										<i class="ace-icon fa fa-signal"></i>
-									</button>
 
-									<button class="btn btn-info">
-										<i class="ace-icon fa fa-pencil"></i>
-									</button>
-
-									<button class="btn btn-warning">
-										<i class="ace-icon fa fa-users"></i>
-									</button>
-
-									<button class="btn btn-danger">
-										<i class="ace-icon fa fa-cogs"></i>
-									</button>
-								</div>
-
-								<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-									<span class="btn btn-success"></span>
-
-									<span class="btn btn-info"></span>
-
-									<span class="btn btn-warning"></span>
-
-									<span class="btn btn-danger"></span>
-								</div>
 							</div><!-- /.sidebar-shortcuts -->
 
 							<ul class="nav nav-list">
@@ -69,7 +42,7 @@
 									<b class="arrow"></b>
 								</li>
 								<li>
-									<a href="">
+									<a href="../agenda/agenda.jsp">
 										<i class="menu-icon fa fa-calendar"></i>
 
 										<span class="menu-text">
@@ -79,11 +52,8 @@
 									<b class="arrow"></b>
 								</li>
                                                                 
-                                                                <% 
-                                                                    if(solicitudesSideBar.ingresar)
-                                                                    {
-                                                                %>
-								<li id="liMP" class="">
+
+								<li  class="">
 									<a href="" class="dropdown-toggle">
 										<i class="menu-icon fa fa-desktop"></i>
 
@@ -91,10 +61,24 @@
 											Mis Proyectos
 										</span>
 									</a>
+								</li>
+                                                                
+                                                                 <% 
+                                                                    if(solicitudesSideBar.ingresar)
+                                                                    {
+                                                                %>
+								<li id="liMP" class="">
+									<a href="" class="dropdown-toggle">
+										<i class="menu-icon fa fa-paperclip"></i>
+
+										<span class="menu-text">
+											Mis Solicitudes
+										</span>
+									</a>
 									<b class="arrow"></b>
                                                                         <ul class="submenu">
                                                                             <li id="1" class="">
-                                                                                    <a href="solicitudes.jsp">
+                                                                                    <a href="../solicitudes/solicitudes.jsp">
                                                                                             <i class="menu-icon fa fa-folder-open"></i>
                                                                                             Ver Proyectos
                                                                                     </a>
@@ -103,7 +87,7 @@
                                                                             <% if(solicitudesSideBar.modificar)
                                                                             { %>
                                                                             <li id="2" class="">
-                                                                                    <a href="nuevoProyecto.jsp">
+                                                                                    <a href="../solicitudes/nuevoProyecto.jsp">
                                                                                             <i class="menu-icon fa fa-cloud-upload"></i>
                                                                                             Nuevo Proyecto
                                                                                     </a>

@@ -130,6 +130,10 @@ function updateFile()
             contentType: false,
             cache: false,
             success: function (data) {
+                   if(n)
+                   {
+                     $("#reload").submit();
+                   }
                    $("#loading").dialog('close');
                    $("#loadingFile").hide();
                    var divfile = "#file" + getARP2("id",data);
@@ -138,6 +142,7 @@ function updateFile()
                    $(divfile).html(h);
                    $("#successMsg").html("Archivo actualizando");
                    $("#successMsg").slideDown('slow');
+                   
             },
             error: function (e) {
                    $("#errorMsg").html("Error actualizando ");
@@ -175,7 +180,7 @@ function getARP2(name,res)
     }
 }
 var file = false;
-
+var n = false;
 function newReq()
 {
     $("#loading").dialog('open');
@@ -187,13 +192,14 @@ function newReq()
                  var r = getARP("done",result);
                  if(r == "true")
                  {
+                     $("#fileId").val(getARP("id",result));
                      if(file)
                      {
                          updateFile();
+                         n = true;
                      }
                      $("#msg").val("Agregado con exito");
                      $("#msgm").val("1");
-                     //$("#reload").submit();
                  }
                  else
                  {

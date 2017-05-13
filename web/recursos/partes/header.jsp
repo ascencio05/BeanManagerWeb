@@ -11,7 +11,10 @@
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.Calendar"%>
-<div id="navbar" class="navbar navbar-default" style="background-color:	#555555;">
+
+	<% String gui = session.getAttribute("gui").toString();%>
+        
+<div id="navbar" class="navbar navbar-default" style="background-color: #<%= gui %>">
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar" style="background-color: #555555">
 					<span class="sr-only">Toggle sidebar</span>
@@ -131,7 +134,7 @@
                                                         String annio = Integer.toString(c1.get(Calendar.YEAR));
 
                                                         String fecha=annio+"-"+mes+"-"+dia;
-                                                        int id=1;
+                                                        int id=Integer.parseInt(session.getAttribute("id").toString());
                                                         param.add(id);
                                                         param.add(fecha);
                                                         ResultSet rs = db.executeCallRead(param);
