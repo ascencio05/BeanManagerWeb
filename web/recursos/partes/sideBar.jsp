@@ -35,7 +35,7 @@
 
 							<ul class="nav nav-list">
 								<li class="">
-									<a href="">
+									<a href="../usuarios/myProfile.jsp">
 										<i class="menu-icon fa  fa-child"></i>
 										<span class="menu-text"> Mi Perfil </span>
 									</a>
@@ -54,7 +54,7 @@
                                                                 
 
 								<li  class="">
-									<a href="" class="dropdown-toggle">
+									<a href="../proyectos/misProyectos.jsp" class="dropdown-toggle">
 										<i class="menu-icon fa fa-desktop"></i>
 
 										<span class="menu-text">
@@ -98,7 +98,7 @@
 								</li>
                                                                 <% } %>
 								<li class="">
-									<a href="">
+									<a href="../usuarios/toDoList.jsp ">
 										<i class="menu-icon fa fa-pencil-square-o"></i>
 										<span class="menu-text"> To do list </span>
 									</a>

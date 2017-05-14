@@ -9,13 +9,14 @@
 <%@ page import="java.sql.*"%>
 <jsp:useBean id="todo" scope="page" class="controladores.usuarios.toDo"/>
 <%
+    int id= Integer.parseInt(session.getAttribute("id").toString());
 String actividad = request.getParameter("addToList");
 String eliminar = request.getParameter("done");
 if(actividad!=null){
-    todo.insertActividad(10, actividad);
+    todo.insertActividad(id, actividad);
 }
 if(eliminar!=null){
-   todo.updateActividad(10,Integer.parseInt(eliminar));
+   todo.updateActividad(id,Integer.parseInt(eliminar));
 }
 %>
 <!DOCTYPE html>
@@ -74,7 +75,7 @@ if(eliminar!=null){
 												</div>
                                                                                             <% 
                                                                                                 try{
-                                                                                                ResultSet r= todo.getToDo(10);
+                                                                                                ResultSet r= todo.getToDo(id);
                                                                                                 
     while (r.next()) {
                                                                                             %>

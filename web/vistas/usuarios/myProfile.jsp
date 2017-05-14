@@ -7,7 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="usuario" scope="page" class="controladores.usuarios.usuarios"/>
 <% try{
-    usuario.setUser(10);
+    int id= Integer.parseInt(session.getAttribute("id").toString());
+    usuario.setUser(id);
 }catch(Exception e){
     
 }

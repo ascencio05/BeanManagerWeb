@@ -93,7 +93,7 @@ public class Autenticar extends HttpServlet {
                 json = "autenticado:true";
                 
             } catch (Exception e) {
-                json = "autenticado:false";
+                json = "autenticado:false" + e.getMessage();
             }
             try {
                db.disconnect();

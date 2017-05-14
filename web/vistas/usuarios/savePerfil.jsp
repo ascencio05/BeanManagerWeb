@@ -3,7 +3,8 @@
 <jsp:setProperty name="usuario" property="*"/>
 <%
     try{
-        usuario.updateUser(10);
+        int id= Integer.parseInt(session.getAttribute("id").toString());
+        usuario.updateUser(id);
     }catch(Exception e){
         usuario.setRespuesta(e.toString());
     }
