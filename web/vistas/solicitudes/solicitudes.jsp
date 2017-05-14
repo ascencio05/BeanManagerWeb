@@ -48,7 +48,7 @@
                 response.sendRedirect("../../login.html?failed=true");
             }
             %>
-        <jsp:include page="../../recursos/partes/header.jsp" />
+        <jsp:include page="../../recursos/partes/head.jsp" />
         <jsp:useBean id="solTable" class="controladores.solicitudes.solicitudes" scope="page"></jsp:useBean>
         <jsp:setProperty name="solTable" property="idUsuario" value="<%= id %>"></jsp:setProperty>
         <jsp:setProperty name="solTable" property="permiso" value="<%= solicitudes %>"></jsp:setProperty>
